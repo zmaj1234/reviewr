@@ -4,9 +4,15 @@ import { SettingsClient } from './settings-client'
 import type { Business } from '@/lib/types'
 
 export default async function SettingsPage() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) redirect('/login')
+  let supabase
+  try {
+    supabase = await createClient()
+  } catch {
+    redirect('/login')
+  }
+
+  const { data: { user }, error: authError } = await supabase.auth.getUser()
+  if (authError || !user) redirect('/login')
 
   const { data: business } = await supabase
     .from('businesses')

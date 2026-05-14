@@ -1,7 +1,24 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(npx tsc *)",
+      "Bash(npm run *)",
+      "Bash(git add *)",
+      "Bash(npx next *)",
+      "Bash(curl -s http://localhost:3000)",
+      "Bash(echo \"CURL_EXIT: $?\")",
+      "Bash(pkill -f \"next dev\")",
+      "Bash(pkill -f \"next-server\")",
+      "Read(//tmp/**)",
+      "Bash(curl *)",
+      "WebFetch(domain:calai.app)",
+      "Bash(pkill -f \"next\")",
+      "Bash(Get-ChildItem *)",
+      "Bash(findstr /i \"dev\\\\|start\\\\|script\")",
+      "Bash(git *)",
+      "Bash(gh auth *)",
+      "PowerShell(gh auth *)"
     ]
   }
 }

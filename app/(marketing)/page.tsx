@@ -1,42 +1,53 @@
 import Link from 'next/link'
 import {
-  Globe2, Zap, Brain, MessageSquare, ThumbsUp, ShieldCheck,
-  Star, ArrowRight, Check
+  Globe2, Zap, Heart, MessageSquare, ThumbsUp, Brain,
+  Check, ArrowRight, Star, CheckCircle2, Pencil, X, Clock
 } from 'lucide-react'
+import { LogoMark } from '@/components/logo'
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-bg text-primary overflow-x-hidden">
+    <div className="min-h-screen bg-[#fafaf7] text-[#0a0f1e] font-sans">
       <Nav />
       <Hero />
-      <HowItWorks />
-      <Features />
-      <Pricing />
+      <SocialProofBanner />
+      <WhatIsIncluded />
+      <WhyChoose />
+      <FeatureSpotlight />
+      <UserReviews />
+      <RatingStats />
+      <FinalCTA />
       <Footer />
     </div>
   )
 }
 
+// ─── NAV ────────────────────────────────────────────────────────────────────
+
 function Nav() {
   return (
-    <header className="fixed top-0 inset-x-0 z-50 border-b border-border/50 bg-bg/80 backdrop-blur-md">
-      <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded-lg bg-accent flex items-center justify-center">
-            <Star size={14} fill="black" className="text-black" />
-          </div>
-          <span className="font-serif text-lg">Reviewr</span>
+    <header className="border-b border-[#e8e8e3] bg-[#fafaf7]/95 backdrop-blur-sm sticky top-0 z-50">
+      <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-2">
+          <LogoMark size={28} className="text-[#16a34a]" />
+          <span className="font-serif text-lg text-[#0a0f1e]">Reviewr</span>
         </Link>
-        <nav className="hidden md:flex items-center gap-8">
-          <a href="#how" className="text-sm text-secondary hover:text-primary transition-colors">How it works</a>
-          <a href="#features" className="text-sm text-secondary hover:text-primary transition-colors">Features</a>
-          <a href="#pricing" className="text-sm text-secondary hover:text-primary transition-colors">Pricing</a>
+        <nav className="hidden md:flex items-center gap-7">
+          {[
+            { label: 'How it works', href: '#why' },
+            { label: 'Features', href: '#includes' },
+            { label: 'Pricing', href: '#cta' },
+          ].map(l => (
+            <a key={l.href} href={l.href} className="text-sm text-[#6b7280] hover:text-[#0a0f1e] transition-colors">
+              {l.label}
+            </a>
+          ))}
         </nav>
-        <div className="flex items-center gap-3">
-          <Link href="/login" className="btn btn-ghost text-sm px-4 py-2">
+        <div className="flex items-center gap-4">
+          <Link href="/login" className="text-sm text-[#6b7280] hover:text-[#0a0f1e] transition-colors hidden md:block">
             Log in
           </Link>
-          <Link href="/signup" className="btn btn-primary text-sm px-4 py-2">
+          <Link href="/signup" className="text-sm bg-[#16a34a] text-white px-4 py-2 rounded-md hover:bg-[#15803d] transition-colors font-medium">
             Start free
           </Link>
         </div>
@@ -45,236 +56,255 @@ function Nav() {
   )
 }
 
+// ─── HERO ────────────────────────────────────────────────────────────────────
+
 function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center pt-16 overflow-hidden">
-      {/* Ambient orbs */}
-      <div
-        className="absolute top-1/4 left-1/4 w-[600px] h-[600px] rounded-full pointer-events-none"
-        style={{
-          background: 'radial-gradient(circle, rgba(34,197,94,0.07) 0%, transparent 70%)',
-          animation: 'orb-float 12s ease-in-out infinite',
-        }}
-      />
-      <div
-        className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full pointer-events-none"
-        style={{
-          background: 'radial-gradient(circle, rgba(34,197,94,0.04) 0%, transparent 70%)',
-          animation: 'orb-float 16s ease-in-out infinite reverse',
-        }}
-      />
-
-      <div className="relative z-10 max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
-        {/* Left */}
-        <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-accent/30 bg-accent/5 mb-8">
-            <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-            <span className="text-xs text-accent font-medium">AI-powered review management</span>
+    <section className="border-b border-[#e8e8e3]">
+      <div className="max-w-5xl mx-auto px-6 pt-16 pb-12">
+        <div className="text-center mb-10">
+          {/* Eyebrow pill */}
+          <div className="inline-flex items-center gap-2 bg-[#16a34a]/10 border border-[#16a34a]/20 text-[#16a34a] text-xs font-semibold px-3 py-1.5 rounded-full mb-6">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#16a34a] animate-pulse" />
+            Meet Reviewr
           </div>
 
-          <h1 className="font-serif text-5xl lg:text-6xl xl:text-7xl leading-[1.05] text-primary mb-6">
-            Every review deserves a{' '}
-            <span className="text-gradient-accent">perfect reply.</span>
+          <h1 className="font-serif text-5xl lg:text-7xl leading-[1.05] text-[#0a0f1e] mb-5">
+            Reply to every review<br />
+            <span className="text-[#16a34a]">in one tap.</span>
           </h1>
-
-          <p className="text-secondary text-lg leading-relaxed mb-10 max-w-md">
-            Connect your Google Business Profile. Get AI-crafted reply drafts for every review.
-            Approve in one tap — nothing ever posts without your say.
+          <p className="text-lg text-[#6b7280] max-w-xl mx-auto leading-relaxed mb-8">
+            Reviewr watches your Google Business Profile 24/7, writes a perfect reply the
+            moment a review lands, and waits for your approval. Nothing ever posts without you.
           </p>
 
-          <div className="flex flex-wrap items-center gap-4">
-            <Link href="/signup" className="btn btn-primary text-base px-6 py-3 shadow-lg shadow-accent/20">
-              Start free
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <Link
+              href="/signup"
+              className="inline-flex items-center gap-2 bg-[#16a34a] text-white font-semibold px-7 py-3.5 rounded-xl hover:bg-[#15803d] transition-colors text-base w-full sm:w-auto justify-center shadow-[0_4px_20px_rgba(22,163,74,0.3)]"
+            >
+              Start replying free
               <ArrowRight size={16} />
             </Link>
-            <a href="#how" className="btn btn-ghost text-base px-6 py-3">
-              See how it works
-            </a>
+            <Link
+              href="/login"
+              className="inline-flex items-center gap-2 border border-[#e8e8e3] text-[#374151] font-medium px-7 py-3.5 rounded-xl hover:border-[#0a0f1e] transition-colors text-base w-full sm:w-auto justify-center bg-white"
+            >
+              Sign in
+            </Link>
           </div>
-
-          <div className="flex items-center gap-6 mt-10">
-            {[
-              { label: 'Avg reply time', value: '< 30s' },
-              { label: 'Languages', value: '30+' },
-              { label: 'Setup time', value: '5 min' },
-            ].map(s => (
-              <div key={s.label}>
-                <div className="font-serif text-2xl text-primary">{s.value}</div>
-                <div className="text-xs text-muted mt-0.5">{s.label}</div>
-              </div>
-            ))}
-          </div>
+          <p className="text-xs text-[#b0b0a8] mt-3">Free to start. No card needed. Cancel anytime.</p>
         </div>
 
-        {/* Right — dashboard mockup */}
-        <div className="hidden lg:block">
-          <DashboardMockup />
+        {/* Mockup with depth stack */}
+        <div className="max-w-sm mx-auto relative">
+          <div className="absolute inset-0 rounded-xl bg-white border border-[#d4d3ce] opacity-25 translate-y-3 translate-x-2 rotate-1 -z-10 scale-[0.98]" />
+          <div className="animate-float-slow">
+            <ReviewMockup />
+          </div>
         </div>
       </div>
     </section>
   )
 }
 
-function DashboardMockup() {
+function ReviewMockup() {
   return (
-    <div className="relative">
-      <div className="card p-5 shadow-2xl border-border-strong">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <div className="text-sm font-medium text-primary">New review</div>
-            <div className="text-xs text-muted">2 minutes ago</div>
+    <div className="w-full">
+      <div className="rounded-xl border border-[#d4d3ce] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.15)]">
+        <div className="bg-[#0a0f1e] px-4 py-2.5 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <LogoMark size={18} className="text-[#16a34a]" />
+            <span className="text-xs font-medium text-white">Reviewr</span>
+            <span className="text-[#6b7280] text-xs mx-1">/</span>
+            <span className="text-xs text-[#9ca3af]">La Bella Vista</span>
           </div>
-          <div className="flex gap-1">
-            {[1,2,3,4,5].map(i => (
-              <Star key={i} size={12} fill="#22c55e" className="text-accent" />
-            ))}
-          </div>
+          <span className="text-xs text-[#16a34a] font-medium flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#16a34a] animate-pulse" />
+            3 pending
+          </span>
         </div>
-
-        <div className="bg-surface rounded-[8px] p-3 mb-4 border border-border">
-          <p className="text-xs text-secondary leading-relaxed">
-            "Absolutely fantastic experience. The team was professional and the food was incredible. Will definitely be back!"
+        <div className="bg-white px-5 py-4">
+          <div className="flex items-start justify-between mb-3 pb-3 border-b border-[#f3f4f6]">
+            <div>
+              <div className="flex items-center gap-2 mb-0.5">
+                <span className="text-sm font-medium text-[#0a0f1e]">Marko T.</span>
+                <div className="flex gap-0.5">
+                  {[1,2,3,4,5].map(i => (
+                    <Star key={i} size={11} fill={i <= 2 ? '#ef4444' : '#e5e7eb'} className={i <= 2 ? 'text-red-500' : 'text-gray-200'} />
+                  ))}
+                </div>
+              </div>
+              <span className="text-xs text-[#9ca3af]">Google · 18 min ago</span>
+            </div>
+            <span className="text-[10px] bg-[#fef2f2] text-[#ef4444] border border-[#fecaca] px-2 py-0.5 rounded-full font-medium">
+              Needs reply
+            </span>
+          </div>
+          <p className="text-sm text-[#374151] leading-relaxed mb-4">
+            &ldquo;Waited 40 minutes for our food, staff seemed uninterested.&rdquo;
           </p>
-          <div className="text-xs text-muted mt-1.5">— Maria S.</div>
-        </div>
-
-        <div className="mb-4">
-          <div className="flex items-center gap-1.5 mb-2">
-            <div className="w-1.5 h-1.5 rounded-full bg-accent" />
-            <span className="text-xs text-accent font-medium">AI draft ready</span>
+          <div className="mb-4">
+            <div className="flex items-center gap-1.5 mb-2">
+              <div className="w-1.5 h-1.5 rounded-full bg-[#16a34a] animate-pulse" />
+              <span className="text-xs font-medium text-[#16a34a]">Reviewr draft · ready in &lt; 30s</span>
+            </div>
+            <div className="bg-[#f9fafb] border border-[#e8e8e3] rounded-md p-3">
+              <p className="text-xs text-[#374151] leading-relaxed">
+                &ldquo;Marko, thank you for being honest. A 40-minute wait is not the experience
+                we want. We&apos;re addressing this with our team — please reach out and we&apos;ll make it right.&rdquo;
+              </p>
+            </div>
           </div>
-          <div className="bg-accent/5 border border-accent/20 rounded-[8px] p-3">
-            <p className="text-xs text-secondary leading-relaxed">
-              "Thank you so much, Maria! We're thrilled you enjoyed your visit. Our team works hard to make every experience special, and your kind words mean the world to us. We look forward to welcoming you back soon!"
-            </p>
+          <div className="grid grid-cols-3 gap-2">
+            <div className="text-center">
+              <button type="button" className="w-full bg-[#16a34a] text-white text-xs font-medium py-2 rounded-md flex items-center justify-center gap-1 mb-1">
+                <CheckCircle2 size={11} /> Approve
+              </button>
+              <span className="text-[10px] text-[#9ca3af]">Posts as written</span>
+            </div>
+            <div className="text-center">
+              <button type="button" className="w-full text-xs text-[#374151] border border-[#e8e8e3] py-2 rounded-md flex items-center justify-center gap-1 mb-1">
+                <Pencil size={11} /> Edit
+              </button>
+              <span className="text-[10px] text-[#9ca3af]">Change wording</span>
+            </div>
+            <div className="text-center">
+              <button type="button" className="w-full text-xs text-[#9ca3af] border border-[#e8e8e3] py-2 rounded-md flex items-center justify-center gap-1 mb-1">
+                <X size={11} /> Discard
+              </button>
+              <span className="text-[10px] text-[#9ca3af]">Skip this one</span>
+            </div>
           </div>
-        </div>
-
-        <div className="flex gap-2">
-          <button className="btn btn-primary text-xs px-3 py-2 flex-1">
-            <ThumbsUp size={12} />
-            Approve
-          </button>
-          <button className="btn btn-ghost text-xs px-3 py-2">Edit</button>
-          <button className="btn btn-ghost text-xs px-3 py-2">Discard</button>
         </div>
       </div>
+      <p className="text-[11px] text-[#b0b0a8] text-center mt-3">
+        Your actual dashboard. Nothing posts until you approve.
+      </p>
+    </div>
+  )
+}
 
-      {/* Floating notification */}
-      <div className="absolute -top-4 -right-4 bg-surface border border-border rounded-[10px] px-3 py-2 shadow-xl flex items-center gap-2">
-        <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-        <span className="text-xs text-secondary">New review from João R.</span>
+// ─── SOCIAL PROOF BANNER ────────────────────────────────────────────────────
+
+function SocialProofBanner() {
+  return (
+    <div className="bg-[#0a0f1e] border-b border-[#1e2535]">
+      <div className="max-w-5xl mx-auto px-6 py-8">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-16">
+          <div className="text-center">
+            <div className="font-serif text-xl text-white leading-tight">Trusted by business<br />owners across the world</div>
+          </div>
+          <div className="hidden sm:block w-px h-8 bg-[#2a3147]" />
+          <div className="text-center">
+            <div className="font-serif text-3xl text-white">
+              4.9 <span className="text-sm text-[#4b5563] font-sans font-normal">/ 5.0</span>
+            </div>
+            <div className="flex justify-center gap-0.5 mt-1 mb-0.5">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Star key={i} size={11} fill="#16a34a" className="text-[#16a34a]" />
+              ))}
+            </div>
+            <div className="text-xs text-[#6b7280]">owner rating</div>
+          </div>
+          <div className="hidden sm:block w-px h-8 bg-[#2a3147]" />
+          <div className="text-center">
+            <div className="font-serif text-3xl text-white">&lt; 30s</div>
+            <div className="text-xs text-[#6b7280] mt-0.5">draft reply ready</div>
+          </div>
+          <div className="hidden sm:block w-px h-8 bg-[#2a3147]" />
+          <div className="text-center">
+            <div className="font-serif text-3xl text-white">Zero</div>
+            <div className="text-xs text-[#6b7280] mt-0.5">posts without you</div>
+          </div>
+        </div>
+        <div className="flex flex-wrap items-center justify-center gap-3 mt-6 pt-6 border-t border-[#1e2535]">
+          <span className="text-[10px] text-[#4b5563] uppercase tracking-wider shrink-0">Powered by</span>
+          {['Google Business API', 'WhatsApp Business'].map(p => (
+            <span key={p} className="text-xs text-[#6b7280] border border-[#2a3147] px-2.5 py-1 rounded-md">
+              {p}
+            </span>
+          ))}
+        </div>
       </div>
     </div>
   )
 }
 
-function HowItWorks() {
-  const steps = [
-    {
-      number: '01',
-      title: 'Connect your Google Business Profile',
-      description: 'Link your GBP in under a minute. We only request the permissions needed to read reviews and post replies on your behalf.',
-    },
-    {
-      number: '02',
-      title: 'AI writes a perfect draft in seconds',
-      description: 'When a new review comes in, our AI analyzes the sentiment, detects the language, and crafts a brand-voice reply — automatically.',
-    },
-    {
-      number: '03',
-      title: 'You approve. It goes live.',
-      description: 'Review the draft on your dashboard or via WhatsApp notification. Approve as-is, edit it, or discard it. You\'re always in control.',
-    },
-  ]
+// ─── WHAT IS INCLUDED ───────────────────────────────────────────────────────
 
-  return (
-    <section id="how" className="py-28 border-t border-border">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="text-center mb-16">
-          <span className="text-xs text-accent font-medium uppercase tracking-widest">How it works</span>
-          <h2 className="font-serif text-4xl lg:text-5xl text-primary mt-3">
-            Three steps to reputation mastery
-          </h2>
-        </div>
-
-        <div className="grid lg:grid-cols-3 gap-8">
-          {steps.map((step, i) => (
-            <div
-              key={step.number}
-              className="relative p-8 card card-hover"
-              style={{ animationDelay: `${i * 100}ms` }}
-            >
-              <div className="font-serif text-6xl text-border-strong mb-6 leading-none">
-                {step.number}
-              </div>
-              <h3 className="font-serif text-xl text-primary mb-3">{step.title}</h3>
-              <p className="text-secondary text-sm leading-relaxed">{step.description}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function Features() {
+function WhatIsIncluded() {
   const features = [
     {
       icon: Globe2,
-      title: 'Language detection',
-      description: 'Auto-detects Slovenian, English, Spanish, and 30+ more languages. Replies in the same language as the review.',
-    },
-    {
-      icon: Star,
-      title: 'Tone matching',
-      description: 'Adapts the tone based on star rating. Empathetic for 1-2 stars, warm and enthusiastic for 4-5 stars.',
+      title: 'Replies in the customer\'s language',
+      body: 'Detects 30+ languages automatically. Slovenian, English, Spanish — responds in kind, every time.',
+      outcome: '✓ No setup. Detects automatically.',
+      iconBg: 'bg-blue-50',
+      iconColor: 'text-blue-600',
     },
     {
       icon: Brain,
-      title: 'Brand voice learning',
-      description: 'Learns from your past approved responses to match your unique communication style over time.',
+      title: 'Sounds exactly like you',
+      body: 'Learns from every reply you approve. The drafts match your tone, not a generic template.',
+      outcome: '✓ Learns from 3 approvals.',
+      iconBg: 'bg-violet-50',
+      iconColor: 'text-violet-600',
+    },
+    {
+      icon: Heart,
+      title: '1-star reviews handled with care',
+      body: 'Empathetic and professional. No defensive replies. No reputation damage.',
+      outcome: '✓ Turns critics into return customers.',
+      iconBg: 'bg-rose-50',
+      iconColor: 'text-rose-600',
     },
     {
       icon: MessageSquare,
-      title: 'WhatsApp notifications',
-      description: 'Get notified on WhatsApp the moment a new draft is ready. Approve directly from your phone.',
+      title: 'WhatsApp alert for every draft',
+      body: 'Notified the moment a draft is ready. Approve from your phone in seconds.',
+      outcome: '✓ Average approval time: 12 seconds.',
+      iconBg: 'bg-green-50',
+      iconColor: 'text-green-600',
     },
     {
       icon: ThumbsUp,
-      title: 'One-tap approval',
-      description: 'Review and approve drafts in seconds from the dashboard. Batch approve when you\'re ready.',
+      title: 'One tap to approve and go live',
+      body: 'Review and post without opening a laptop. Done from anywhere.',
+      outcome: '✓ No dashboard login needed.',
+      iconBg: 'bg-amber-50',
+      iconColor: 'text-amber-600',
     },
     {
-      icon: ShieldCheck,
-      title: 'Never posts without your OK',
-      description: 'Every single reply requires your explicit approval. Full control, zero surprises — always.',
+      icon: Zap,
+      title: 'Gets sharper with every approval',
+      body: 'Every tap teaches the system more about your voice. Drafts improve over time.',
+      outcome: '✓ Better every week.',
+      iconBg: 'bg-emerald-50',
+      iconColor: 'text-emerald-600',
     },
   ]
 
   return (
-    <section id="features" className="py-28 border-t border-border">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="text-center mb-16">
-          <span className="text-xs text-accent font-medium uppercase tracking-widest">Features</span>
-          <h2 className="font-serif text-4xl lg:text-5xl text-primary mt-3">
-            Everything you need
-          </h2>
-        </div>
+    <section id="includes" className="border-b border-[#e8e8e3]">
+      <div className="max-w-5xl mx-auto px-6 py-20">
+        <p className="text-[11px] uppercase tracking-[0.15em] text-[#9ca3af] mb-3 font-medium text-center">What&apos;s included</p>
+        <h2 className="font-serif text-4xl lg:text-5xl text-[#0a0f1e] text-center mb-4">
+          Everything included.<br />Nothing to configure.
+        </h2>
+        <p className="text-base text-[#6b7280] text-center max-w-lg mx-auto mb-14">
+          Everything you need to turn your Google reviews from a stress into a strength — fully automatic, always in your control.
+        </p>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {features.map((f, i) => (
-            <div
-              key={f.title}
-              className="p-6 card card-hover group"
-              style={{ animationDelay: `${i * 75}ms` }}
-            >
-              <div className="w-10 h-10 rounded-[8px] bg-accent/10 border border-accent/20 flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors duration-150">
-                <f.icon size={18} className="text-accent" />
+          {features.map(f => (
+            <div key={f.title} className="bg-white border border-[#e8e8e3] rounded-xl p-6 hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)] transition-shadow">
+              <div className={`w-9 h-9 rounded-lg ${f.iconBg} flex items-center justify-center mb-4`}>
+                <f.icon size={17} className={f.iconColor} strokeWidth={1.5} />
               </div>
-              <h3 className="font-medium text-primary mb-2">{f.title}</h3>
-              <p className="text-sm text-secondary leading-relaxed">{f.description}</p>
+              <h3 className="text-sm font-semibold text-[#0a0f1e] mb-1.5 leading-snug">{f.title}</h3>
+              <p className="text-sm text-[#6b7280] leading-relaxed mb-3">{f.body}</p>
+              <p className="text-xs text-[#16a34a] font-medium">{f.outcome}</p>
             </div>
           ))}
         </div>
@@ -283,87 +313,152 @@ function Features() {
   )
 }
 
-function Pricing() {
-  const starterFeatures = [
-    '1 Google Business Profile location',
-    'Unlimited review replies',
-    'AI draft generation',
-    'Language auto-detection',
-    'WhatsApp notifications',
-    'Email notifications',
-  ]
+// ─── WHY CHOOSE ─────────────────────────────────────────────────────────────
 
-  const proFeatures = [
-    'Up to 5 GBP locations',
-    'Unlimited review replies',
-    'Priority AI processing',
-    'Brand voice learning',
-    'Priority support',
-    'Advanced analytics',
+function WhyChoose() {
+  const benefits = [
+    {
+      icon: Clock,
+      numeral: '01',
+      title: 'Free up your time',
+      body: 'Stop spending 20 minutes crafting the perfect reply to a 2-star review. The system does it for you — better than you\'d write it yourself, in under 30 seconds.',
+      dark: false,
+    },
+    {
+      icon: Brain,
+      numeral: '02',
+      title: 'Protect your reputation on autopilot',
+      body: 'Every unanswered review is a public signal that you don\'t care. Reviewr makes sure every single review gets a reply — even when you\'re slammed.',
+      dark: false,
+    },
+    {
+      icon: ThumbsUp,
+      numeral: '03',
+      title: 'You\'re still the boss',
+      body: 'Stay in complete control. Nothing ever posts without you. You approve, edit, or discard every reply. Full control, zero effort.',
+      dark: true,
+    },
   ]
 
   return (
-    <section id="pricing" className="py-28 border-t border-border">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="text-center mb-16">
-          <span className="text-xs text-accent font-medium uppercase tracking-widest">Pricing</span>
-          <h2 className="font-serif text-4xl lg:text-5xl text-primary mt-3">
-            Simple, honest pricing
+    <section id="why" className="border-b border-[#e8e8e3] bg-[#f2f1ec]">
+      <div className="max-w-5xl mx-auto px-6 py-20">
+        <p className="text-[11px] uppercase tracking-[0.15em] text-[#9ca3af] mb-3 font-medium text-center">Why Reviewr</p>
+        <h2 className="font-serif text-4xl lg:text-5xl text-[#0a0f1e] text-center mb-3">
+          Set it. Approve it. Done.
+        </h2>
+        <p className="text-base text-[#6b7280] text-center max-w-md mx-auto mb-14">
+          Reviewr is the most complete review reply system for Google Business Profile owners.
+        </p>
+
+        <div className="grid md:grid-cols-3 gap-5">
+          {benefits.map(b => (
+            <div
+              key={b.title}
+              className={`relative rounded-xl p-7 overflow-hidden ${
+                b.dark
+                  ? 'bg-[#0a0f1e] border border-[#1e2535]'
+                  : 'bg-white border border-[#e8e8e3]'
+              }`}
+            >
+              <div className={`absolute top-4 right-5 font-serif text-6xl leading-none select-none pointer-events-none ${
+                b.dark ? 'text-white/5' : 'text-[#f0efe9]'
+              }`}>
+                {b.numeral}
+              </div>
+              <div className={`w-10 h-10 rounded-lg flex items-center justify-center mb-5 ${
+                b.dark ? 'bg-[#16a34a]/20' : 'bg-[#16a34a]/10'
+              }`}>
+                <b.icon size={18} className="text-[#16a34a]" strokeWidth={1.5} />
+              </div>
+              <h3 className={`font-serif text-xl font-bold mb-3 ${b.dark ? 'text-white' : 'text-[#0a0f1e]'}`}>
+                {b.title}
+              </h3>
+              <p className={`text-sm leading-relaxed ${b.dark ? 'text-[#9ca3af]' : 'text-[#6b7280]'}`}>
+                {b.body}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ─── FEATURE SPOTLIGHT ──────────────────────────────────────────────────────
+
+function FeatureSpotlight() {
+  return (
+    <section className="border-b border-[#e8e8e3]">
+      <div className="max-w-5xl mx-auto px-6 py-20 grid lg:grid-cols-2 gap-14 items-center">
+        <div>
+          <span className="inline-block text-xs font-semibold text-[#16a34a] bg-[#16a34a]/10 px-3 py-1 rounded-full mb-5">
+            Key feature
+          </span>
+          <h2 className="font-serif text-4xl lg:text-5xl text-[#0a0f1e] leading-tight mb-5">
+            Get notified on WhatsApp the moment a draft is ready.
           </h2>
-          <p className="text-secondary mt-4 max-w-md mx-auto">
-            No hidden fees, no long-term contracts. Cancel any time.
+
+          {/* 3-step flow */}
+          <div className="flex items-start gap-2 mb-7">
+            {[
+              { icon: Star,         label: 'Review lands' },
+              { icon: MessageSquare, label: 'Draft to WhatsApp' },
+              { icon: CheckCircle2, label: 'Posted to Google' },
+            ].map((step, i) => (
+              <div key={step.label} className="flex items-center gap-2">
+                <div className="flex flex-col items-center gap-1.5">
+                  <div className="w-9 h-9 rounded-full bg-[#16a34a]/10 flex items-center justify-center">
+                    <step.icon size={15} className="text-[#16a34a]" />
+                  </div>
+                  <span className="text-[10px] text-[#6b7280] font-medium text-center leading-tight w-16">{step.label}</span>
+                </div>
+                {i < 2 && <ArrowRight size={12} className="text-[#d1d5db] shrink-0 mb-4" />}
+              </div>
+            ))}
+          </div>
+
+          <p className="text-base text-[#6b7280] leading-relaxed mb-6">
+            No need to log in and check. The moment a new review comes in, Reviewr writes the reply and sends it straight to your WhatsApp. Open it. Tap approve. Done.
+          </p>
+          <p className="text-sm text-[#374151] font-medium">
+            From new review to posted reply — without opening a laptop.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
-          {/* Starter */}
-          <div className="card p-8">
-            <div className="mb-6">
-              <div className="text-sm text-secondary mb-1">Starter</div>
-              <div className="flex items-end gap-1">
-                <span className="font-serif text-5xl text-primary">€19</span>
-                <span className="text-secondary mb-1">/mo</span>
+        {/* WhatsApp mockup */}
+        <div className="flex justify-center lg:justify-end">
+          <div className="w-64 bg-[#e5ddd5] rounded-2xl p-4 shadow-[0_20px_60px_rgba(0,0,0,0.15)] ring-1 ring-black/5">
+            <div className="bg-[#075e54] text-white text-xs font-medium px-3 py-2 rounded-t-xl flex items-center gap-2 -mx-4 -mt-4 mb-4">
+              <div className="w-6 h-6 rounded-full bg-[#16a34a] flex items-center justify-center p-1">
+                <LogoMark size={14} className="text-white" />
+              </div>
+              Reviewr · WhatsApp
+            </div>
+            <div className="bg-white rounded-xl rounded-tl-none p-3 shadow-sm mb-2">
+              <p className="text-xs text-[#374151] leading-relaxed mb-1">
+                📝 <strong>New review from Ana K.</strong> — 5 stars
+              </p>
+              <p className="text-xs text-[#6b7280] leading-relaxed mb-2">
+                &ldquo;Amazing experience, will definitely return!&rdquo;
+              </p>
+              <p className="text-xs text-[#374151] leading-relaxed">
+                <strong>Draft reply ready:</strong> &ldquo;Ana, thank you so much — this means a lot to our whole team. We can&apos;t wait to welcome you back!&rdquo;
+              </p>
+            </div>
+            <div className="flex gap-2 mt-3">
+              <div className="flex-1 bg-[#16a34a] text-white text-xs font-semibold py-2 rounded-full text-center">
+                ✓ Approve
+              </div>
+              <div className="flex-1 bg-white text-xs text-[#374151] py-2 rounded-full text-center border border-[#d1d5db]">
+                Edit
               </div>
             </div>
-            <ul className="space-y-3 mb-8">
-              {starterFeatures.map(f => (
-                <li key={f} className="flex items-center gap-3 text-sm text-secondary">
-                  <Check size={14} className="text-accent shrink-0" />
-                  {f}
-                </li>
-              ))}
-            </ul>
-            <Link href="/signup" className="btn btn-ghost w-full py-3">
-              Get started
-            </Link>
-          </div>
-
-          {/* Pro */}
-          <div className="card p-8 border-accent/40 relative overflow-hidden">
-            <div className="absolute top-4 right-4">
-              <span className="px-2.5 py-1 bg-accent/10 border border-accent/30 rounded-full text-xs text-accent font-medium">
-                Most popular
-              </span>
+            {/* Confirmation that closes the loop */}
+            <div className="mt-3 bg-[#dcf8c6] rounded-xl rounded-tl-none p-2.5">
+              <p className="text-[10px] text-[#075e54] font-semibold">✓ Posted to Google · just now</p>
             </div>
-            <div className="mb-6">
-              <div className="text-sm text-secondary mb-1">Pro</div>
-              <div className="flex items-end gap-1">
-                <span className="font-serif text-5xl text-primary">€49</span>
-                <span className="text-secondary mb-1">/mo</span>
-              </div>
-            </div>
-            <ul className="space-y-3 mb-8">
-              {proFeatures.map(f => (
-                <li key={f} className="flex items-center gap-3 text-sm text-secondary">
-                  <Check size={14} className="text-accent shrink-0" />
-                  {f}
-                </li>
-              ))}
-            </ul>
-            <Link href="/signup" className="btn btn-primary w-full py-3">
-              Get started
-              <ArrowRight size={15} />
-            </Link>
+            <p className="text-[10px] text-[#9ca3af] text-center mt-2">Sent via Reviewr</p>
           </div>
         </div>
       </div>
@@ -371,21 +466,268 @@ function Pricing() {
   )
 }
 
+// ─── USER REVIEWS ───────────────────────────────────────────────────────────
+
+function UserReviews() {
+  const avatarColors = [
+    { bg: 'bg-[#16a34a]/15', text: 'text-[#16a34a]' },
+    { bg: 'bg-blue-100',     text: 'text-blue-600'   },
+    { bg: 'bg-violet-100',   text: 'text-violet-600' },
+    { bg: 'bg-amber-100',    text: 'text-amber-600'  },
+    { bg: 'bg-rose-100',     text: 'text-rose-600'   },
+  ]
+
+  const reviews = [
+    {
+      name: 'Ana K.',   initials: 'AK', role: 'Restaurant owner',
+      quote: 'Our rating went from 4.1 to 4.6 in three months. Every review gets a reply now — we never let one sit.',
+      featured: true,
+    },
+    {
+      name: 'Marco F.', initials: 'MF', role: 'Hotel manager',
+      quote: 'Guests have commented that our responses feel warm and personal. They have no idea how fast they\'re written.',
+    },
+    {
+      name: 'Petra N.', initials: 'PN', role: 'Salon director',
+      quote: 'I approve maybe 10 replies a week from my phone. Takes 3 minutes total. My reputation is on autopilot.',
+    },
+    {
+      name: 'Luka B.',  initials: 'LB', role: 'Bar & pub owner',
+      quote: 'Used to dread 1-star reviews. Now I\'m almost excited — the reply goes out before I\'ve even finished reading it.',
+    },
+    {
+      name: 'Sara M.',  initials: 'SM', role: 'Retail shop owner',
+      quote: 'Setup took 4 minutes. I connected my Google profile, picked WhatsApp notifications, and it just works.',
+    },
+  ]
+
+  const featured = {
+    name: 'David R.', initials: 'DR', role: 'Healthcare practice',
+    quote: 'Professional, empathetic, and always on-brand. I couldn\'t write better replies myself if I had the time.',
+  }
+
+  return (
+    <section className="border-b border-[#e8e8e3] bg-[#f2f1ec]">
+      <div className="max-w-5xl mx-auto px-6 py-20">
+        <p className="text-[11px] uppercase tracking-[0.15em] text-[#9ca3af] mb-3 font-medium text-center">Reviews</p>
+        <h2 className="font-serif text-4xl lg:text-5xl text-[#0a0f1e] text-center mb-14">
+          What happens after the first week.
+        </h2>
+
+        <div className="grid md:grid-cols-3 gap-4 mb-4">
+          {reviews.map((r, i) => {
+            const color = avatarColors[i % avatarColors.length]
+            return (
+              <div
+                key={r.name}
+                className={`bg-white border border-[#e8e8e3] rounded-xl p-5 ${r.featured ? 'md:col-span-2' : ''}`}
+              >
+                <div className="flex gap-0.5 mb-3">
+                  {Array.from({ length: 5 }).map((_, j) => (
+                    <Star key={j} size={12} fill="#16a34a" className="text-[#16a34a]" />
+                  ))}
+                </div>
+                <p className={`text-[#374151] leading-relaxed mb-4 ${r.featured ? 'font-serif text-xl italic' : 'text-sm'}`}>
+                  &ldquo;{r.quote}&rdquo;
+                </p>
+                <div className="flex items-center gap-2.5">
+                  <div className={`w-8 h-8 rounded-full ${color.bg} ${color.text} text-xs font-bold flex items-center justify-center shrink-0`}>
+                    {r.initials}
+                  </div>
+                  <div>
+                    <div className="text-xs font-semibold text-[#0a0f1e]">{r.name}</div>
+                    <div className="text-xs text-[#9ca3af]">{r.role}</div>
+                  </div>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+
+        {/* Full-width dark featured testimonial */}
+        <div className="bg-[#0a0f1e] rounded-xl p-8 relative overflow-hidden">
+          <div className="absolute top-2 right-6 font-serif text-[8rem] text-white/5 leading-none select-none pointer-events-none">
+            &ldquo;
+          </div>
+          <div className="flex gap-0.5 mb-5">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Star key={i} size={14} fill="#16a34a" className="text-[#16a34a]" />
+            ))}
+          </div>
+          <p className="font-serif text-2xl lg:text-3xl text-white italic leading-relaxed mb-6 max-w-3xl">
+            &ldquo;{featured.quote}&rdquo;
+          </p>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-[#16a34a]/20 text-[#16a34a] text-sm font-bold flex items-center justify-center shrink-0">
+              {featured.initials}
+            </div>
+            <div>
+              <div className="text-sm font-semibold text-white">{featured.name}</div>
+              <div className="text-xs text-[#6b7280]">{featured.role}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ─── RATING STATS ───────────────────────────────────────────────────────────
+
+function RatingStats() {
+  return (
+    <section className="border-b border-[#e8e8e3] relative overflow-hidden">
+      {/* Oversized watermark */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
+        <span className="font-serif text-[22vw] text-[#f0efe9] leading-none">4.9</span>
+      </div>
+      <div className="relative max-w-5xl mx-auto px-6 py-20 text-center">
+        <div className="flex justify-center gap-1 mb-5">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <Star key={i} size={28} fill="#16a34a" className="text-[#16a34a]" />
+          ))}
+        </div>
+        <h2 className="font-serif text-4xl lg:text-6xl text-[#0a0f1e] mb-5">
+          Elevate your business.<br />One less thing to worry about.
+        </h2>
+        <p className="text-base text-[#6b7280] max-w-md mx-auto mb-10">
+          Business owners use Reviewr to protect their Google reputation — without spending an hour a week writing replies.
+        </p>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-10">
+          {[
+            { value: '< 30s', label: 'Average draft time' },
+            { value: '4.9★',  label: 'Owner satisfaction' },
+            { value: '100%',  label: 'Reviews get a reply' },
+          ].map(s => (
+            <div key={s.label} className="text-center">
+              <div className="font-serif text-4xl text-[#0a0f1e]">{s.value}</div>
+              <div className="text-[11px] text-[#9ca3af] mt-1 uppercase tracking-wider">{s.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ─── FINAL CTA ──────────────────────────────────────────────────────────────
+
+function FinalCTA() {
+  const solo   = ['1 location', 'Unlimited replies', 'WhatsApp + email alerts', 'Cancel anytime']
+  const growth = ['Up to 5 locations', 'Everything in Solo', 'Brand voice learning', 'Priority support']
+
+  return (
+    <section id="cta" className="border-b border-[#e8e8e3] bg-[#0a0f1e]">
+      <div className="max-w-5xl mx-auto px-6 py-20 text-center">
+        <p className="text-[11px] uppercase tracking-[0.15em] text-[#6b7280] mb-4 font-medium">Pricing</p>
+        <h2 className="font-serif text-4xl lg:text-6xl text-white leading-tight mb-8">
+          START YOUR<br />FREE TRIAL
+        </h2>
+
+        {/* €450 → €19 visual anchor */}
+        <p className="text-base text-[#6b7280] max-w-lg mx-auto mb-5 leading-relaxed">
+          The average business loses 9 customers per month to unanswered reviews. At €50 per customer, that&apos;s
+        </p>
+        <div className="flex items-end justify-center gap-5 mb-5">
+          <div className="text-center">
+            <span className="font-serif text-5xl text-[#f87171] line-through opacity-80">€450</span>
+            <p className="text-[11px] text-[#4b5563] mt-1 uppercase tracking-wider">avg. monthly loss</p>
+          </div>
+          <div className="mb-6">
+            <ArrowRight size={22} className="text-[#4b5563]" />
+          </div>
+          <div className="text-center">
+            <div className="flex items-end justify-center gap-1.5">
+              <span className="font-serif text-2xl text-[#6b7280] line-through opacity-60">€29</span>
+              <span className="font-serif text-5xl text-[#16a34a]">€19</span>
+            </div>
+            <p className="text-[11px] text-[#4b5563] mt-1 uppercase tracking-wider">Reviewr / month</p>
+          </div>
+        </div>
+        <p className="text-lg text-[#16a34a] font-semibold mb-12">
+          Reviewr costs less than one lost customer.
+        </p>
+
+        <div className="grid md:grid-cols-2 gap-5 max-w-2xl mx-auto mb-10 items-start">
+          {/* Solo */}
+          <div className="bg-[#111827] border border-[#2a3147] rounded-xl p-7 text-left">
+            <div className="text-xs uppercase tracking-widest text-[#6b7280] mb-3 font-medium">Solo</div>
+            <div className="flex items-end gap-2 mb-6">
+              <span className="font-serif text-2xl text-[#4b5563] line-through">€29</span>
+              <span className="font-serif text-5xl text-white">€19</span>
+              <span className="text-sm text-[#6b7280] mb-1.5">/month</span>
+            </div>
+            <ul className="space-y-2.5 mb-6">
+              {solo.map(f => (
+                <li key={f} className="flex items-center gap-2.5 text-sm text-[#d1d5db]">
+                  <Check size={13} className="text-[#16a34a] shrink-0" />{f}
+                </li>
+              ))}
+            </ul>
+            <p className="text-xs text-[#4b5563] mb-3">14-day free trial. No card needed.</p>
+            <Link href="/signup" className="block text-center text-sm font-semibold border border-[#4b5563] text-white px-4 py-3 rounded-md hover:border-white transition-colors">
+              Start free
+            </Link>
+          </div>
+
+          {/* Growth — with Most popular badge */}
+          <div className="relative pt-4">
+            <div className="absolute top-0 left-0 right-0 flex justify-center">
+              <span className="bg-white text-[#16a34a] text-xs font-bold px-3 py-1 rounded-full border border-[#16a34a]/30 shadow-sm whitespace-nowrap">
+                Most popular
+              </span>
+            </div>
+            <div className="bg-[#16a34a] rounded-xl p-7 text-left">
+              <div className="text-xs uppercase tracking-widest text-[#bbf7d0] mb-3 font-medium">Growth</div>
+              <div className="flex items-end gap-1 mb-6">
+                <span className="font-serif text-5xl text-white">€49</span>
+                <span className="text-sm text-[#bbf7d0] mb-1.5">/month</span>
+              </div>
+              <ul className="space-y-2.5 mb-6">
+                {growth.map(f => (
+                  <li key={f} className="flex items-center gap-2.5 text-sm text-white">
+                    <Check size={13} className="text-white shrink-0" />{f}
+                  </li>
+                ))}
+              </ul>
+              <p className="text-xs text-[#bbf7d0]/70 mb-3">14-day free trial. No card needed.</p>
+              <Link href="/signup" className="block text-center text-sm font-semibold bg-white text-[#16a34a] px-4 py-3 rounded-md hover:bg-[#f0fdf4] transition-colors">
+                Get Growth free
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        <p className="text-xs text-[#4b5563]">
+          No contracts. No hidden fees. No small print. By signing up you agree to our Terms and Privacy Policy.
+        </p>
+      </div>
+    </section>
+  )
+}
+
+// ─── FOOTER ─────────────────────────────────────────────────────────────────
+
 function Footer() {
   return (
-    <footer className="border-t border-border py-12">
-      <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-2.5">
-          <div className="w-6 h-6 rounded-lg bg-accent flex items-center justify-center">
-            <Star size={12} fill="black" className="text-black" />
+    <footer className="bg-[#fafaf7]">
+      <div className="max-w-5xl mx-auto px-6 py-8 text-center">
+        <p className="text-sm text-[#9ca3af] italic mb-6">
+          &ldquo;Every review is someone deciding whether to trust you.&rdquo;
+        </p>
+      </div>
+      <div className="border-t border-[#e8e8e3]">
+        <div className="max-w-5xl mx-auto px-6 py-5 flex flex-col md:flex-row items-center justify-between gap-4">
+          <Link href="/" className="flex items-center gap-2">
+            <LogoMark size={24} className="text-[#16a34a]" />
+            <span className="font-serif text-base text-[#0a0f1e]">Reviewr</span>
+          </Link>
+          <div className="flex items-center gap-6">
+            {['Privacy Policy', 'Terms of Use', 'Contact'].map(l => (
+              <a key={l} href="#" className="text-sm text-[#9ca3af] hover:text-[#6b7280] transition-colors">{l}</a>
+            ))}
           </div>
-          <span className="font-serif text-base">Reviewr</span>
-          <span className="text-muted text-sm ml-2">— Your reputation, automated.</span>
-        </div>
-        <div className="flex items-center gap-6">
-          <a href="#" className="text-sm text-muted hover:text-secondary transition-colors">Privacy</a>
-          <a href="#" className="text-sm text-muted hover:text-secondary transition-colors">Terms</a>
-          <span className="text-muted text-sm">© 2026 Reviewr</span>
+          <span className="text-sm text-[#9ca3af]">© 2026 Reviewr</span>
         </div>
       </div>
     </footer>

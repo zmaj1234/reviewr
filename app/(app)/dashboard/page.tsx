@@ -4,9 +4,15 @@ import { DashboardClient } from './dashboard-client'
 import type { Business, Review } from '@/lib/types'
 
 export default async function DashboardPage() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) redirect('/login')
+  let supabase
+  try {
+    supabase = await createClient()
+  } catch {
+    redirect('/login')
+  }
+
+  const { data: { user }, error: authError } = await supabase.auth.getUser()
+  if (authError || !user) redirect('/login')
 
   const { data: businesses } = await supabase
     .from('businesses')
@@ -14,9 +20,7 @@ export default async function DashboardPage() {
     .eq('user_id', user.id)
     .eq('active', true)
 
-  if (!businesses || businesses.length === 0) {
-    redirect('/connect')
-  }
+  if (!businesses || businesses.length === 0) redirect('/connect')
 
   const businessIds = businesses.map((b: Business) => b.id)
 
@@ -28,15 +32,15 @@ export default async function DashboardPage() {
     .limit(100)
 
   const pending = (reviews ?? []).filter((r: Review) => r.status === 'pending_approval')
-  const posted = (reviews ?? []).filter((r: Review) => r.status === 'posted')
-  const thisMonthPosted = posted.filter((r: Review) => {
+  const posted  = (reviews ?? []).filter((r: Review) => r.status === 'posted')
+
+  const now = new Date()
+  const thisMonthAll    = (reviews ?? []).filter((r: Review) => {
     const d = new Date(r.created_at)
-    const now = new Date()
     return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear()
   })
-  const thisMonthAll = (reviews ?? []).filter((r: Review) => {
+  const thisMonthPosted = posted.filter((r: Review) => {
     const d = new Date(r.created_at)
-    const now = new Date()
     return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear()
   })
 
@@ -44,12 +48,9 @@ export default async function DashboardPage() {
     ? (reviews.reduce((sum: number, r: Review) => sum + r.rating, 0) / reviews.length).toFixed(1)
     : '—'
 
-  const recentPosted = posted.filter((r: Review) => {
-    const d = new Date(r.posted_at ?? r.created_at)
-    const cutoff = new Date()
-    cutoff.setDate(cutoff.getDate() - 7)
-    return d > cutoff
-  })
+  const cutoff = new Date()
+  cutoff.setDate(cutoff.getDate() - 7)
+  const recentPosted = posted.filter((r: Review) => new Date(r.posted_at ?? r.created_at) > cutoff)
 
   return (
     <DashboardClient

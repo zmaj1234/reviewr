@@ -20,7 +20,8 @@ create table businesses (
   notification_method text default 'whatsapp',
   active boolean default true,
   created_at timestamptz default now(),
-  updated_at timestamptz default now()
+  updated_at timestamptz default now(),
+  unique(user_id)
 );
 
 -- Reviews table: one row per processed review

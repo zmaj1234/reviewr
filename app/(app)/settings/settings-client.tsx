@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { User, Building2, Phone, Mail, AlertTriangle, X } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
 import { Spinner } from '@/components/ui/spinner'
 import { useToast } from '@/components/ui/toast'
 import type { Business } from '@/lib/types'
@@ -35,21 +34,22 @@ export function SettingsClient({ user, business }: Props) {
   async function saveBusinessSettings() {
     if (!business) return
     setSaving(true)
-    const supabase = createClient()
-    const { error } = await supabase
-      .from('businesses')
-      .update({
+    const res = await fetch('/api/business', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
         business_name: businessName,
         business_type: businessType,
         business_description: businessDesc,
         owner_phone: phone,
         notification_method: notifMethod,
         tone_preferences: tone,
-      })
-      .eq('id', business.id)
+      }),
+    })
 
-    if (error) {
-      toast(error.message, 'error')
+    if (!res.ok) {
+      const { error } = await res.json()
+      toast(error ?? 'Failed to save', 'error')
     } else {
       toast('Settings saved', 'success')
       router.refresh()
@@ -60,14 +60,14 @@ export function SettingsClient({ user, business }: Props) {
   async function disconnectGBP() {
     if (!business) return
     setDisconnecting(true)
-    const supabase = createClient()
-    await supabase.from('businesses').update({
-      gbp_access_token: null,
-      gbp_refresh_token: null,
-      gbp_account_id: null,
-      gbp_location_id: null,
-      active: false,
-    }).eq('id', business.id)
+    const res = await fetch('/api/business/disconnect', { method: 'POST' })
+
+    if (!res.ok) {
+      const { error } = await res.json()
+      toast(error ?? 'Failed to disconnect', 'error')
+      setDisconnecting(false)
+      return
+    }
 
     toast('Google Business Profile disconnected', 'info')
     setShowDisconnectModal(false)

@@ -18,7 +18,10 @@
       "Bash(findstr /i \"dev\\\\|start\\\\|script\")",
       "Bash(git *)",
       "Bash(gh auth *)",
-      "PowerShell(gh auth *)"
+      "PowerShell(gh auth *)",
+      "Bash(npx vercel *)",
+      "PowerShell(marketing *)",
+      "Bash(npm install *)"
     ]
   }
 }

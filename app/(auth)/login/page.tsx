@@ -44,12 +44,8 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-center px-4 relative overflow-hidden">
-      {/* Subtle green glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none"
-        style={{ background: 'radial-gradient(circle, rgba(22,163,74,0.07) 0%, transparent 70%)' }} />
-
-      <div className="relative z-10 w-full max-w-sm">
+    <div className="min-h-screen flex flex-col items-center justify-center px-4">
+      <div className="w-full max-w-sm">
         {/* Logo */}
         <div className="flex justify-center mb-8">
           <Link href="/" className="flex flex-col items-center gap-3">
@@ -143,7 +139,6 @@ export default function LoginPage() {
             {loading ? <Spinner size={15} className="text-white mx-auto" /> : 'Sign in'}
           </button>
         </form>
-      </div>
     </div>
   )
 }

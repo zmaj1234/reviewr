@@ -7,6 +7,7 @@ import { Star, Eye, EyeOff, ArrowRight } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { Spinner } from '@/components/ui/spinner'
 import { useToast } from '@/components/ui/toast'
+import { OAuthButtons } from '@/components/auth/oauth-buttons'
 
 export default function SignupPage() {
   const [name, setName] = useState('')
@@ -70,6 +71,7 @@ export default function SignupPage() {
           </div>
 
           <form onSubmit={handleSubmit} className="bg-white border border-[#e8e8e3] rounded-lg p-7 space-y-5">
+            <OAuthButtons />
             <div>
               <label className="block text-xs font-medium text-[#374151] mb-1.5">Full name</label>
               <input

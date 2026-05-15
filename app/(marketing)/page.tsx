@@ -4,6 +4,7 @@ import {
   Check, ArrowRight, Star, CheckCircle2, Pencil, X, Clock
 } from 'lucide-react'
 import { LogoMark } from '@/components/logo'
+import { Nav } from './nav'
 
 export default function LandingPage() {
   return (
@@ -22,39 +23,6 @@ export default function LandingPage() {
   )
 }
 
-// ─── NAV ────────────────────────────────────────────────────────────────────
-
-function Nav() {
-  return (
-    <header className="border-b border-[#e8e8e3] bg-[#fafaf7]/95 backdrop-blur-sm sticky top-0 z-50">
-      <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
-          <LogoMark size={28} className="text-[#16a34a]" />
-          <span className="font-serif text-lg text-[#0a0f1e]">Reviewr</span>
-        </Link>
-        <nav className="hidden md:flex items-center gap-7">
-          {[
-            { label: 'How it works', href: '#why' },
-            { label: 'Features', href: '#includes' },
-            { label: 'Pricing', href: '#cta' },
-          ].map(l => (
-            <a key={l.href} href={l.href} className="text-sm text-[#6b7280] hover:text-[#0a0f1e] transition-colors">
-              {l.label}
-            </a>
-          ))}
-        </nav>
-        <div className="flex items-center gap-4">
-          <Link href="/login" className="text-sm text-[#6b7280] hover:text-[#0a0f1e] transition-colors hidden md:block">
-            Log in
-          </Link>
-          <Link href="/signup" className="text-sm bg-[#16a34a] text-white px-4 py-2 rounded-md hover:bg-[#15803d] transition-colors font-medium">
-            Start free
-          </Link>
-        </div>
-      </div>
-    </header>
-  )
-}
 
 // ─── HERO ────────────────────────────────────────────────────────────────────
 

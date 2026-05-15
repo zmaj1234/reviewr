@@ -1,0 +1,535 @@
+{
+  "name": "Reviewr \u2014 Review Poller",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 15
+            }
+          ]
+        }
+      },
+      "id": "wfa-01",
+      "name": "Every 15 Minutes",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $env.SUPABASE_URL }}/rest/v1/businesses",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $env.SUPABASE_SERVICE_ROLE_KEY }}"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.SUPABASE_SERVICE_ROLE_KEY }}"
+            }
+          ]
+        },
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "active",
+              "value": "eq.true"
+            },
+            {
+              "name": "select",
+              "value": "id,gbp_account_id,gbp_location_id,business_description,tone_preferences,past_responses"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "wfa-02",
+      "name": "Get Active Businesses",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.first().json.map(item => ({ json: item }));"
+      },
+      "id": "wfa-03",
+      "name": "Split Businesses",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        680,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.APP_URL }}/api/auth/google/refresh",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-webhook-secret",
+              "value": "={{ $env.N8N_WEBHOOK_SECRET }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ business_id: $json.id }) }}",
+        "options": {}
+      },
+      "id": "wfa-04",
+      "name": "Refresh Token",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        900,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "s1",
+              "name": "access_token",
+              "value": "={{ $json.access_token }}",
+              "type": "string"
+            },
+            {
+              "id": "s2",
+              "name": "business_id",
+              "value": "={{ $('Split Businesses').item.json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "s3",
+              "name": "gbp_account_id",
+              "value": "={{ $('Split Businesses').item.json.gbp_account_id }}",
+              "type": "string"
+            },
+            {
+              "id": "s4",
+              "name": "gbp_location_id",
+              "value": "={{ $('Split Businesses').item.json.gbp_location_id }}",
+              "type": "string"
+            },
+            {
+              "id": "s5",
+              "name": "business_description",
+              "value": "={{ $('Split Businesses').item.json.business_description }}",
+              "type": "string"
+            },
+            {
+              "id": "s6",
+              "name": "tone_preferences",
+              "value": "={{ $('Split Businesses').item.json.tone_preferences }}",
+              "type": "string"
+            },
+            {
+              "id": "s7",
+              "name": "past_responses",
+              "value": "={{ $('Split Businesses').item.json.past_responses || [] }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "wfa-05",
+      "name": "Set Business + Token",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1120,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://mybusiness.googleapis.com/v4/accounts/{{ $json.gbp_account_id }}/locations/{{ $json.gbp_location_id }}/reviews",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $json.access_token }}"
+            }
+          ]
+        },
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "orderBy",
+              "value": "updateTime desc"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "wfa-06",
+      "name": "Fetch GBP Reviews",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1340,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const reviews = ($input.first().json.reviews || []);\nconst biz = $('Set Business + Token').item.json;\n\nreturn reviews.map(review => ({\n  json: {\n    business_id:          biz.business_id,\n    gbp_account_id:       biz.gbp_account_id,\n    gbp_location_id:      biz.gbp_location_id,\n    business_description: biz.business_description,\n    tone_preferences:     biz.tone_preferences,\n    past_responses:       biz.past_responses || [],\n    access_token:         biz.access_token,\n    review_id:            review.reviewId,\n    reviewer_name:        (review.reviewer && review.reviewer.displayName) || 'Anonymous',\n    rating:               review.starRating,\n    review_text:          review.comment || '',\n    review_time:          review.createTime,\n    language:             'en',\n  }\n}));"
+      },
+      "id": "wfa-07",
+      "name": "Flatten Reviews",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1560,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $env.SUPABASE_URL }}/rest/v1/reviews",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $env.SUPABASE_SERVICE_ROLE_KEY }}"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.SUPABASE_SERVICE_ROLE_KEY }}"
+            }
+          ]
+        },
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "business_id",
+              "value": "=eq.{{ $json.business_id }}"
+            },
+            {
+              "name": "review_id",
+              "value": "=eq.{{ $json.review_id }}"
+            },
+            {
+              "name": "select",
+              "value": "id"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "wfa-08",
+      "name": "Check Review Exists",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1780,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Supabase returns an array; non-empty means review already exists\nconst supabaseResults = $input.all();\nconst reviewItems     = $('Flatten Reviews').all();\n\nconst out = [];\nfor (let i = 0; i < supabaseResults.length; i++) {\n  const res    = supabaseResults[i].json;\n  const exists = Array.isArray(res) ? res.length > 0 : false;\n  if (!exists && reviewItems[i]) {\n    out.push({ json: reviewItems[i].json });\n  }\n}\nreturn out;"
+      },
+      "id": "wfa-09",
+      "name": "Filter New Reviews",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2000,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const r           = $input.first().json;\nconst pastReplies = (r.past_responses || []).slice(-5).join('\\n---\\n') || 'No previous replies yet.';\n\nconst prompt = `You are a professional reply writer for Google Business Profile reviews.\n\nBusiness description: ${r.business_description || 'N/A'}\nTone preference: ${r.tone_preferences || 'Professional and friendly'}\n\nRecent reply examples (for tone reference):\n${pastReplies}\n\nReview to reply to:\nReviewer: ${r.reviewer_name}\nRating: ${r.rating}\nReview text: ${r.review_text || '(No text \u2014 rating only)'}\n\nWrite a professional, personalized reply to this review.\nReturn ONLY valid JSON in this exact format with no other text:\n{\"draft_reply\": \"your reply here\", \"sentiment\": \"positive|neutral|negative\", \"flags\": []}\n\nPossible flags to include if applicable: angry_customer, mentions_staff_by_name, requests_refund, fake_review_suspected`;\n\nreturn [{\n  json: {\n    ...r,\n    claude_body: JSON.stringify({\n      model:      'claude-sonnet-4-6',\n      max_tokens: 1024,\n      messages:   [{ role: 'user', content: prompt }]\n    })\n  }\n}];"
+      },
+      "id": "wfa-10",
+      "name": "Build Claude Request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2220,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "={{ $env.ANTHROPIC_API_KEY }}"
+            },
+            {
+              "name": "anthropic-version",
+              "value": "2023-06-01"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={{ $json.claude_body }}",
+        "options": {}
+      },
+      "id": "wfa-11",
+      "name": "Generate Draft with Claude",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2440,
+        180
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "id": "wfa-12",
+      "name": "Merge Review Data",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        2660,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.all().map(item => {\n  const text = item.json.content[0].text;\n  const m    = text.match(/\\{[\\s\\S]*\\}/);\n  if (!m) throw new Error('No JSON in Claude response: ' + text);\n\n  let parsed;\n  try { parsed = JSON.parse(m[0]); }\n  catch (e) { throw new Error('Bad JSON from Claude: ' + m[0]); }\n\n  return {\n    json: {\n      business_id:   item.json.business_id,\n      review_id:     item.json.review_id,\n      rating:        item.json.rating,\n      review_text:   item.json.review_text,\n      reviewer_name: item.json.reviewer_name,\n      review_time:   item.json.review_time,\n      language:      item.json.language,\n      sentiment:     parsed.sentiment,\n      draft_reply:   parsed.draft_reply,\n      flags:         parsed.flags || [],\n    }\n  };\n});"
+      },
+      "id": "wfa-13",
+      "name": "Parse Claude Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2880,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.APP_URL }}/api/webhook/n8n",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-webhook-secret",
+              "value": "={{ $env.N8N_WEBHOOK_SECRET }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      },
+      "id": "wfa-14",
+      "name": "Push to Reviewr",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3100,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Every 15 Minutes": {
+      "main": [
+        [
+          {
+            "node": "Get Active Businesses",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Active Businesses": {
+      "main": [
+        [
+          {
+            "node": "Split Businesses",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Businesses": {
+      "main": [
+        [
+          {
+            "node": "Refresh Token",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Refresh Token": {
+      "main": [
+        [
+          {
+            "node": "Set Business + Token",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Business + Token": {
+      "main": [
+        [
+          {
+            "node": "Fetch GBP Reviews",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch GBP Reviews": {
+      "main": [
+        [
+          {
+            "node": "Flatten Reviews",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Flatten Reviews": {
+      "main": [
+        [
+          {
+            "node": "Check Review Exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Review Exists": {
+      "main": [
+        [
+          {
+            "node": "Filter New Reviews",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter New Reviews": {
+      "main": [
+        [
+          {
+            "node": "Build Claude Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Claude Request": {
+      "main": [
+        [
+          {
+            "node": "Generate Draft with Claude",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge Review Data",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Generate Draft with Claude": {
+      "main": [
+        [
+          {
+            "node": "Merge Review Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Review Data": {
+      "main": [
+        [
+          {
+            "node": "Parse Claude Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Claude Response": {
+      "main": [
+        [
+          {
+            "node": "Push to Reviewr",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

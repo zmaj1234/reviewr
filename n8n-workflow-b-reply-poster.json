@@ -1,0 +1,442 @@
+{
+  "name": "Reviewr \u2014 Reply Poster",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "reply-poster",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "wfb-01",
+      "name": "Reply Poster Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        240,
+        300
+      ],
+      "webhookId": "reply-poster"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b1",
+              "name": "action",
+              "value": "={{ $json.body.action }}",
+              "type": "string"
+            },
+            {
+              "id": "b2",
+              "name": "internal_review_id",
+              "value": "={{ $json.body.review_id }}",
+              "type": "string"
+            },
+            {
+              "id": "b3",
+              "name": "final_reply",
+              "value": "={{ $json.body.final_reply }}",
+              "type": "string"
+            },
+            {
+              "id": "b4",
+              "name": "business_id",
+              "value": "={{ $json.body.business_id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "wfb-02",
+      "name": "Store Input",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $env.SUPABASE_URL }}/rest/v1/reviews",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $env.SUPABASE_SERVICE_ROLE_KEY }}"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.SUPABASE_SERVICE_ROLE_KEY }}"
+            }
+          ]
+        },
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "id",
+              "value": "=eq.{{ $json.internal_review_id }}"
+            },
+            {
+              "name": "select",
+              "value": "review_id,business_id"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "wfb-03",
+      "name": "Get Review",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        680,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $env.SUPABASE_URL }}/rest/v1/businesses",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $env.SUPABASE_SERVICE_ROLE_KEY }}"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.SUPABASE_SERVICE_ROLE_KEY }}"
+            }
+          ]
+        },
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "id",
+              "value": "=eq.{{ $('Store Input').item.json.business_id }}"
+            },
+            {
+              "name": "select",
+              "value": "gbp_account_id,gbp_location_id"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "wfb-04",
+      "name": "Get Business",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        900,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const input   = $('Store Input').item.json;\nconst review  = $('Get Review').item.json;\nconst business = $('Get Business').item.json;\n\nconst reviewRow = Array.isArray(review)   ? review[0]   : review;\nconst bizRow    = Array.isArray(business) ? business[0] : business;\n\nif (!reviewRow) throw new Error('Review not found in Supabase for id: ' + input.internal_review_id);\nif (!bizRow)    throw new Error('Business not found in Supabase for id: ' + input.business_id);\n\nreturn [{\n  json: {\n    action:               input.action,\n    internal_review_id:   input.internal_review_id,\n    gbp_review_id:        reviewRow.review_id,\n    business_id:          input.business_id,\n    gbp_account_id:       bizRow.gbp_account_id,\n    gbp_location_id:      bizRow.gbp_location_id,\n    final_reply:          input.final_reply,\n  }\n}];"
+      },
+      "id": "wfb-05",
+      "name": "Build Context",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.APP_URL }}/api/auth/google/refresh",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-webhook-secret",
+              "value": "={{ $env.N8N_WEBHOOK_SECRET }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ business_id: $json.business_id }) }}",
+        "options": {}
+      },
+      "id": "wfb-06",
+      "name": "Refresh Token",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1340,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://mybusiness.googleapis.com/v4/accounts/{{ $('Build Context').item.json.gbp_account_id }}/locations/{{ $('Build Context').item.json.gbp_location_id }}/reviews/{{ $('Build Context').item.json.gbp_review_id }}/reply",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $json.access_token }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ comment: $('Build Context').item.json.final_reply }) }}",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true
+            }
+          }
+        },
+        "continueOnFail": true
+      },
+      "id": "wfb-07",
+      "name": "Post Reply to GBP",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1560,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "c1",
+              "leftValue": "={{ typeof $json.error }}",
+              "rightValue": "undefined",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "wfb-08",
+      "name": "GBP Post Success?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1780,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={ \"ok\": true }",
+        "options": {}
+      },
+      "id": "wfb-09",
+      "name": "Respond OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        2000,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "={{ $env.SUPABASE_URL }}/rest/v1/reviews?id=eq.{{ $('Build Context').item.json.internal_review_id }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $env.SUPABASE_SERVICE_ROLE_KEY }}"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.SUPABASE_SERVICE_ROLE_KEY }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Prefer",
+              "value": "return=minimal"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\"status\": \"pending_approval\"}",
+        "options": {}
+      },
+      "id": "wfb-10",
+      "name": "Revert to pending_approval",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2000,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={ \"ok\": false, \"error\": \"Failed to post reply to GBP\" }",
+        "options": {
+          "responseCode": 500
+        }
+      },
+      "id": "wfb-11",
+      "name": "Respond Error",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        2220,
+        440
+      ]
+    }
+  ],
+  "connections": {
+    "Reply Poster Webhook": {
+      "main": [
+        [
+          {
+            "node": "Store Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Store Input": {
+      "main": [
+        [
+          {
+            "node": "Get Review",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Review": {
+      "main": [
+        [
+          {
+            "node": "Get Business",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Business": {
+      "main": [
+        [
+          {
+            "node": "Build Context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Context": {
+      "main": [
+        [
+          {
+            "node": "Refresh Token",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Refresh Token": {
+      "main": [
+        [
+          {
+            "node": "Post Reply to GBP",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post Reply to GBP": {
+      "main": [
+        [
+          {
+            "node": "GBP Post Success?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GBP Post Success?": {
+      "main": [
+        [
+          {
+            "node": "Respond OK",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Revert to pending_approval",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Revert to pending_approval": {
+      "main": [
+        [
+          {
+            "node": "Respond Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

@@ -83,7 +83,7 @@ export async function POST(
     }
   }
 
-  // Update status in Supabase
+  // Update review status in Supabase
   await supabase
     .from('reviews')
     .update({
@@ -92,6 +92,24 @@ export async function POST(
       posted_at: n8nFailed ? null : now,
     })
     .eq('id', params.id)
+
+  // Append final_reply to businesses.past_responses (max 20 entries)
+  if (!n8nFailed) {
+    const postedReply = final_reply ?? review.draft_reply
+    const { data: biz } = await supabase
+      .from('businesses')
+      .select('past_responses')
+      .eq('id', review.business_id)
+      .single()
+
+    const existing: string[] = biz?.past_responses ?? []
+    const updated = [...existing, postedReply].slice(-20)
+
+    await supabase
+      .from('businesses')
+      .update({ past_responses: updated })
+      .eq('id', review.business_id)
+  }
 
   if (n8nFailed) {
     return NextResponse.json({

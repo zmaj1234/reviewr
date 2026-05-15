@@ -48,8 +48,8 @@ export default function LoginPage() {
       <div className="w-full max-w-sm">
         {/* Logo */}
         <div className="flex justify-center mb-8">
-          <Link href="/" className="flex flex-col items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-[#16a34a] flex items-center justify-center shadow-[0_0_24px_rgba(22,163,74,0.4)]">
+          <Link href="/">
+            <div className="w-10 h-10 rounded-xl bg-[#16a34a] flex items-center justify-center shadow-[0_4px_16px_rgba(22,163,74,0.3)]">
               <LogoMark size={22} className="text-white" />
             </div>
           </Link>
@@ -57,10 +57,10 @@ export default function LoginPage() {
 
         {/* Heading */}
         <div className="text-center mb-8">
-          <h1 className="font-serif text-3xl text-white mb-2">Welcome back</h1>
-          <p className="text-sm text-[#71717a]">
+          <h1 className="font-serif text-3xl text-[#0a0f1e] mb-2">Welcome back</h1>
+          <p className="text-sm text-[#6b7280]">
             Don&apos;t have an account?{' '}
-            <Link href="/signup" className="text-white hover:text-[#16a34a] transition-colors">
+            <Link href="/signup" className="text-[#0a0f1e] hover:text-[#16a34a] transition-colors font-medium">
               Sign up
             </Link>
           </p>
@@ -71,9 +71,9 @@ export default function LoginPage() {
           type="button"
           onClick={signInWithGoogle}
           disabled={loadingGoogle || loading}
-          className="w-full flex items-center justify-center gap-3 bg-[#18181b] border border-[#27272a] hover:border-[#3f3f46] hover:bg-[#1c1c1f] text-sm font-medium text-white py-3 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed mb-5"
+          className="w-full flex items-center justify-center gap-3 bg-white border border-[#e0dfd9] hover:border-[#c8c7c1] hover:bg-[#fafaf7] text-sm font-medium text-[#0a0f1e] py-3 rounded-xl transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed mb-5"
         >
-          {loadingGoogle ? <Spinner size={15} className="text-white" /> : (
+          {loadingGoogle ? <Spinner size={15} /> : (
             <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden>
               <path fill="#4285F4" d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 0 0 2.38-5.88c0-.57-.05-.66-.15-1.18z"/>
               <path fill="#34A853" d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2a4.8 4.8 0 0 1-7.18-2.54H1.83v2.07A8 8 0 0 0 8.98 17z"/>
@@ -86,18 +86,18 @@ export default function LoginPage() {
 
         {/* Divider */}
         <div className="flex items-center gap-3 mb-5">
-          <div className="flex-1 h-px bg-[#27272a]" />
-          <span className="text-xs text-[#52525b]">or</span>
-          <div className="flex-1 h-px bg-[#27272a]" />
+          <div className="flex-1 h-px bg-[#e8e8e3]" />
+          <span className="text-xs text-[#b0b0a8]">or</span>
+          <div className="flex-1 h-px bg-[#e8e8e3]" />
         </div>
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-medium text-[#a1a1aa] mb-1.5">Email</label>
+            <label className="block text-xs font-medium text-[#374151] mb-1.5">Email</label>
             <input
               type="email"
-              className="w-full bg-[#18181b] border border-[#27272a] rounded-xl text-sm text-white px-4 py-3 outline-none focus:border-[#16a34a] focus:ring-2 focus:ring-[#16a34a]/20 transition-all placeholder:text-[#52525b] hover:border-[#3f3f46]"
+              className="w-full bg-[#f4f3ef] border border-[#e0dfd9] rounded-2xl text-sm text-[#0a0f1e] px-4 py-3 outline-none focus:border-[#16a34a] focus:bg-white focus:ring-4 focus:ring-[#16a34a]/10 transition-all placeholder:text-[#b0b0a8] shadow-[inset_0_1px_3px_rgba(0,0,0,0.07)] hover:border-[#c8c7c1]"
               placeholder="alan.turing@example.com"
               value={email}
               onChange={e => setEmail(e.target.value)}
@@ -108,13 +108,13 @@ export default function LoginPage() {
 
           <div>
             <div className="flex items-center justify-between mb-1.5">
-              <label className="block text-xs font-medium text-[#a1a1aa]">Password</label>
-              <a href="#" className="text-xs text-[#52525b] hover:text-[#a1a1aa] transition-colors">Forgot password?</a>
+              <label className="block text-xs font-medium text-[#374151]">Password</label>
+              <a href="#" className="text-xs text-[#9ca3af] hover:text-[#6b7280] transition-colors">Forgot password?</a>
             </div>
             <div className="relative">
               <input
                 type={showPw ? 'text' : 'password'}
-                className="w-full bg-[#18181b] border border-[#27272a] rounded-xl text-sm text-white px-4 py-3 pr-11 outline-none focus:border-[#16a34a] focus:ring-2 focus:ring-[#16a34a]/20 transition-all placeholder:text-[#52525b] hover:border-[#3f3f46]"
+                className="w-full bg-[#f4f3ef] border border-[#e0dfd9] rounded-2xl text-sm text-[#0a0f1e] px-4 py-3 pr-11 outline-none focus:border-[#16a34a] focus:bg-white focus:ring-4 focus:ring-[#16a34a]/10 transition-all placeholder:text-[#b0b0a8] shadow-[inset_0_1px_3px_rgba(0,0,0,0.07)] hover:border-[#c8c7c1]"
                 placeholder="••••••••••••"
                 value={password}
                 onChange={e => setPassword(e.target.value)}
@@ -124,7 +124,7 @@ export default function LoginPage() {
               <button
                 type="button"
                 onClick={() => setShowPw(!showPw)}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#52525b] hover:text-[#a1a1aa] transition-colors"
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#b0b0a8] hover:text-[#6b7280] transition-colors"
               >
                 {showPw ? <EyeOff size={15} /> : <Eye size={15} />}
               </button>
@@ -134,7 +134,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading || loadingGoogle || !email || !password}
-            className="w-full bg-[#18181b] border border-[#27272a] text-sm font-medium text-white py-3 rounded-xl hover:bg-[#1c1c1f] hover:border-[#3f3f46] transition-all disabled:opacity-40 disabled:cursor-not-allowed mt-1"
+            className="w-full bg-[#0a0f1e] text-sm font-medium text-white py-3 rounded-xl hover:bg-[#111827] transition-all disabled:opacity-40 disabled:cursor-not-allowed mt-1"
           >
             {loading ? <Spinner size={15} className="text-white mx-auto" /> : 'Sign in'}
           </button>

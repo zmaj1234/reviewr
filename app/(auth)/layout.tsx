@@ -3,13 +3,13 @@ import { ToastProvider } from '@/components/ui/toast'
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <ToastProvider>
-      <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#0d1210' }}>
+      <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#f7faf7' }}>
 
         {/* Top-right curtain */}
         <div className="absolute top-0 right-0 w-80 h-96 pointer-events-none">
           <div style={{
             position: 'absolute', inset: 0,
-            background: 'linear-gradient(210deg, rgba(22,163,74,0.18) 0%, rgba(22,163,74,0.08) 20%, rgba(16,120,56,0.12) 38%, rgba(22,163,74,0.04) 55%, transparent 72%)',
+            background: 'linear-gradient(210deg, rgba(22,163,74,0.12) 0%, rgba(22,163,74,0.08) 20%, rgba(16,120,56,0.12) 38%, rgba(22,163,74,0.04) 55%, transparent 72%)',
           }} />
           <div style={{
             position: 'absolute', inset: 0,
@@ -43,7 +43,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         <div className="absolute bottom-0 left-0 w-80 h-96 pointer-events-none">
           <div style={{
             position: 'absolute', inset: 0,
-            background: 'linear-gradient(30deg, rgba(22,163,74,0.18) 0%, rgba(22,163,74,0.08) 20%, rgba(16,120,56,0.12) 38%, rgba(22,163,74,0.04) 55%, transparent 72%)',
+            background: 'linear-gradient(30deg, rgba(22,163,74,0.12) 0%, rgba(22,163,74,0.08) 20%, rgba(16,120,56,0.12) 38%, rgba(22,163,74,0.04) 55%, transparent 72%)',
           }} />
           <div style={{
             position: 'absolute', inset: 0,

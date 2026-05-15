@@ -76,7 +76,7 @@ export default function SignupPage() {
               <label className="block text-xs font-medium text-[#374151] mb-1.5">Full name</label>
               <input
                 type="text"
-                className="w-full bg-[#fafaf7] border border-[#e8e8e3] rounded-md text-sm text-[#0a0f1e] px-3 py-2.5 outline-none focus:border-[#0a0f1e] focus:ring-2 focus:ring-[#0a0f1e]/5 transition-colors placeholder:text-[#b0b0a8]"
+                className="w-full bg-[#f4f3ef] border border-[#e0dfd9] rounded-2xl text-sm text-[#0a0f1e] px-4 py-3 outline-none focus:border-[#16a34a] focus:bg-white focus:ring-4 focus:ring-[#16a34a]/10 transition-all placeholder:text-[#b0b0a8] shadow-[inset_0_1px_3px_rgba(0,0,0,0.07)] hover:border-[#c8c7c1]"
                 placeholder="Your name"
                 value={name}
                 onChange={e => setName(e.target.value)}
@@ -89,7 +89,7 @@ export default function SignupPage() {
               <label className="block text-xs font-medium text-[#374151] mb-1.5">Email address</label>
               <input
                 type="email"
-                className="w-full bg-[#fafaf7] border border-[#e8e8e3] rounded-md text-sm text-[#0a0f1e] px-3 py-2.5 outline-none focus:border-[#0a0f1e] focus:ring-2 focus:ring-[#0a0f1e]/5 transition-colors placeholder:text-[#b0b0a8]"
+                className="w-full bg-[#f4f3ef] border border-[#e0dfd9] rounded-2xl text-sm text-[#0a0f1e] px-4 py-3 outline-none focus:border-[#16a34a] focus:bg-white focus:ring-4 focus:ring-[#16a34a]/10 transition-all placeholder:text-[#b0b0a8] shadow-[inset_0_1px_3px_rgba(0,0,0,0.07)] hover:border-[#c8c7c1]"
                 placeholder="you@example.com"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
@@ -103,7 +103,7 @@ export default function SignupPage() {
               <div className="relative">
                 <input
                   type={showPw ? 'text' : 'password'}
-                  className="w-full bg-[#fafaf7] border border-[#e8e8e3] rounded-md text-sm text-[#0a0f1e] px-3 py-2.5 pr-10 outline-none focus:border-[#0a0f1e] focus:ring-2 focus:ring-[#0a0f1e]/5 transition-colors placeholder:text-[#b0b0a8]"
+                  className="w-full bg-[#f4f3ef] border border-[#e0dfd9] rounded-2xl text-sm text-[#0a0f1e] px-4 py-3 pr-11 outline-none focus:border-[#16a34a] focus:bg-white focus:ring-4 focus:ring-[#16a34a]/10 transition-all placeholder:text-[#b0b0a8] shadow-[inset_0_1px_3px_rgba(0,0,0,0.07)] hover:border-[#c8c7c1]"
                   placeholder="Min. 8 characters"
                   value={password}
                   onChange={e => setPassword(e.target.value)}

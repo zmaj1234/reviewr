@@ -149,6 +149,7 @@ export default function SignupPage() {
           and{' '}
           <a href="#" className="text-[#71717a] hover:text-white transition-colors">Privacy Policy</a>.
         </p>
+      </div>
     </div>
   )
 }

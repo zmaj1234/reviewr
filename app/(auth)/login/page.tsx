@@ -139,6 +139,7 @@ export default function LoginPage() {
             {loading ? <Spinner size={15} className="text-white mx-auto" /> : 'Sign in'}
           </button>
         </form>
+      </div>
     </div>
   )
 }

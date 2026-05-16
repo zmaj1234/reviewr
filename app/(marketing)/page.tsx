@@ -22,25 +22,26 @@ export default function LandingPage() {
   )
 }
 
-
 // ─── HERO ────────────────────────────────────────────────────────────────────
 
 function Hero() {
   return (
-    <section className="border-b border-[#e8e8e3]">
-      <div className="max-w-5xl mx-auto px-6 pt-16 pb-12">
-        <div className="text-center mb-10">
-          {/* Eyebrow pill */}
-          <div className="inline-flex items-center gap-2 bg-[#16a34a]/10 border border-[#16a34a]/20 text-[#16a34a] text-xs font-semibold px-3 py-1.5 rounded-full mb-6">
+    <section className="border-b border-[#e8e8e3] overflow-hidden relative">
+      <div className="absolute -top-32 -right-32 w-[480px] h-[480px] bg-[#dcfce7] rounded-full blur-3xl opacity-50 pointer-events-none" />
+      <div className="absolute -bottom-20 -left-24 w-80 h-80 bg-[#ede9fe] rounded-full blur-3xl opacity-35 pointer-events-none" />
+
+      <div className="max-w-5xl mx-auto px-6 pt-16 pb-14 relative">
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 bg-[#16a34a]/10 border border-[#16a34a]/20 text-[#16a34a] text-xs font-semibold px-3.5 py-1.5 rounded-full mb-7">
             <span className="w-1.5 h-1.5 rounded-full bg-[#16a34a] animate-pulse" />
             Meet Reviewr
           </div>
 
-          <h1 className="font-serif text-5xl lg:text-7xl leading-[1.05] text-[#0a0f1e] mb-5">
+          <h1 className="font-serif text-6xl sm:text-7xl lg:text-[5.5rem] leading-[1.0] tracking-tight text-[#0a0f1e] mb-6">
             Reply to every review<br />
             <span className="text-[#16a34a]">in one tap.</span>
           </h1>
-          <p className="text-lg text-[#6b7280] max-w-xl mx-auto leading-relaxed mb-8">
+          <p className="text-lg text-[#6b7280] max-w-xl mx-auto leading-relaxed mb-10">
             Reviewr watches your Google Business Profile 24/7, writes a perfect reply the
             moment a review lands, and waits for your approval. Nothing ever posts without you.
           </p>
@@ -48,27 +49,24 @@ function Hero() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
               href="/signup"
-              className="inline-flex items-center gap-2 bg-[#16a34a] text-white font-semibold px-7 py-3.5 rounded-xl hover:bg-[#15803d] transition-colors text-base w-full sm:w-auto justify-center shadow-[0_4px_20px_rgba(22,163,74,0.3)]"
+              className="inline-flex items-center gap-2 bg-[#16a34a] text-white font-semibold px-8 py-3.5 rounded-2xl hover:bg-[#15803d] transition-all duration-200 text-base w-full sm:w-auto justify-center shadow-[0_4px_24px_rgba(22,163,74,0.35)] hover:shadow-[0_8px_36px_rgba(22,163,74,0.45)] hover:-translate-y-0.5"
             >
               Start replying free
               <ArrowRight size={16} />
             </Link>
             <Link
               href="/login"
-              className="inline-flex items-center gap-2 border border-[#e8e8e3] text-[#374151] font-medium px-7 py-3.5 rounded-xl hover:border-[#0a0f1e] transition-colors text-base w-full sm:w-auto justify-center bg-white"
+              className="inline-flex items-center gap-2 border border-[#e0dfd9] text-[#374151] font-medium px-8 py-3.5 rounded-2xl hover:border-[#0a0f1e] hover:-translate-y-0.5 transition-all duration-200 text-base w-full sm:w-auto justify-center bg-white shadow-[0_1px_12px_rgba(0,0,0,0.06)]"
             >
               Sign in
             </Link>
           </div>
-          <p className="text-xs text-[#b0b0a8] mt-3">Free to start. No card needed. Cancel anytime.</p>
+          <p className="text-xs text-[#b0b0a8] mt-4">Free to start. No card needed. Cancel anytime.</p>
         </div>
 
-        {/* Mockup with depth stack */}
         <div className="max-w-sm mx-auto relative">
-          <div className="absolute inset-0 rounded-xl bg-white border border-[#d4d3ce] opacity-25 translate-y-3 translate-x-2 rotate-1 -z-10 scale-[0.98]" />
-          <div className="animate-float-slow">
-            <ReviewMockup />
-          </div>
+          <div className="absolute inset-0 bg-gradient-to-br from-[#dcfce7] to-[#ede9fe] rounded-3xl opacity-70 blur-2xl translate-y-8 scale-90 -z-10" />
+          <ReviewMockup />
         </div>
       </div>
     </section>
@@ -78,8 +76,7 @@ function Hero() {
 function ReviewMockup() {
   return (
     <div className="w-full">
-      <div className="rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.18)] ring-1 ring-black/5">
-        {/* Header */}
+      <div className="rounded-3xl overflow-hidden shadow-[0_24px_80px_rgba(0,0,0,0.15),0_4px_16px_rgba(0,0,0,0.07)] ring-1 ring-black/5">
         <div className="bg-[#6366f1] px-5 py-4 flex items-start justify-between">
           <div>
             <div className="text-white font-semibold text-base flex items-center gap-1.5">
@@ -87,49 +84,42 @@ function ReviewMockup() {
             </div>
             <div className="text-white/70 text-xs mt-0.5">A new review is waiting for your reply</div>
           </div>
-          <div className="bg-[#facc15] rounded-xl px-3 py-1.5 text-center shrink-0">
+          <div className="bg-[#facc15] rounded-2xl px-3 py-1.5 text-center shrink-0">
             <div className="flex gap-0.5">
               {[1,2,3,4,5].map(i => <Star key={i} size={11} fill="#92400e" className="text-yellow-900" />)}
             </div>
             <div className="text-yellow-900 text-[10px] font-bold mt-0.5">5 / 5</div>
           </div>
         </div>
-        {/* Body */}
         <div className="bg-white px-5 py-4">
-          {/* Business pill */}
           <div className="inline-block bg-[#ede9fe] text-[#6366f1] text-[10px] font-semibold px-3 py-1 rounded-full uppercase tracking-wide mb-3">
             La Bella Vista
           </div>
-          {/* Review */}
-          <div className="bg-[#f8f8fd] border-l-4 border-[#6366f1] rounded-r-xl px-4 py-3 mb-3">
+          <div className="bg-[#f8f8fd] border-l-4 border-[#6366f1] rounded-r-2xl px-4 py-3 mb-3">
             <div className="text-sm font-semibold text-[#0a0f1e]">Christian K.</div>
             <div className="text-xs text-[#9ca3af] mb-2">Friday, May 16, 2026</div>
             <div className="text-sm text-[#374151] italic leading-relaxed">
               &ldquo;Best meal we&apos;ve had all year. The pasta was out of this world and the atmosphere made it even better.&rdquo;
             </div>
           </div>
-          {/* Draft label */}
           <div className="text-[10px] text-[#6366f1] uppercase tracking-widest font-semibold flex items-center gap-1 mb-2">
             ✨ System draft reply
           </div>
-          {/* Draft reply */}
-          <div className="bg-[#fafafa] border border-dashed border-[#c7d2fe] rounded-xl px-4 py-3 text-sm text-[#374151] leading-relaxed mb-4">
+          <div className="bg-[#fafafa] border border-dashed border-[#c7d2fe] rounded-2xl px-4 py-3 text-sm text-[#374151] leading-relaxed mb-4">
             Christian, thank you so much — this truly made our team&apos;s day! We&apos;re so glad the pasta hit the spot. We can&apos;t wait to welcome you back!
           </div>
-          {/* Buttons */}
           <div className="grid grid-cols-3 gap-2">
-            <button type="button" className="bg-[#10b981] text-white text-xs font-semibold py-2.5 rounded-xl flex items-center justify-center gap-1">
+            <button type="button" className="bg-[#10b981] text-white text-xs font-semibold py-2.5 rounded-xl flex items-center justify-center gap-1 shadow-[0_2px_12px_rgba(16,185,129,0.3)]">
               <CheckCircle2 size={12} /> Approve
             </button>
-            <button type="button" className="bg-[#6366f1] text-white text-xs font-semibold py-2.5 rounded-xl flex items-center justify-center gap-1">
+            <button type="button" className="bg-[#6366f1] text-white text-xs font-semibold py-2.5 rounded-xl flex items-center justify-center gap-1 shadow-[0_2px_12px_rgba(99,102,241,0.3)]">
               <Pencil size={12} /> Edit
             </button>
-            <button type="button" className="bg-[#ef4444] text-white text-xs font-semibold py-2.5 rounded-xl flex items-center justify-center gap-1">
+            <button type="button" className="bg-[#ef4444] text-white text-xs font-semibold py-2.5 rounded-xl flex items-center justify-center gap-1 shadow-[0_2px_12px_rgba(239,68,68,0.25)]">
               <X size={12} /> Discard
             </button>
           </div>
         </div>
-        {/* Footer */}
         <div className="bg-[#f9fafb] px-5 py-2.5 border-t border-[#e5e7eb] flex items-center justify-between">
           <div className="text-xs text-[#9ca3af]">Sent by <span className="text-[#6366f1] font-medium">Reviewr</span></div>
           <div className="text-xs text-[#6366f1] font-medium">Open dashboard →</div>
@@ -145,56 +135,55 @@ function ReviewMockup() {
 // ─── WHAT IS INCLUDED ───────────────────────────────────────────────────────
 
 function WhatIsIncluded() {
+  // Ordered for bento: 1+2 / 2+1 / 1+2 col pattern on lg
   const features = [
     {
       icon: Globe2,
-      title: 'Replies in the customer\'s language',
+      title: "Replies in the customer’s language",
       body: 'Detects 30+ languages automatically. Slovenian, English, Spanish — responds in kind, every time.',
       outcome: '✓ No setup. Detects automatically.',
-      iconBg: 'bg-blue-50',
-      iconColor: 'text-blue-600',
-    },
-    {
-      icon: Brain,
-      title: 'Sounds exactly like you',
-      body: 'Learns from every reply you approve. The drafts match your tone, not a generic template.',
-      outcome: '✓ Learns from 3 approvals.',
-      iconBg: 'bg-violet-50',
-      iconColor: 'text-violet-600',
-    },
-    {
-      icon: Heart,
-      title: '1-star reviews handled with care',
-      body: 'Empathetic and professional. No defensive replies. No reputation damage.',
-      outcome: '✓ Turns critics into return customers.',
-      iconBg: 'bg-rose-50',
-      iconColor: 'text-rose-600',
+      bg: 'bg-[#e6f0f7]', iconBg: 'bg-white/60', iconColor: 'text-blue-500',
+      cols: 'lg:col-span-1',
     },
     {
       icon: Mail,
       title: 'Email alert for every draft',
       body: 'Notified the moment a draft is ready. Approve from your inbox in seconds.',
       outcome: '✓ Average approval time: 12 seconds.',
-      iconBg: 'bg-green-100',
-      iconColor: 'text-green-600',
-      highlight: true,
+      bg: 'bg-[#f0fdf4]', iconBg: 'bg-white/70', iconColor: 'text-[#16a34a]',
+      cols: 'lg:col-span-2', highlight: true,
     },
     {
       icon: ThumbsUp,
       title: 'One tap to approve and go live',
       body: 'Review and post without opening a laptop. Done from anywhere.',
       outcome: '✓ No dashboard login needed.',
-      iconBg: 'bg-green-100',
-      iconColor: 'text-green-600',
-      highlight: true,
+      bg: 'bg-[#f0fdf4]', iconBg: 'bg-white/70', iconColor: 'text-[#16a34a]',
+      cols: 'lg:col-span-2', highlight: true,
+    },
+    {
+      icon: Brain,
+      title: 'Sounds exactly like you',
+      body: 'Learns from every reply you approve. The drafts match your tone, not a generic template.',
+      outcome: '✓ Learns from 3 approvals.',
+      bg: 'bg-[#eeebfa]', iconBg: 'bg-white/60', iconColor: 'text-violet-500',
+      cols: 'lg:col-span-1',
+    },
+    {
+      icon: Heart,
+      title: '1-star reviews handled with care',
+      body: 'Empathetic and professional. No defensive replies. No reputation damage.',
+      outcome: '✓ Turns critics into return customers.',
+      bg: 'bg-[#fef3f0]', iconBg: 'bg-white/60', iconColor: 'text-rose-500',
+      cols: 'lg:col-span-1',
     },
     {
       icon: Zap,
       title: 'Gets sharper with every approval',
       body: 'Every tap teaches the system more about your voice. Drafts improve over time.',
       outcome: '✓ Better every week.',
-      iconBg: 'bg-emerald-50',
-      iconColor: 'text-emerald-600',
+      bg: 'bg-[#fafaf2]', iconBg: 'bg-[#e8f5ee]', iconColor: 'text-emerald-600',
+      cols: 'lg:col-span-2',
     },
   ]
 
@@ -202,27 +191,23 @@ function WhatIsIncluded() {
     <section id="includes" className="border-b border-[#e8e8e3]">
       <div className="max-w-5xl mx-auto px-6 py-20">
         <p className="text-[11px] uppercase tracking-[0.15em] text-[#9ca3af] mb-3 font-medium text-center">What&apos;s included</p>
-        <h2 className="font-serif text-4xl lg:text-5xl text-[#0a0f1e] text-center mb-4">
+        <h2 className="font-serif text-4xl lg:text-5xl tracking-tight text-[#0a0f1e] text-center mb-4">
           Everything included.<br />Nothing to configure.
         </h2>
         <p className="text-base text-[#6b7280] text-center max-w-lg mx-auto mb-14">
           Everything you need to turn your Google reviews from a stress into a strength — fully automatic, always in your control.
         </p>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           {features.map(f => (
             <div
               key={f.title}
-              className={`rounded-xl p-6 transition-shadow hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)] ${
-                (f as { highlight?: boolean }).highlight
-                  ? 'bg-[#f0fdf4] border border-[#16a34a]/25'
-                  : 'bg-white border border-[#e8e8e3]'
-              }`}
+              className={`${f.cols} ${f.bg} rounded-3xl p-7 shadow-[0_1px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_40px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-200 cursor-default ${'highlight' in f && f.highlight ? 'ring-1 ring-[#16a34a]/20' : ''}`}
             >
-              <div className={`w-11 h-11 rounded-lg ${f.iconBg} flex items-center justify-center mb-4`}>
-                <f.icon size={22} className={f.iconColor} strokeWidth={1.5} />
+              <div className={`w-12 h-12 rounded-2xl ${f.iconBg} flex items-center justify-center mb-5 shadow-sm`}>
+                <f.icon size={24} className={f.iconColor} strokeWidth={1.5} />
               </div>
-              <h3 className="text-sm font-semibold text-[#0a0f1e] mb-1.5 leading-snug">{f.title}</h3>
+              <h3 className="text-base font-semibold text-[#0a0f1e] mb-2 leading-snug">{f.title}</h3>
               <p className="text-sm text-[#6b7280] leading-relaxed mb-3">{f.body}</p>
               <p className="text-xs text-[#16a34a] font-medium">{f.outcome}</p>
             </div>
@@ -236,69 +221,44 @@ function WhatIsIncluded() {
 // ─── WHY CHOOSE ─────────────────────────────────────────────────────────────
 
 function WhyChoose() {
-  const benefits = [
-    {
-      icon: Clock,
-      numeral: '01',
-      title: 'Free up your time',
-      body: 'Stop spending 20 minutes crafting the perfect reply to a 2-star review. The system does it for you — better than you\'d write it yourself, in under 30 seconds.',
-      dark: false,
-    },
-    {
-      icon: Brain,
-      numeral: '02',
-      title: 'Protect your reputation on autopilot',
-      body: 'Every unanswered review is a public signal that you don\'t care. Reviewr makes sure every single review gets a reply — even when you\'re slammed.',
-      dark: false,
-    },
-    {
-      icon: ThumbsUp,
-      numeral: '03',
-      title: 'You\'re still the boss',
-      body: 'Stay in complete control. Nothing ever posts without you. You approve, edit, or discard every reply. Full control, zero effort.',
-      dark: true,
-    },
-  ]
-
   return (
-    <section id="why" className="border-b border-[#e8e8e3] bg-[#f2f1ec]">
+    <section id="why" className="border-b border-[#e8e8e3] bg-[#f5f4ef]">
       <div className="max-w-5xl mx-auto px-6 py-20">
         <p className="text-[11px] uppercase tracking-[0.15em] text-[#9ca3af] mb-3 font-medium text-center">Why Reviewr</p>
-        <h2 className="font-serif text-4xl lg:text-5xl text-[#0a0f1e] text-center mb-3">
+        <h2 className="font-serif text-4xl lg:text-5xl tracking-tight text-[#0a0f1e] text-center mb-3">
           Set it. Approve it. Done.
         </h2>
         <p className="text-base text-[#6b7280] text-center max-w-md mx-auto mb-14">
           Reviewr is the most complete review reply system for Google Business Profile owners.
         </p>
 
-        <div className="grid md:grid-cols-3 gap-5">
-          {benefits.map(b => (
-            <div
-              key={b.title}
-              className={`relative rounded-xl p-7 overflow-hidden ${
-                b.dark
-                  ? 'bg-[#0a0f1e] border border-[#1e2535]'
-                  : 'bg-white border border-[#e8e8e3]'
-              }`}
-            >
-              <div className={`absolute top-4 right-5 font-serif text-6xl leading-none select-none pointer-events-none ${
-                b.dark ? 'text-white/5' : 'text-[#f0efe9]'
-              }`}>
-                {b.numeral}
-              </div>
-              <div className={`w-10 h-10 rounded-lg flex items-center justify-center mb-5 ${
-                b.dark ? 'bg-[#16a34a]/20' : 'bg-[#16a34a]/10'
-              }`}>
-                <b.icon size={18} className="text-[#16a34a]" strokeWidth={1.5} />
-              </div>
-              <h3 className={`font-serif text-xl font-bold mb-3 ${b.dark ? 'text-white' : 'text-[#0a0f1e]'}`}>
-                {b.title}
-              </h3>
-              <p className={`text-sm leading-relaxed ${b.dark ? 'text-[#9ca3af]' : 'text-[#6b7280]'}`}>
-                {b.body}
-              </p>
+        <div className="grid md:grid-cols-3 gap-4">
+          <div className="relative bg-white rounded-3xl p-8 overflow-hidden shadow-[0_1px_20px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_40px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-200">
+            <div className="absolute top-4 right-5 font-serif text-6xl leading-none select-none pointer-events-none text-[#f0efe9]">01</div>
+            <div className="w-11 h-11 rounded-2xl bg-[#e8f5ee] flex items-center justify-center mb-6">
+              <Clock size={20} className="text-[#16a34a]" strokeWidth={1.5} />
             </div>
-          ))}
+            <h3 className="font-serif text-xl font-bold mb-3 text-[#0a0f1e]">Free up your time</h3>
+            <p className="text-sm leading-relaxed text-[#6b7280]">Stop spending 20 minutes crafting the perfect reply to a 2-star review. The system does it for you — better than you&apos;d write it yourself, in under 30 seconds.</p>
+          </div>
+
+          <div className="relative bg-[#eeebfa] rounded-3xl p-8 overflow-hidden shadow-[0_1px_20px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_40px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-200">
+            <div className="absolute top-4 right-5 font-serif text-6xl leading-none select-none pointer-events-none text-[#d8d3f5]">02</div>
+            <div className="w-11 h-11 rounded-2xl bg-white/60 flex items-center justify-center mb-6">
+              <Brain size={20} className="text-violet-500" strokeWidth={1.5} />
+            </div>
+            <h3 className="font-serif text-xl font-bold mb-3 text-[#0a0f1e]">Protect your reputation on autopilot</h3>
+            <p className="text-sm leading-relaxed text-[#4a4460]">Every unanswered review is a public signal that you don&apos;t care. Reviewr makes sure every single review gets a reply — even when you&apos;re slammed.</p>
+          </div>
+
+          <div className="relative bg-[#0a0f1e] rounded-3xl p-8 overflow-hidden shadow-[0_1px_20px_rgba(0,0,0,0.15)] hover:shadow-[0_8px_40px_rgba(0,0,0,0.25)] hover:-translate-y-1 transition-all duration-200">
+            <div className="absolute top-4 right-5 font-serif text-6xl leading-none select-none pointer-events-none text-white/5">03</div>
+            <div className="w-11 h-11 rounded-2xl bg-[#16a34a]/20 flex items-center justify-center mb-6">
+              <ThumbsUp size={20} className="text-[#16a34a]" strokeWidth={1.5} />
+            </div>
+            <h3 className="font-serif text-xl font-bold mb-3 text-white">You&apos;re still the boss</h3>
+            <p className="text-sm leading-relaxed text-[#9ca3af]">Stay in complete control. Nothing ever posts without you. You approve, edit, or discard every reply. Full control, zero effort.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -315,11 +275,10 @@ function FeatureSpotlight() {
           <span className="inline-block text-xs font-semibold text-[#16a34a] bg-[#16a34a]/10 px-3 py-1 rounded-full mb-5">
             Key feature
           </span>
-          <h2 className="font-serif text-4xl lg:text-5xl text-[#0a0f1e] leading-tight mb-5">
+          <h2 className="font-serif text-4xl lg:text-5xl tracking-tight text-[#0a0f1e] leading-tight mb-5">
             Get notified by email the moment a draft is ready.
           </h2>
 
-          {/* 3-step flow */}
           <div className="flex items-start gap-2 mb-7">
             {[
               { icon: Star,         label: 'Review lands' },
@@ -328,8 +287,8 @@ function FeatureSpotlight() {
             ].map((step, i) => (
               <div key={step.label} className="flex items-center gap-2">
                 <div className="flex flex-col items-center gap-1.5">
-                  <div className="w-9 h-9 rounded-full bg-[#16a34a]/10 flex items-center justify-center">
-                    <step.icon size={15} className="text-[#16a34a]" />
+                  <div className="w-10 h-10 rounded-2xl bg-[#16a34a]/10 flex items-center justify-center shadow-[0_2px_8px_rgba(22,163,74,0.12)]">
+                    <step.icon size={16} className="text-[#16a34a]" />
                   </div>
                   <span className="text-[10px] text-[#6b7280] font-medium text-center leading-tight w-16">{step.label}</span>
                 </div>
@@ -346,41 +305,37 @@ function FeatureSpotlight() {
           </p>
         </div>
 
-        {/* Email mockup */}
         <div className="flex justify-center lg:justify-end">
-          <div className="w-72 rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.15)] ring-1 ring-black/5">
-            {/* Email header */}
+          <div className="w-72 rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.12),0_4px_16px_rgba(0,0,0,0.06)] ring-1 ring-black/5">
             <div className="bg-[#6366f1] px-4 py-3 flex items-center justify-between">
               <div>
                 <div className="text-white font-semibold text-sm">⭐ Reviewr</div>
                 <div className="text-white/70 text-[10px] mt-0.5">A new review is waiting for your reply</div>
               </div>
-              <div className="bg-white/20 rounded-lg px-2.5 py-1.5 text-center shrink-0">
+              <div className="bg-[#facc15] rounded-xl px-2.5 py-1.5 text-center shrink-0">
                 <div className="text-sm leading-none">⭐⭐⭐⭐⭐</div>
-                <div className="text-white/80 text-[9px] font-medium mt-0.5">5 / 5</div>
+                <div className="text-yellow-900 text-[9px] font-bold mt-0.5">5 / 5</div>
               </div>
             </div>
-            {/* Email body */}
             <div className="bg-white px-4 py-3">
               <div className="inline-block bg-[#ede9fe] text-[#6366f1] text-[9px] font-semibold px-2.5 py-0.5 rounded-full uppercase tracking-wide mb-2">
                 Ana&apos;s Bakery
               </div>
-              <div className="bg-[#f8f8fd] border-l-4 border-[#6366f1] rounded-r-lg px-3 py-2 mb-2">
+              <div className="bg-[#f8f8fd] border-l-4 border-[#6366f1] rounded-r-xl px-3 py-2 mb-2">
                 <div className="text-[11px] font-semibold text-[#0a0f1e]">Ana K.</div>
                 <div className="text-[9px] text-[#9ca3af] mb-1">Friday, May 16, 2026</div>
                 <div className="text-[10px] text-[#374151] italic leading-relaxed">&ldquo;Amazing! Best pastries I&apos;ve had in years.&rdquo;</div>
               </div>
               <div className="text-[8px] text-[#6366f1] uppercase tracking-widest font-semibold mb-1">✨ System draft reply</div>
-              <div className="bg-[#fafafa] border border-dashed border-[#c7d2fe] rounded-lg px-3 py-2 text-[10px] text-[#374151] leading-relaxed mb-3">
+              <div className="bg-[#fafafa] border border-dashed border-[#c7d2fe] rounded-xl px-3 py-2 text-[10px] text-[#374151] leading-relaxed mb-3">
                 Thank you so much, Ana! We&apos;re thrilled you loved the pastries — made fresh every morning just for moments like this!
               </div>
               <div className="grid grid-cols-3 gap-1.5">
-                <div className="bg-[#10b981] text-white text-[9px] font-semibold text-center py-2 rounded-lg">✓ Approve</div>
-                <div className="bg-[#6366f1] text-white text-[9px] font-semibold text-center py-2 rounded-lg">✎ Edit</div>
-                <div className="bg-[#ef4444] text-white text-[9px] font-semibold text-center py-2 rounded-lg">✕ Discard</div>
+                <div className="bg-[#10b981] text-white text-[9px] font-semibold text-center py-2 rounded-xl shadow-[0_1px_6px_rgba(16,185,129,0.3)]">✓ Approve</div>
+                <div className="bg-[#6366f1] text-white text-[9px] font-semibold text-center py-2 rounded-xl shadow-[0_1px_6px_rgba(99,102,241,0.3)]">✎ Edit</div>
+                <div className="bg-[#ef4444] text-white text-[9px] font-semibold text-center py-2 rounded-xl shadow-[0_1px_6px_rgba(239,68,68,0.25)]">✕ Discard</div>
               </div>
             </div>
-            {/* Email footer */}
             <div className="bg-[#f9fafb] px-4 py-2 border-t border-[#e5e7eb] flex items-center justify-between">
               <div className="text-[9px] text-[#9ca3af]">Sent by <span className="text-[#6366f1] font-medium">Reviewr</span></div>
               <div className="text-[9px] text-[#6366f1] font-medium">Open dashboard →</div>
@@ -395,83 +350,76 @@ function FeatureSpotlight() {
 // ─── USER REVIEWS ───────────────────────────────────────────────────────────
 
 function UserReviews() {
-  const avatarColors = [
-    { bg: 'bg-[#16a34a]/15', text: 'text-[#16a34a]' },
-    { bg: 'bg-blue-100',     text: 'text-blue-600'   },
-    { bg: 'bg-violet-100',   text: 'text-violet-600' },
-    { bg: 'bg-amber-100',    text: 'text-amber-600'  },
-    { bg: 'bg-rose-100',     text: 'text-rose-600'   },
-  ]
-
   const reviews = [
     {
       name: 'Ana K.',   initials: 'AK', role: 'Restaurant owner',
       quote: 'Our rating went from 4.1 to 4.6 in three months. Every review gets a reply now — we never let one sit.',
       featured: true,
+      bg: 'bg-[#eeebfa]', avatarBg: 'bg-violet-200', avatarText: 'text-violet-700',
     },
     {
       name: 'Marco F.', initials: 'MF', role: 'Hotel manager',
-      quote: 'Guests have commented that our responses feel warm and personal. They have no idea how fast they\'re written.',
+      quote: "Guests have commented that our responses feel warm and personal. They have no idea how fast they're written.",
+      bg: 'bg-[#fbefe4]', avatarBg: 'bg-orange-100', avatarText: 'text-orange-600',
     },
     {
       name: 'Petra N.', initials: 'PN', role: 'Salon director',
       quote: 'I approve maybe 10 replies a week from my phone. Takes 3 minutes total. My reputation is on autopilot.',
+      bg: 'bg-[#e8f5ee]', avatarBg: 'bg-green-100', avatarText: 'text-[#16a34a]',
     },
     {
       name: 'Luka B.',  initials: 'LB', role: 'Bar & pub owner',
-      quote: 'Used to dread 1-star reviews. Now I\'m almost excited — the reply goes out before I\'ve even finished reading it.',
+      quote: "Used to dread 1-star reviews. Now I'm almost excited — the reply goes out before I've even finished reading it.",
+      bg: 'bg-[#e6f0f7]', avatarBg: 'bg-blue-100', avatarText: 'text-blue-600',
     },
     {
       name: 'Sara M.',  initials: 'SM', role: 'Retail shop owner',
       quote: 'Setup took 4 minutes. I connected my Google profile, picked email notifications, and it just works.',
+      bg: 'bg-white', avatarBg: 'bg-[#16a34a]/15', avatarText: 'text-[#16a34a]',
     },
   ]
 
   const featured = {
     name: 'David R.', initials: 'DR', role: 'Healthcare practice',
-    quote: 'Professional, empathetic, and always on-brand. I couldn\'t write better replies myself if I had the time.',
+    quote: "Professional, empathetic, and always on-brand. I couldn't write better replies myself if I had the time.",
   }
 
   return (
-    <section className="border-b border-[#e8e8e3] bg-[#f2f1ec]">
+    <section className="border-b border-[#e8e8e3] bg-[#f5f4ef]">
       <div className="max-w-5xl mx-auto px-6 py-20">
         <p className="text-[11px] uppercase tracking-[0.15em] text-[#9ca3af] mb-3 font-medium text-center">Reviews</p>
-        <h2 className="font-serif text-4xl lg:text-5xl text-[#0a0f1e] text-center mb-14">
+        <h2 className="font-serif text-4xl lg:text-5xl tracking-tight text-[#0a0f1e] text-center mb-14">
           What happens after the first week.
         </h2>
 
         <div className="grid md:grid-cols-3 gap-4 mb-4">
-          {reviews.map((r, i) => {
-            const color = avatarColors[i % avatarColors.length]
-            return (
-              <div
-                key={r.name}
-                className={`bg-white border border-[#e8e8e3] rounded-xl p-5 ${r.featured ? 'md:col-span-2' : ''}`}
-              >
-                <div className="flex gap-0.5 mb-3">
-                  {Array.from({ length: 5 }).map((_, j) => (
-                    <Star key={j} size={12} fill="#16a34a" className="text-[#16a34a]" />
-                  ))}
+          {reviews.map(r => (
+            <div
+              key={r.name}
+              className={`${r.bg} rounded-3xl p-6 shadow-[0_1px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_36px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-all duration-200 ${r.featured ? 'md:col-span-2' : ''}`}
+            >
+              <div className="flex gap-0.5 mb-3">
+                {Array.from({ length: 5 }).map((_, j) => (
+                  <Star key={j} size={12} fill="#16a34a" className="text-[#16a34a]" />
+                ))}
+              </div>
+              <p className={`text-[#374151] leading-relaxed mb-4 ${r.featured ? 'font-serif text-xl italic' : 'text-sm'}`}>
+                &ldquo;{r.quote}&rdquo;
+              </p>
+              <div className="flex items-center gap-2.5">
+                <div className={`w-8 h-8 rounded-full ${r.avatarBg} ${r.avatarText} text-xs font-bold flex items-center justify-center shrink-0`}>
+                  {r.initials}
                 </div>
-                <p className={`text-[#374151] leading-relaxed mb-4 ${r.featured ? 'font-serif text-xl italic' : 'text-sm'}`}>
-                  &ldquo;{r.quote}&rdquo;
-                </p>
-                <div className="flex items-center gap-2.5">
-                  <div className={`w-8 h-8 rounded-full ${color.bg} ${color.text} text-xs font-bold flex items-center justify-center shrink-0`}>
-                    {r.initials}
-                  </div>
-                  <div>
-                    <div className="text-xs font-semibold text-[#0a0f1e]">{r.name}</div>
-                    <div className="text-xs text-[#9ca3af]">{r.role}</div>
-                  </div>
+                <div>
+                  <div className="text-xs font-semibold text-[#0a0f1e]">{r.name}</div>
+                  <div className="text-xs text-[#9ca3af]">{r.role}</div>
                 </div>
               </div>
-            )
-          })}
+            </div>
+          ))}
         </div>
 
-        {/* Full-width dark featured testimonial */}
-        <div className="bg-[#0a0f1e] rounded-xl p-8 relative overflow-hidden">
+        <div className="bg-[#0a0f1e] rounded-3xl p-8 relative overflow-hidden shadow-[0_4px_40px_rgba(0,0,0,0.2)]">
           <div className="absolute top-2 right-6 font-serif text-[8rem] text-white/5 leading-none select-none pointer-events-none">
             &ldquo;
           </div>
@@ -502,32 +450,31 @@ function UserReviews() {
 
 function RatingStats() {
   return (
-    <section className="border-b border-[#e8e8e3] relative overflow-hidden">
-      {/* Oversized watermark */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
-        <span className="font-serif text-[22vw] text-[#f0efe9] leading-none">4.9</span>
-      </div>
-      <div className="relative max-w-5xl mx-auto px-6 py-20 text-center">
+    <section className="border-b border-[#e8e8e3]">
+      <div className="max-w-5xl mx-auto px-6 py-20 text-center">
         <div className="flex justify-center gap-1 mb-5">
           {Array.from({ length: 5 }).map((_, i) => (
             <Star key={i} size={28} fill="#16a34a" className="text-[#16a34a]" />
           ))}
         </div>
-        <h2 className="font-serif text-4xl lg:text-6xl text-[#0a0f1e] mb-5">
+        <h2 className="font-serif text-4xl lg:text-6xl tracking-tight text-[#0a0f1e] mb-5">
           Elevate your business.<br />One less thing to worry about.
         </h2>
-        <p className="text-base text-[#6b7280] max-w-md mx-auto mb-10">
+        <p className="text-base text-[#6b7280] max-w-md mx-auto mb-12">
           Business owners use Reviewr to protect their Google reputation — without spending an hour a week writing replies.
         </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-10">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           {[
-            { value: '< 30s', label: 'Average draft time' },
-            { value: '4.9★',  label: 'Owner satisfaction' },
-            { value: '100%',  label: 'Reviews get a reply' },
+            { value: '< 30s', label: 'Average draft time',  bg: 'bg-[#eeebfa]', val: 'text-violet-700' },
+            { value: '4.9★',  label: 'Owner satisfaction',  bg: 'bg-[#e8f5ee]', val: 'text-[#16a34a]'   },
+            { value: '100%',  label: 'Reviews get a reply', bg: 'bg-[#fbefe4]', val: 'text-orange-600' },
           ].map(s => (
-            <div key={s.label} className="text-center">
-              <div className="font-serif text-4xl text-[#0a0f1e]">{s.value}</div>
-              <div className="text-[11px] text-[#9ca3af] mt-1 uppercase tracking-wider">{s.label}</div>
+            <div
+              key={s.label}
+              className={`${s.bg} rounded-3xl px-10 py-7 min-w-[160px] shadow-[0_1px_20px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.09)] hover:-translate-y-1 transition-all duration-200`}
+            >
+              <div className={`font-serif text-4xl ${s.val} mb-1`}>{s.value}</div>
+              <div className="text-[11px] text-[#9ca3af] uppercase tracking-wider">{s.label}</div>
             </div>
           ))}
         </div>
@@ -546,11 +493,10 @@ function FinalCTA() {
     <section id="cta" className="border-b border-[#e8e8e3] bg-[#0a0f1e]">
       <div className="max-w-5xl mx-auto px-6 py-20 text-center">
         <p className="text-[11px] uppercase tracking-[0.15em] text-[#6b7280] mb-4 font-medium">Pricing</p>
-        <h2 className="font-serif text-4xl lg:text-6xl text-white leading-tight mb-8">
+        <h2 className="font-serif text-4xl lg:text-6xl tracking-tight text-white leading-tight mb-8">
           Start your<br />free trial.
         </h2>
 
-        {/* €450 → €19 visual anchor */}
         <p className="text-base text-[#6b7280] max-w-lg mx-auto mb-5 leading-relaxed">
           The average business loses 9 customers per month to unanswered reviews. At €50 per customer, that&apos;s
         </p>
@@ -575,8 +521,7 @@ function FinalCTA() {
         </p>
 
         <div className="grid md:grid-cols-2 gap-5 max-w-2xl mx-auto mb-10 items-start">
-          {/* Solo */}
-          <div className="bg-[#111827] border border-[#2a3147] rounded-xl p-7 text-left">
+          <div className="bg-[#111827] border border-[#2a3147] rounded-3xl p-7 text-left shadow-[0_4px_24px_rgba(0,0,0,0.2)]">
             <div className="text-xs uppercase tracking-widest text-[#6b7280] mb-3 font-medium">Solo</div>
             <div className="flex items-end gap-2 mb-6">
               <span className="font-serif text-2xl text-[#4b5563] line-through">€29</span>
@@ -591,19 +536,18 @@ function FinalCTA() {
               ))}
             </ul>
             <p className="text-xs text-[#4b5563] mb-3">14-day free trial. No card needed.</p>
-            <Link href="/signup" className="block text-center text-sm font-semibold border border-[#4b5563] text-white px-4 py-3 rounded-md hover:border-white transition-colors">
+            <Link href="/signup" className="block text-center text-sm font-semibold border border-[#4b5563] text-white px-4 py-3 rounded-2xl hover:border-white transition-colors">
               Start free
             </Link>
           </div>
 
-          {/* Growth — with Most popular badge */}
           <div className="relative pt-4">
             <div className="absolute top-0 left-0 right-0 flex justify-center">
               <span className="bg-white text-[#16a34a] text-xs font-bold px-3 py-1 rounded-full border border-[#16a34a]/30 shadow-sm whitespace-nowrap">
                 Most popular
               </span>
             </div>
-            <div className="bg-[#16a34a] rounded-xl p-7 text-left">
+            <div className="bg-[#16a34a] rounded-3xl p-7 text-left shadow-[0_8px_48px_rgba(22,163,74,0.4)]">
               <div className="text-xs uppercase tracking-widest text-[#bbf7d0] mb-3 font-medium">Growth</div>
               <div className="flex items-end gap-1 mb-6">
                 <span className="font-serif text-5xl text-white">€49</span>
@@ -617,7 +561,7 @@ function FinalCTA() {
                 ))}
               </ul>
               <p className="text-xs text-[#bbf7d0]/70 mb-3">14-day free trial. No card needed.</p>
-              <Link href="/signup" className="block text-center text-sm font-semibold bg-white text-[#16a34a] px-4 py-3 rounded-md hover:bg-[#f0fdf4] transition-colors">
+              <Link href="/signup" className="block text-center text-sm font-semibold bg-white text-[#16a34a] px-4 py-3 rounded-2xl hover:bg-[#f0fdf4] transition-colors shadow-[0_2px_12px_rgba(0,0,0,0.1)]">
                 Get Growth free
               </Link>
             </div>

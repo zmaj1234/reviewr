@@ -79,75 +79,65 @@ function Hero() {
 function ReviewMockup() {
   return (
     <div className="w-full">
-      <div className="rounded-xl border border-[#d4d3ce] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.15)]">
-        <div className="bg-[#0a0f1e] px-4 py-2.5 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <LogoMark size={18} className="text-[#16a34a]" />
-            <span className="text-xs font-medium text-white">Reviewr</span>
-            <span className="text-[#6b7280] text-xs mx-1">/</span>
-            <span className="text-xs text-[#9ca3af]">La Bella Vista</span>
+      <div className="rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.18)] ring-1 ring-black/5">
+        {/* Header */}
+        <div className="bg-[#6366f1] px-5 py-4 flex items-start justify-between">
+          <div>
+            <div className="text-white font-semibold text-base flex items-center gap-1.5">
+              <Star size={15} fill="#facc15" className="text-yellow-400" /> Reviewr
+            </div>
+            <div className="text-white/70 text-xs mt-0.5">A new review is waiting for your reply</div>
           </div>
-          <span className="text-xs text-[#16a34a] font-medium flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#16a34a] animate-pulse" />
-            3 pending
-          </span>
+          <div className="bg-[#facc15] rounded-xl px-3 py-1.5 text-center shrink-0">
+            <div className="flex gap-0.5">
+              {[1,2,3,4,5].map(i => <Star key={i} size={11} fill="#92400e" className="text-yellow-900" />)}
+            </div>
+            <div className="text-yellow-900 text-[10px] font-bold mt-0.5">5 / 5</div>
+          </div>
         </div>
+        {/* Body */}
         <div className="bg-white px-5 py-4">
-          <div className="flex items-start justify-between mb-3 pb-3 border-b border-[#f3f4f6]">
-            <div>
-              <div className="flex items-center gap-2 mb-0.5">
-                <span className="text-sm font-medium text-[#0a0f1e]">Marko T.</span>
-                <div className="flex gap-0.5">
-                  {[1,2,3,4,5].map(i => (
-                    <Star key={i} size={11} fill={i <= 2 ? '#ef4444' : '#e5e7eb'} className={i <= 2 ? 'text-red-500' : 'text-gray-200'} />
-                  ))}
-                </div>
-              </div>
-              <span className="text-xs text-[#9ca3af]">Google · 18 min ago</span>
-            </div>
-            <span className="text-[10px] bg-[#fef2f2] text-[#ef4444] border border-[#fecaca] px-2 py-0.5 rounded-full font-medium">
-              Needs reply
-            </span>
+          {/* Business pill */}
+          <div className="inline-block bg-[#ede9fe] text-[#6366f1] text-[10px] font-semibold px-3 py-1 rounded-full uppercase tracking-wide mb-3">
+            La Bella Vista
           </div>
-          <p className="text-sm text-[#374151] leading-relaxed mb-4">
-            &ldquo;Waited 40 minutes for our food, staff seemed uninterested.&rdquo;
-          </p>
-          <div className="mb-4">
-            <div className="flex items-center gap-1.5 mb-2">
-              <div className="w-1.5 h-1.5 rounded-full bg-[#16a34a] animate-pulse" />
-              <span className="text-xs font-medium text-[#16a34a]">Reviewr draft · ready in &lt; 30s</span>
-            </div>
-            <div className="bg-[#f9fafb] border border-[#e8e8e3] rounded-md p-3">
-              <p className="text-xs text-[#374151] leading-relaxed">
-                &ldquo;Marko, thank you for being honest. A 40-minute wait is not the experience
-                we want. We&apos;re addressing this with our team — please reach out and we&apos;ll make it right.&rdquo;
-              </p>
+          {/* Review */}
+          <div className="bg-[#f8f8fd] border-l-4 border-[#6366f1] rounded-r-xl px-4 py-3 mb-3">
+            <div className="text-sm font-semibold text-[#0a0f1e]">Christian K.</div>
+            <div className="text-xs text-[#9ca3af] mb-2">Friday, May 16, 2026</div>
+            <div className="text-sm text-[#374151] italic leading-relaxed">
+              &ldquo;Best meal we&apos;ve had all year. The pasta was out of this world and the atmosphere made it even better.&rdquo;
             </div>
           </div>
+          {/* Draft label */}
+          <div className="text-[10px] text-[#6366f1] uppercase tracking-widest font-semibold flex items-center gap-1 mb-2">
+            ✨ System draft reply
+          </div>
+          {/* Draft reply */}
+          <div className="bg-[#fafafa] border border-dashed border-[#c7d2fe] rounded-xl px-4 py-3 text-sm text-[#374151] leading-relaxed mb-4">
+            Christian, thank you so much — this truly made our team&apos;s day! We&apos;re so glad the pasta hit the spot. We can&apos;t wait to welcome you back!
+          </div>
+          {/* Buttons */}
           <div className="grid grid-cols-3 gap-2">
-            <div className="text-center">
-              <button type="button" className="w-full bg-[#16a34a] text-white text-xs font-medium py-2 rounded-md flex items-center justify-center gap-1 mb-1">
-                <CheckCircle2 size={11} /> Approve
-              </button>
-              <span className="text-[10px] text-[#9ca3af]">Posts as written</span>
-            </div>
-            <div className="text-center">
-              <button type="button" className="w-full text-xs text-[#374151] border border-[#e8e8e3] py-2 rounded-md flex items-center justify-center gap-1 mb-1">
-                <Pencil size={11} /> Edit
-              </button>
-              <span className="text-[10px] text-[#9ca3af]">Change wording</span>
-            </div>
-            <div className="text-center">
-              <button type="button" className="w-full text-xs text-[#9ca3af] border border-[#e8e8e3] py-2 rounded-md flex items-center justify-center gap-1 mb-1">
-                <X size={11} /> Discard
-              </button>
-              <span className="text-[10px] text-[#9ca3af]">Skip this one</span>
-            </div>
+            <button type="button" className="bg-[#10b981] text-white text-xs font-semibold py-2.5 rounded-xl flex items-center justify-center gap-1">
+              <CheckCircle2 size={12} /> Approve
+            </button>
+            <button type="button" className="bg-[#6366f1] text-white text-xs font-semibold py-2.5 rounded-xl flex items-center justify-center gap-1">
+              <Pencil size={12} /> Edit
+            </button>
+            <button type="button" className="bg-[#ef4444] text-white text-xs font-semibold py-2.5 rounded-xl flex items-center justify-center gap-1">
+              <X size={12} /> Discard
+            </button>
           </div>
+        </div>
+        {/* Footer */}
+        <div className="bg-[#f9fafb] px-5 py-2.5 border-t border-[#e5e7eb] flex items-center justify-between">
+          <div className="text-xs text-[#9ca3af]">Sent by <span className="text-[#6366f1] font-medium">Reviewr</span></div>
+          <div className="text-xs text-[#6366f1] font-medium">Open dashboard →</div>
         </div>
       </div>
       <p className="text-[11px] text-[#b0b0a8] text-center mt-3">
-        Your actual dashboard. Nothing posts until you approve.
+        Your actual email. Nothing posts until you approve.
       </p>
     </div>
   )

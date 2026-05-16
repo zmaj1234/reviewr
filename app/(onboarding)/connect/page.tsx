@@ -2,8 +2,9 @@
 
 import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { Star, Building2, Phone, Mail, ChevronRight, CheckCircle2 } from 'lucide-react'
+import { Building2, Phone, Mail, ChevronRight, CheckCircle2 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
+import { LogoMark } from '@/components/logo'
 import { Spinner } from '@/components/ui/spinner'
 import { useToast } from '@/components/ui/toast'
 import type { GBPLocation } from '@/lib/types'
@@ -106,10 +107,8 @@ function ConnectFlow() {
       />
 
       <div className="relative z-10 w-full max-w-lg">
-        <div className="flex items-center gap-2 justify-center mb-10">
-          <div className="w-8 h-8 rounded-lg bg-accent flex items-center justify-center">
-            <Star size={15} fill="black" className="text-black" />
-          </div>
+        <div className="flex items-center gap-3 justify-center mb-10">
+          <LogoMark size={32} noShadow />
           <span className="font-serif text-xl">Reviewr</span>
         </div>
 

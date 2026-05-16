@@ -80,7 +80,7 @@ function ReviewMockup() {
         <div className="bg-[#6366f1] px-5 py-4 flex items-start justify-between">
           <div>
             <div className="text-white font-semibold text-base flex items-center gap-1.5">
-              <Star size={15} fill="#facc15" className="text-yellow-400" /> Reviewr
+              <LogoMark size={20} noShadow /> Reviewr
             </div>
             <div className="text-white/70 text-xs mt-0.5">A new review is waiting for your reply</div>
           </div>
@@ -588,8 +588,8 @@ function Footer() {
       </div>
       <div className="border-t border-[#e8e8e3]">
         <div className="max-w-5xl mx-auto px-6 py-5 flex flex-col md:flex-row items-center justify-between gap-4">
-          <Link href="/" className="flex items-center gap-2">
-            <LogoMark size={24} className="text-[#16a34a]" />
+          <Link href="/" className="flex items-center gap-2 transition-all duration-200 hover:-translate-y-px hover:brightness-105">
+            <LogoMark size={24} noShadow />
             <span className="font-serif text-base text-[#0a0f1e]">Reviewr</span>
           </Link>
           <div className="flex items-center gap-6">

@@ -53,10 +53,8 @@ export default function SignupPage() {
       <div className="w-full max-w-sm">
         {/* Logo */}
         <div className="flex justify-center mb-8">
-          <Link href="/">
-            <div className="w-10 h-10 rounded-xl bg-[#16a34a] flex items-center justify-center shadow-[0_4px_16px_rgba(22,163,74,0.3)]">
-              <LogoMark size={22} className="text-white" />
-            </div>
+          <Link href="/" className="transition-all duration-200 hover:-translate-y-px hover:brightness-105">
+            <LogoMark size={40} />
           </Link>
         </div>
 

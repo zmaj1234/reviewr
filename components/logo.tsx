@@ -1,36 +1,66 @@
 export function LogoMark({
-  size = 24,
+  size = 32,
+  noShadow = false,
   className = '',
 }: {
   size?: number
+  noShadow?: boolean
   className?: string
 }) {
+  const useShadow = !noShadow && size > 24
+
   return (
     <svg
       width={size}
-      height={Math.round(size * 28 / 32)}
-      viewBox="0 0 32 28"
-      fill="currentColor"
+      height={size}
+      viewBox="0 0 160 160"
       xmlns="http://www.w3.org/2000/svg"
+      aria-label="Reviewr"
       className={className}
     >
-      {/* Top-left star */}
-      <polygon points="10,1 11.18,4.38 14.76,4.45 11.90,6.62 12.94,10.05 10,8 7.06,10.05 8.10,6.62 5.24,4.45 8.82,4.38" />
-      {/* Bottom-left star */}
-      <polygon points="6,13.5 7.06,16.54 10.28,16.61 7.71,18.56 8.65,21.64 6,19.8 3.35,21.64 4.29,18.56 1.72,16.61 4.94,16.54" />
-      {/* Bottom-right star */}
-      <polygon points="17,16 17.94,18.71 20.80,18.76 18.52,20.49 19.35,23.24 17,21.6 14.65,23.24 15.48,20.49 13.20,18.76 16.06,18.71" />
-      {/* Arrow shaft */}
-      <path
-        d="M 4,21 L 13,11 L 23,15.5"
-        stroke="currentColor"
-        strokeWidth="2.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        fill="none"
-      />
-      {/* Arrowhead */}
-      <polygon points="27,17.3 21.42,17.51 23.48,12.95" />
+      <defs>
+        <linearGradient id="reviewrGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#34D87A" />
+          <stop offset="100%" stopColor="#0EA85A" />
+        </linearGradient>
+        <linearGradient id="reviewrHL" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.35" />
+          <stop offset="50%" stopColor="#ffffff" stopOpacity="0" />
+        </linearGradient>
+        {useShadow && (
+          <filter id="reviewrShadow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="6" />
+            <feOffset dx="0" dy="4" result="off" />
+            <feFlood floodColor="#0EA85A" floodOpacity="0.28" />
+            <feComposite in2="off" operator="in" />
+            <feMerge>
+              <feMergeNode />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        )}
+      </defs>
+      <g filter={useShadow ? 'url(#reviewrShadow)' : undefined}>
+        <path
+          d="M 80 0 C 35 0, 0 35, 0 80 C 0 125, 35 160, 80 160 C 125 160, 160 125, 160 80 C 160 35, 125 0, 80 0 Z"
+          fill="url(#reviewrGrad)"
+        />
+        <path
+          d="M 80 0 C 35 0, 0 35, 0 80 L 160 80 C 160 35, 125 0, 80 0 Z"
+          fill="url(#reviewrHL)"
+        />
+        <g transform="translate(80, 80)">
+          <path
+            d="M 0 -34 C 4 -14, 14 -4, 34 0 C 14 4, 4 14, 0 34 C -4 14, -14 4, -34 0 C -14 -4, -4 -14, 0 -34 Z"
+            fill="#ffffff"
+          />
+          <path
+            d="M 24 -22 C 25 -16, 28 -13, 34 -12 C 28 -11, 25 -8, 24 -2 C 23 -8, 20 -11, 14 -12 C 20 -13, 23 -16, 24 -22 Z"
+            fill="#ffffff"
+            opacity="0.85"
+          />
+        </g>
+      </g>
     </svg>
   )
 }

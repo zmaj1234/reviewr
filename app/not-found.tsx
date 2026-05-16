@@ -1,15 +1,14 @@
 import Link from 'next/link'
-import { Star, ArrowRight } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
+import { LogoMark } from '@/components/logo'
 
 export default function NotFound() {
   return (
     <div className="min-h-screen bg-[#fafaf7] flex flex-col">
       <header className="border-b border-[#e8e8e3]">
         <div className="max-w-5xl mx-auto px-6 h-14 flex items-center">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-md bg-[#16a34a] flex items-center justify-center">
-              <Star size={12} fill="white" className="text-white" />
-            </div>
+          <Link href="/" className="flex items-center gap-2 transition-all duration-200 hover:-translate-y-px hover:brightness-105">
+            <LogoMark size={24} noShadow />
             <span className="font-serif text-lg text-[#0a0f1e]">Reviewr</span>
           </Link>
         </div>

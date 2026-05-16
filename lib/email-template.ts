@@ -66,7 +66,7 @@ export function buildReviewEmail(params: {
               <table width="100%" cellpadding="0" cellspacing="0" border="0">
                 <tr>
                   <td>
-                    <div style="font-size:24px;font-weight:800;color:#ffffff;letter-spacing:-0.5px">⭐ Reviewr</div>
+                    <div style="font-size:24px;font-weight:800;color:#ffffff;letter-spacing:-0.5px;display:flex;align-items:center;gap:8px"><svg width="28" height="28" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0"><defs><linearGradient id="eg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#34D87A"/><stop offset="100%" stop-color="#0EA85A"/></linearGradient><linearGradient id="eh" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.35"/><stop offset="50%" stop-color="#ffffff" stop-opacity="0"/></linearGradient></defs><path d="M 80 0 C 35 0,0 35,0 80 C 0 125,35 160,80 160 C 125 160,160 125,160 80 C 160 35,125 0,80 0 Z" fill="url(#eg)"/><path d="M 80 0 C 35 0,0 35,0 80 L 160 80 C 160 35,125 0,80 0 Z" fill="url(#eh)"/><g transform="translate(80,80)"><path d="M 0 -34 C 4 -14,14 -4,34 0 C 14 4,4 14,0 34 C -4 14,-14 4,-34 0 C -14 -4,-4 -14,0 -34 Z" fill="#ffffff"/><path d="M 24 -22 C 25 -16,28 -13,34 -12 C 28 -11,25 -8,24 -2 C 23 -8,20 -11,14 -12 C 20 -13,23 -16,24 -22 Z" fill="#ffffff" opacity="0.85"/></g></svg>Reviewr</div>
                     <div style="font-size:14px;color:rgba(255,255,255,0.75);margin-top:6px">A new review is waiting for your reply</div>
                   </td>
                   <td align="right" valign="top">

@@ -45,7 +45,7 @@ function ConnectFlow() {
   const [selectedLocation, setSelectedLocation] = useState<GBPLocation | null>(null)
   const [businessType, setBusinessType] = useState('')
   const [phone, setPhone] = useState('')
-  const [notificationMethod, setNotificationMethod] = useState<'whatsapp' | 'email'>('whatsapp')
+  const [notificationMethod, setNotificationMethod] = useState<'whatsapp' | 'email'>('email')
   const [description, setDescription] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -294,7 +294,7 @@ function StepDetails({
       </div>
 
       <div>
-        <label className="label">Phone number for notifications</label>
+        <label className="label">Phone number <span className="text-muted">(optional)</span></label>
         <div className="relative">
           <Phone size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
           <input type="tel" className="input pl-9" placeholder="+1 555 000 0000" value={phone} onChange={e => setPhone(e.target.value)} />
@@ -302,22 +302,11 @@ function StepDetails({
       </div>
 
       <div>
-        <label className="label">Notification preference</label>
-        <div className="flex gap-3">
-          {(['whatsapp', 'email'] as const).map(method => (
-            <label
-              key={method}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-[8px] border cursor-pointer flex-1 justify-center text-sm font-medium transition-all duration-150 ${
-                notificationMethod === method
-                  ? 'border-accent/40 bg-accent/5 text-accent'
-                  : 'border-border text-secondary hover:border-border-strong'
-              }`}
-            >
-              <input type="radio" className="sr-only" checked={notificationMethod === method} onChange={() => setNotificationMethod(method)} />
-              {method === 'whatsapp' ? <><Phone size={14} /> WhatsApp</> : <><Mail size={14} /> Email</>}
-            </label>
-          ))}
+        <label className="label">Notification method</label>
+        <div className="flex items-center gap-2 px-4 py-2.5 rounded-[8px] border border-accent/40 bg-accent/5 text-accent text-sm font-medium w-fit">
+          <Mail size={14} /> Email
         </div>
+        <p className="text-xs text-muted mt-1">Review drafts will be sent to your account email</p>
       </div>
 
       <div>

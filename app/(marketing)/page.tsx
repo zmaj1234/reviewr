@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import {
-  Globe2, Zap, Heart, MessageSquare, ThumbsUp, Brain,
+  Globe2, Zap, Heart, Mail, ThumbsUp, Brain,
   Check, ArrowRight, Star, CheckCircle2, Pencil, X, Clock
 } from 'lucide-react'
 import { LogoMark } from '@/components/logo'
@@ -188,7 +188,7 @@ function SocialProofBanner() {
         </div>
         <div className="flex flex-wrap items-center justify-center gap-3 mt-6 pt-6 border-t border-[#1e2535]">
           <span className="text-[10px] text-[#4b5563] uppercase tracking-wider shrink-0">Powered by</span>
-          {['Google Business API', 'WhatsApp Business'].map(p => (
+          {['Google Business API', 'Resend Email'].map(p => (
             <span key={p} className="text-xs text-[#6b7280] border border-[#2a3147] px-2.5 py-1 rounded-md">
               {p}
             </span>
@@ -228,9 +228,9 @@ function WhatIsIncluded() {
       iconColor: 'text-rose-600',
     },
     {
-      icon: MessageSquare,
-      title: 'WhatsApp alert for every draft',
-      body: 'Notified the moment a draft is ready. Approve from your phone in seconds.',
+      icon: Mail,
+      title: 'Email alert for every draft',
+      body: 'Notified the moment a draft is ready. Approve from your inbox in seconds.',
       outcome: '✓ Average approval time: 12 seconds.',
       iconBg: 'bg-green-50',
       iconColor: 'text-green-600',
@@ -364,14 +364,14 @@ function FeatureSpotlight() {
             Key feature
           </span>
           <h2 className="font-serif text-4xl lg:text-5xl text-[#0a0f1e] leading-tight mb-5">
-            Get notified on WhatsApp the moment a draft is ready.
+            Get notified by email the moment a draft is ready.
           </h2>
 
           {/* 3-step flow */}
           <div className="flex items-start gap-2 mb-7">
             {[
               { icon: Star,         label: 'Review lands' },
-              { icon: MessageSquare, label: 'Draft to WhatsApp' },
+              { icon: Mail,         label: 'Draft to inbox' },
               { icon: CheckCircle2, label: 'Posted to Google' },
             ].map((step, i) => (
               <div key={step.label} className="flex items-center gap-2">
@@ -387,46 +387,52 @@ function FeatureSpotlight() {
           </div>
 
           <p className="text-base text-[#6b7280] leading-relaxed mb-6">
-            No need to log in and check. The moment a new review comes in, Reviewr writes the reply and sends it straight to your WhatsApp. Open it. Tap approve. Done.
+            No need to log in and check. The moment a new review comes in, Reviewr writes the reply and sends it straight to your inbox. Open it. Click approve. Done.
           </p>
           <p className="text-sm text-[#374151] font-medium">
             From new review to posted reply — without opening a laptop.
           </p>
         </div>
 
-        {/* WhatsApp mockup */}
+        {/* Email mockup */}
         <div className="flex justify-center lg:justify-end">
-          <div className="w-64 bg-[#e5ddd5] rounded-2xl p-4 shadow-[0_20px_60px_rgba(0,0,0,0.15)] ring-1 ring-black/5">
-            <div className="bg-[#075e54] text-white text-xs font-medium px-3 py-2 rounded-t-xl flex items-center gap-2 -mx-4 -mt-4 mb-4">
-              <div className="w-6 h-6 rounded-full bg-[#16a34a] flex items-center justify-center p-1">
-                <LogoMark size={14} className="text-white" />
+          <div className="w-72 rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.15)] ring-1 ring-black/5">
+            {/* Email header */}
+            <div className="bg-[#6366f1] px-4 py-3 flex items-center justify-between">
+              <div>
+                <div className="text-white font-semibold text-sm">⭐ Reviewr</div>
+                <div className="text-white/70 text-[10px] mt-0.5">A new review is waiting for your reply</div>
               </div>
-              Reviewr · WhatsApp
-            </div>
-            <div className="bg-white rounded-xl rounded-tl-none p-3 shadow-sm mb-2">
-              <p className="text-xs text-[#374151] leading-relaxed mb-1">
-                📝 <strong>New review from Ana K.</strong> — 5 stars
-              </p>
-              <p className="text-xs text-[#6b7280] leading-relaxed mb-2">
-                &ldquo;Amazing experience, will definitely return!&rdquo;
-              </p>
-              <p className="text-xs text-[#374151] leading-relaxed">
-                <strong>Draft reply ready:</strong> &ldquo;Ana, thank you so much — this means a lot to our whole team. We can&apos;t wait to welcome you back!&rdquo;
-              </p>
-            </div>
-            <div className="flex gap-2 mt-3">
-              <div className="flex-1 bg-[#16a34a] text-white text-xs font-semibold py-2 rounded-full text-center">
-                ✓ Approve
-              </div>
-              <div className="flex-1 bg-white text-xs text-[#374151] py-2 rounded-full text-center border border-[#d1d5db]">
-                Edit
+              <div className="bg-white/20 rounded-lg px-2.5 py-1.5 text-center shrink-0">
+                <div className="text-sm leading-none">⭐⭐⭐⭐⭐</div>
+                <div className="text-white/80 text-[9px] font-medium mt-0.5">5 / 5</div>
               </div>
             </div>
-            {/* Confirmation that closes the loop */}
-            <div className="mt-3 bg-[#dcf8c6] rounded-xl rounded-tl-none p-2.5">
-              <p className="text-[10px] text-[#075e54] font-semibold">✓ Posted to Google · just now</p>
+            {/* Email body */}
+            <div className="bg-white px-4 py-3">
+              <div className="inline-block bg-[#ede9fe] text-[#6366f1] text-[9px] font-semibold px-2.5 py-0.5 rounded-full uppercase tracking-wide mb-2">
+                Ana&apos;s Bakery
+              </div>
+              <div className="bg-[#f8f8fd] border-l-4 border-[#6366f1] rounded-r-lg px-3 py-2 mb-2">
+                <div className="text-[11px] font-semibold text-[#0a0f1e]">Ana K.</div>
+                <div className="text-[9px] text-[#9ca3af] mb-1">Friday, May 16, 2026</div>
+                <div className="text-[10px] text-[#374151] italic leading-relaxed">&ldquo;Amazing! Best pastries I&apos;ve had in years.&rdquo;</div>
+              </div>
+              <div className="text-[8px] text-[#6366f1] uppercase tracking-widest font-semibold mb-1">✨ System draft reply</div>
+              <div className="bg-[#fafafa] border border-dashed border-[#c7d2fe] rounded-lg px-3 py-2 text-[10px] text-[#374151] leading-relaxed mb-3">
+                Thank you so much, Ana! We&apos;re thrilled you loved the pastries — made fresh every morning just for moments like this!
+              </div>
+              <div className="grid grid-cols-3 gap-1.5">
+                <div className="bg-[#10b981] text-white text-[9px] font-semibold text-center py-2 rounded-lg">✓ Approve</div>
+                <div className="bg-[#6366f1] text-white text-[9px] font-semibold text-center py-2 rounded-lg">✎ Edit</div>
+                <div className="bg-[#ef4444] text-white text-[9px] font-semibold text-center py-2 rounded-lg">✕ Discard</div>
+              </div>
             </div>
-            <p className="text-[10px] text-[#9ca3af] text-center mt-2">Sent via Reviewr</p>
+            {/* Email footer */}
+            <div className="bg-[#f9fafb] px-4 py-2 border-t border-[#e5e7eb] flex items-center justify-between">
+              <div className="text-[9px] text-[#9ca3af]">Sent by <span className="text-[#6366f1] font-medium">Reviewr</span></div>
+              <div className="text-[9px] text-[#6366f1] font-medium">Open dashboard →</div>
+            </div>
           </div>
         </div>
       </div>
@@ -465,7 +471,7 @@ function UserReviews() {
     },
     {
       name: 'Sara M.',  initials: 'SM', role: 'Retail shop owner',
-      quote: 'Setup took 4 minutes. I connected my Google profile, picked WhatsApp notifications, and it just works.',
+      quote: 'Setup took 4 minutes. I connected my Google profile, picked email notifications, and it just works.',
     },
   ]
 
@@ -581,7 +587,7 @@ function RatingStats() {
 // ─── FINAL CTA ──────────────────────────────────────────────────────────────
 
 function FinalCTA() {
-  const solo   = ['1 location', 'Unlimited replies', 'WhatsApp + email alerts', 'Cancel anytime']
+  const solo   = ['1 location', 'Unlimited replies', 'Email alerts for every draft', 'Cancel anytime']
   const growth = ['Up to 5 locations', 'Everything in Solo', 'Brand voice learning', 'Priority support']
 
   return (

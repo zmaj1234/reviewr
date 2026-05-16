@@ -25,7 +25,7 @@ export function SettingsClient({ user, business }: Props) {
   const [businessType, setBusinessType] = useState(business?.business_type ?? '')
   const [businessDesc, setBusinessDesc] = useState(business?.business_description ?? '')
   const [phone, setPhone] = useState(business?.owner_phone ?? '')
-  const [notifMethod, setNotifMethod] = useState<'whatsapp' | 'email'>(business?.notification_method ?? 'whatsapp')
+  const [notifMethod, setNotifMethod] = useState<'whatsapp' | 'email'>(business?.notification_method ?? 'email')
   const [tone, setTone] = useState(business?.tone_preferences ?? 'warm, professional, concise')
   const [saving, setSaving] = useState(false)
   const [showDisconnectModal, setShowDisconnectModal] = useState(false)
@@ -160,7 +160,7 @@ export function SettingsClient({ user, business }: Props) {
             </div>
 
             <div>
-              <label className="label">WhatsApp number</label>
+              <label className="label">Phone number</label>
               <div className="relative">
                 <Phone size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
                 <input
@@ -175,26 +175,10 @@ export function SettingsClient({ user, business }: Props) {
 
             <div>
               <label className="label">Notification method</label>
-              <div className="flex gap-3">
-                {(['whatsapp', 'email'] as const).map(method => (
-                  <label
-                    key={method}
-                    className={`flex items-center gap-2 px-4 py-2.5 rounded-[8px] border cursor-pointer flex-1 justify-center text-sm font-medium transition-all duration-150 ${
-                      notifMethod === method
-                        ? 'border-accent/40 bg-accent/5 text-accent'
-                        : 'border-border text-secondary hover:border-border-strong'
-                    }`}
-                  >
-                    <input
-                      type="radio"
-                      className="sr-only"
-                      checked={notifMethod === method}
-                      onChange={() => setNotifMethod(method)}
-                    />
-                    {method === 'whatsapp' ? <><Phone size={14} /> WhatsApp</> : <><Mail size={14} /> Email</>}
-                  </label>
-                ))}
+              <div className="flex items-center gap-2 px-4 py-2.5 rounded-[8px] border border-accent/40 bg-accent/5 text-accent text-sm font-medium w-fit">
+                <Mail size={14} /> Email
               </div>
+              <p className="text-xs text-muted mt-1">Review drafts are sent to your account email</p>
             </div>
 
             <div>

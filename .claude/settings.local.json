@@ -21,7 +21,10 @@
       "PowerShell(gh auth *)",
       "Bash(npx vercel *)",
       "PowerShell(marketing *)",
-      "Bash(npm install *)"
+      "Bash(npm install *)",
+      "Skill(vercel:deploy)",
+      "Bash(vercel --version)",
+      "PowerShell(npx vercel --version; Get-Content .vercel/project.json; git status --porcelain)"
     ]
   }
 }

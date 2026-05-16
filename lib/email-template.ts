@@ -119,7 +119,7 @@ export function buildReviewEmail(params: {
           <!-- DRAFT REPLY -->
           <tr>
             <td style="padding:28px 40px 0">
-              <div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:#6366f1;font-weight:800;margin-bottom:12px">✨ AI Draft Reply</div>
+              <div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:#6366f1;font-weight:800;margin-bottom:12px">✨ System draft reply</div>
               <table width="100%" cellpadding="0" cellspacing="0" border="0">
                 <tr>
                   <td style="background:#fafafa;border:2px dashed #c7d2fe;border-radius:14px;padding:22px 26px;color:#374151;font-size:15px;line-height:1.7">
@@ -163,7 +163,7 @@ export function buildReviewEmail(params: {
                   </td>
                   <!-- DISCARD -->
                   <td width="33%" style="padding-left:8px">
-                    <a href="${discardUrl}" style="display:block;background:#f3f4f6;color:#6b7280;text-decoration:none;text-align:center;padding:16px 8px;border-radius:12px;font-weight:800;font-size:14px;letter-spacing:0.3px;border:2px solid #e5e7eb">
+                    <a href="${discardUrl}" style="display:block;background:#ef4444;color:#ffffff;text-decoration:none;text-align:center;padding:16px 8px;border-radius:12px;font-weight:800;font-size:14px;letter-spacing:0.3px;">
                       ✕&nbsp; Discard
                     </a>
                   </td>

@@ -1,15 +1,19 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import type { LucideIcon } from 'lucide-react'
 
 interface StatCardProps {
   label: string
   value: number | string
   highlight?: boolean
   suffix?: string
+  icon: LucideIcon
+  iconColor?: string
+  iconBg?: string
 }
 
-export function StatCard({ label, value, highlight, suffix }: StatCardProps) {
+export function StatCard({ label, value, highlight, suffix, icon: Icon, iconColor, iconBg }: StatCardProps) {
   const [display, setDisplay] = useState(typeof value === 'number' ? 0 : value)
   const animatedRef = useRef(false)
 
@@ -31,6 +35,12 @@ export function StatCard({ label, value, highlight, suffix }: StatCardProps) {
 
   return (
     <div className={`card p-5 ${highlight ? 'border-accent/40 bg-accent/5' : ''}`}>
+      <div
+        className="w-8 h-8 rounded-lg flex items-center justify-center mb-3"
+        style={{ background: iconBg ?? 'var(--color-accent-subtle)' }}
+      >
+        <Icon size={16} style={{ color: iconColor ?? 'var(--color-accent)' }} />
+      </div>
       <div className={`font-serif text-3xl font-medium mb-1 ${highlight ? 'text-accent' : 'text-primary'}`}>
         {typeof value === 'number' ? display : value}
         {suffix && <span className="text-base ml-0.5 opacity-60">{suffix}</span>}

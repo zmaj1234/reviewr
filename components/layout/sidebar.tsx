@@ -20,6 +20,8 @@ export function Sidebar({ userEmail }: SidebarProps) {
   const router = useRouter()
   const { toast } = useToast()
 
+  const initials = userEmail.slice(0, 2).toUpperCase()
+
   async function signOut() {
     const supabase = createClient()
     await supabase.auth.signOut()
@@ -32,16 +34,16 @@ export function Sidebar({ userEmail }: SidebarProps) {
     <aside className="fixed left-0 top-0 h-screen w-[220px] bg-surface border-r border-border flex flex-col z-40">
       {/* Logo */}
       <div className="px-5 py-5 border-b border-border">
-        <Link href="/dashboard" className="flex items-center gap-2.5 group">
-          <div className="w-7 h-7 rounded-lg bg-accent flex items-center justify-center shrink-0">
-            <Star size={14} fill="black" className="text-black" />
+        <Link href="/dashboard" className="flex items-center gap-3 group">
+          <div className="w-8 h-8 rounded-lg bg-accent flex items-center justify-center shrink-0 shadow-sm">
+            <Star size={15} fill="black" className="text-black" />
           </div>
           <span className="font-serif text-lg text-primary">Reviewr</span>
         </Link>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 px-3 py-4 space-y-0.5">
+      <nav className="flex-1 px-3 py-4 space-y-1">
         {nav.map(({ href, label, icon: Icon }) => {
           const active = pathname.startsWith(href)
           return (
@@ -49,7 +51,7 @@ export function Sidebar({ userEmail }: SidebarProps) {
               key={href}
               href={href}
               className={`
-                flex items-center gap-3 px-3 py-2.5 rounded-[8px] text-sm font-medium
+                flex items-center gap-3 px-3 py-2.5 rounded-[10px] text-sm font-medium
                 transition-all duration-150
                 ${active
                   ? 'bg-accent/10 text-accent'
@@ -65,7 +67,7 @@ export function Sidebar({ userEmail }: SidebarProps) {
 
         <a
           href="mailto:support@reviewr.app"
-          className="flex items-center gap-3 px-3 py-2.5 rounded-[8px] text-sm font-medium text-secondary hover:text-primary hover:bg-card transition-all duration-150"
+          className="flex items-center gap-3 px-3 py-2.5 rounded-[10px] text-sm font-medium text-secondary hover:text-primary hover:bg-card transition-all duration-150"
         >
           <HelpCircle size={16} />
           Help
@@ -74,17 +76,18 @@ export function Sidebar({ userEmail }: SidebarProps) {
 
       {/* User */}
       <div className="px-3 py-4 border-t border-border">
-        <div className="px-3 py-2 mb-1">
-          <div className="w-6 h-6 rounded-full bg-accent/20 border border-accent/30 flex items-center justify-center mb-1">
-            <span className="text-accent text-xs font-semibold">
-              {userEmail.charAt(0).toUpperCase()}
-            </span>
+        <div className="flex items-center gap-3 px-3 py-2.5 rounded-[10px] mb-1">
+          <div className="w-8 h-8 rounded-full bg-accent/20 border border-accent/30 flex items-center justify-center shrink-0">
+            <span className="text-accent text-xs font-semibold">{initials}</span>
           </div>
-          <p className="text-xs text-secondary truncate max-w-[160px]">{userEmail}</p>
+          <div className="min-w-0">
+            <p className="text-xs font-medium text-primary truncate max-w-[130px]">{userEmail.split('@')[0]}</p>
+            <p className="text-[10px] text-muted truncate max-w-[130px]">{userEmail}</p>
+          </div>
         </div>
         <button
           onClick={signOut}
-          className="flex items-center gap-3 px-3 py-2.5 rounded-[8px] text-sm font-medium text-secondary hover:text-danger hover:bg-danger/5 transition-all duration-150 w-full"
+          className="flex items-center gap-3 px-3 py-2.5 rounded-[10px] text-sm font-medium text-secondary hover:text-danger hover:bg-danger/5 transition-all duration-150 w-full"
         >
           <LogOut size={16} />
           Sign out

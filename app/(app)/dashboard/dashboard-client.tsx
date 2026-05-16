@@ -3,12 +3,10 @@
 import { useState, useEffect, useCallback } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useToast } from '@/components/ui/toast'
-import { StarRating } from '@/components/ui/star-rating'
-import { Spinner } from '@/components/ui/spinner'
 import { ReviewCard } from './review-card'
 import { StatCard } from './stat-card'
 import type { Business, Review } from '@/lib/types'
-import { ChevronDown, ChevronUp, CheckCircle2 } from 'lucide-react'
+import { ChevronDown, ChevronUp, CheckCircle2, Calendar, Clock, Check, Star } from 'lucide-react'
 
 interface Props {
   businesses: Business[]
@@ -48,7 +46,6 @@ export function DashboardClient({ businesses, pendingReviews: initial, recentPos
 
   useEffect(() => {
     if (!businessIds.length) return
-
     const supabase = createClient()
     const channel = supabase
       .channel('reviews-realtime')
@@ -61,7 +58,6 @@ export function DashboardClient({ businesses, pendingReviews: initial, recentPos
         handleReviewUpdate(payload.new as Review)
       })
       .subscribe()
-
     return () => { supabase.removeChannel(channel) }
   }, [businessIds, handleReviewUpdate])
 
@@ -85,27 +81,54 @@ export function DashboardClient({ businesses, pendingReviews: initial, recentPos
 
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-        <StatCard label="Reviews this month" value={stats.totalThisMonth} />
+        <StatCard
+          label="Reviews this month"
+          value={stats.totalThisMonth}
+          icon={Calendar}
+          iconBg="rgba(99,102,241,0.1)"
+          iconColor="#6366f1"
+        />
         <StatCard
           label="Pending approval"
           value={stats.pendingCount + pending.length - initial.length}
           highlight={pending.length > 0}
+          icon={Clock}
+          iconBg="rgba(99,102,241,0.1)"
+          iconColor="#6366f1"
         />
-        <StatCard label="Posted this month" value={stats.postedThisMonth} />
-        <StatCard label="Avg rating" value={stats.avgRating} suffix="★" />
+        <StatCard
+          label="Posted this month"
+          value={stats.postedThisMonth}
+          icon={Check}
+          iconBg="rgba(16,185,129,0.1)"
+          iconColor="#10b981"
+        />
+        <StatCard
+          label="Avg rating"
+          value={stats.avgRating}
+          suffix="★"
+          icon={Star}
+          iconBg="rgba(245,158,11,0.1)"
+          iconColor="#f59e0b"
+        />
       </div>
 
       {/* Pending reviews */}
       <section className="mb-10">
-        <div className="flex items-center justify-between mb-5">
-          <h2 className="font-serif text-xl text-primary">
-            Pending approval
-            {pending.length > 0 && (
-              <span className="ml-2.5 text-sm font-sans font-medium text-accent bg-accent/10 px-2 py-0.5 rounded-full">
-                {pending.length}
-              </span>
-            )}
-          </h2>
+        <div className="flex items-center gap-3 mb-5">
+          <h2 className="font-serif text-xl text-primary">Pending approval</h2>
+          {pending.length > 0 && (
+            <span className="text-sm font-medium text-accent bg-accent/10 px-2.5 py-0.5 rounded-full">
+              {pending.length}
+            </span>
+          )}
+          <div className="flex items-center gap-1.5">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </span>
+            <span className="text-xs text-emerald-600 font-medium">Live</span>
+          </div>
         </div>
 
         {pending.length === 0 ? (
@@ -124,7 +147,7 @@ export function DashboardClient({ businesses, pendingReviews: initial, recentPos
         )}
       </section>
 
-      {/* Recent posted */}
+      {/* Recently posted */}
       {recentPosted.length > 0 && (
         <section>
           <button
@@ -141,8 +164,7 @@ export function DashboardClient({ businesses, pendingReviews: initial, recentPos
               {recentPosted.map(review => (
                 <div key={review.id} className="card p-4 opacity-70">
                   <div className="flex items-center gap-3 mb-2">
-                    <StarRating rating={review.rating} />
-                    <span className="text-sm text-secondary">{review.reviewer_name}</span>
+                    <span className="text-sm font-medium text-primary">{review.reviewer_name}</span>
                     <span className="ml-auto text-xs text-muted flex items-center gap-1">
                       <CheckCircle2 size={12} className="text-accent" />
                       Posted

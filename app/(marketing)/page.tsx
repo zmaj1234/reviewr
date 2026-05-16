@@ -11,7 +11,6 @@ export default function LandingPage() {
     <div className="min-h-screen bg-[#fafaf7] text-[#0a0f1e] font-sans">
       <Nav />
       <Hero />
-      <SocialProofBanner />
       <WhatIsIncluded />
       <WhyChoose />
       <FeatureSpotlight />
@@ -143,52 +142,6 @@ function ReviewMockup() {
   )
 }
 
-// ─── SOCIAL PROOF BANNER ────────────────────────────────────────────────────
-
-function SocialProofBanner() {
-  return (
-    <div className="bg-[#0a0f1e] border-b border-[#1e2535]">
-      <div className="max-w-5xl mx-auto px-6 py-8">
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-16">
-          <div className="text-center">
-            <div className="font-serif text-xl text-white leading-tight">Trusted by business<br />owners across the world</div>
-          </div>
-          <div className="hidden sm:block w-px h-8 bg-[#2a3147]" />
-          <div className="text-center">
-            <div className="font-serif text-3xl text-white">
-              4.9 <span className="text-sm text-[#4b5563] font-sans font-normal">/ 5.0</span>
-            </div>
-            <div className="flex justify-center gap-0.5 mt-1 mb-0.5">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <Star key={i} size={11} fill="#16a34a" className="text-[#16a34a]" />
-              ))}
-            </div>
-            <div className="text-xs text-[#6b7280]">owner rating</div>
-          </div>
-          <div className="hidden sm:block w-px h-8 bg-[#2a3147]" />
-          <div className="text-center">
-            <div className="font-serif text-3xl text-white">&lt; 30s</div>
-            <div className="text-xs text-[#6b7280] mt-0.5">draft reply ready</div>
-          </div>
-          <div className="hidden sm:block w-px h-8 bg-[#2a3147]" />
-          <div className="text-center">
-            <div className="font-serif text-3xl text-white">Zero</div>
-            <div className="text-xs text-[#6b7280] mt-0.5">posts without you</div>
-          </div>
-        </div>
-        <div className="flex flex-wrap items-center justify-center gap-3 mt-6 pt-6 border-t border-[#1e2535]">
-          <span className="text-[10px] text-[#4b5563] uppercase tracking-wider shrink-0">Powered by</span>
-          {['Google Business API', 'Resend Email'].map(p => (
-            <span key={p} className="text-xs text-[#6b7280] border border-[#2a3147] px-2.5 py-1 rounded-md">
-              {p}
-            </span>
-          ))}
-        </div>
-      </div>
-    </div>
-  )
-}
-
 // ─── WHAT IS INCLUDED ───────────────────────────────────────────────────────
 
 function WhatIsIncluded() {
@@ -222,16 +175,18 @@ function WhatIsIncluded() {
       title: 'Email alert for every draft',
       body: 'Notified the moment a draft is ready. Approve from your inbox in seconds.',
       outcome: '✓ Average approval time: 12 seconds.',
-      iconBg: 'bg-green-50',
+      iconBg: 'bg-green-100',
       iconColor: 'text-green-600',
+      highlight: true,
     },
     {
       icon: ThumbsUp,
       title: 'One tap to approve and go live',
       body: 'Review and post without opening a laptop. Done from anywhere.',
       outcome: '✓ No dashboard login needed.',
-      iconBg: 'bg-amber-50',
-      iconColor: 'text-amber-600',
+      iconBg: 'bg-green-100',
+      iconColor: 'text-green-600',
+      highlight: true,
     },
     {
       icon: Zap,
@@ -256,9 +211,16 @@ function WhatIsIncluded() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
           {features.map(f => (
-            <div key={f.title} className="bg-white border border-[#e8e8e3] rounded-xl p-6 hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)] transition-shadow">
-              <div className={`w-9 h-9 rounded-lg ${f.iconBg} flex items-center justify-center mb-4`}>
-                <f.icon size={17} className={f.iconColor} strokeWidth={1.5} />
+            <div
+              key={f.title}
+              className={`rounded-xl p-6 transition-shadow hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)] ${
+                (f as { highlight?: boolean }).highlight
+                  ? 'bg-[#f0fdf4] border border-[#16a34a]/25'
+                  : 'bg-white border border-[#e8e8e3]'
+              }`}
+            >
+              <div className={`w-11 h-11 rounded-lg ${f.iconBg} flex items-center justify-center mb-4`}>
+                <f.icon size={22} className={f.iconColor} strokeWidth={1.5} />
               </div>
               <h3 className="text-sm font-semibold text-[#0a0f1e] mb-1.5 leading-snug">{f.title}</h3>
               <p className="text-sm text-[#6b7280] leading-relaxed mb-3">{f.body}</p>
@@ -585,7 +547,7 @@ function FinalCTA() {
       <div className="max-w-5xl mx-auto px-6 py-20 text-center">
         <p className="text-[11px] uppercase tracking-[0.15em] text-[#6b7280] mb-4 font-medium">Pricing</p>
         <h2 className="font-serif text-4xl lg:text-6xl text-white leading-tight mb-8">
-          START YOUR<br />FREE TRIAL
+          Start your<br />free trial.
         </h2>
 
         {/* €450 → €19 visual anchor */}

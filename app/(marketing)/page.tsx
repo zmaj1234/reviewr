@@ -309,7 +309,9 @@ function FeatureSpotlight() {
           <div className="w-72 rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.12),0_4px_16px_rgba(0,0,0,0.06)] ring-1 ring-black/5">
             <div className="bg-[#6366f1] px-4 py-3 flex items-center justify-between">
               <div>
-                <div className="text-white font-semibold text-sm">⭐ Reviewr</div>
+                <div className="text-white font-semibold text-sm flex items-center gap-1.5">
+                  <LogoMark size={16} noShadow /> Reviewr
+                </div>
                 <div className="text-white/70 text-[10px] mt-0.5">A new review is waiting for your reply</div>
               </div>
               <div className="bg-[#facc15] rounded-xl px-2.5 py-1.5 text-center shrink-0">

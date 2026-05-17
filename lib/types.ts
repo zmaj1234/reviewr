@@ -47,3 +47,18 @@ export interface GBPLocation {
   accountId: string
   locationId: string
 }
+
+export interface UserProfile {
+  id: string
+  plan: 'solo' | 'growth'
+}
+
+export interface TeamMember {
+  id: string
+  owner_id: string
+  member_email: string
+  member_user_id: string | null
+  role: string
+  invited_at: string
+  accepted_at: string | null
+}

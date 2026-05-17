@@ -6,12 +6,14 @@ import { useToast } from '@/components/ui/toast'
 import { ReviewCard } from './review-card'
 import { StatCard } from './stat-card'
 import type { Business, Review } from '@/lib/types'
-import { ChevronDown, ChevronUp, CheckCircle2, Calendar, Clock, Check, Star } from 'lucide-react'
+import { ChevronDown, ChevronUp, CheckCircle2, Calendar, Clock, Check, Star, Users } from 'lucide-react'
 
 interface Props {
   businesses: Business[]
   pendingReviews: Review[]
   recentPostedReviews: Review[]
+  isManager: boolean
+  ownerName: string
   stats: {
     totalThisMonth: number
     pendingCount: number
@@ -20,7 +22,7 @@ interface Props {
   }
 }
 
-export function DashboardClient({ businesses, pendingReviews: initial, recentPostedReviews: initialPosted, stats }: Props) {
+export function DashboardClient({ businesses, pendingReviews: initial, recentPostedReviews: initialPosted, isManager, ownerName, stats }: Props) {
   const [pending, setPending] = useState<Review[]>(initial)
   const [recentPosted, setRecentPosted] = useState<Review[]>(initialPosted)
   const [showPosted, setShowPosted] = useState(false)
@@ -69,13 +71,25 @@ export function DashboardClient({ businesses, pendingReviews: initial, recentPos
     }
   }
 
+  const businessLabel = businesses.length === 1
+    ? businesses[0]?.business_name
+    : `${businesses.length} locations`
+
   return (
     <div className="p-8 animate-fade-in">
+      {/* Manager banner */}
+      {isManager && (
+        <div className="flex items-center gap-2.5 bg-[#ede9fe] border border-violet-200 text-violet-700 rounded-xl px-4 py-2.5 mb-6 text-sm font-medium">
+          <Users size={15} />
+          You&apos;re viewing <strong>{ownerName}&apos;s</strong> workspace as a manager
+        </div>
+      )}
+
       {/* Header */}
       <div className="mb-8">
         <h1 className="font-serif text-3xl text-primary">Dashboard</h1>
         <p className="text-secondary text-sm mt-1">
-          {businesses[0]?.business_name} · Review management
+          {businessLabel} · Review management
         </p>
       </div>
 
@@ -140,6 +154,7 @@ export function DashboardClient({ businesses, pendingReviews: initial, recentPos
                 key={review.id}
                 review={review}
                 onAction={onAction}
+                isManager={isManager}
                 style={{ animationDelay: `${i * 50}ms` }}
               />
             ))}

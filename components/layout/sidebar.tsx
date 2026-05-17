@@ -2,21 +2,19 @@
 
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { LayoutDashboard, Settings, HelpCircle, LogOut } from 'lucide-react'
+import { LayoutDashboard, Settings, HelpCircle, LogOut, Users } from 'lucide-react'
 import { LogoMark } from '@/components/logo'
 import { createClient } from '@/lib/supabase/client'
 import { useToast } from '@/components/ui/toast'
 
-const nav = [
-  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/settings', label: 'Settings', icon: Settings },
-]
-
 interface SidebarProps {
   userEmail: string
+  plan: 'solo' | 'growth'
+  isManager: boolean
+  ownerName?: string
 }
 
-export function Sidebar({ userEmail }: SidebarProps) {
+export function Sidebar({ userEmail, plan, isManager }: SidebarProps) {
   const pathname = usePathname()
   const router = useRouter()
   const { toast } = useToast()
@@ -31,6 +29,12 @@ export function Sidebar({ userEmail }: SidebarProps) {
     router.refresh()
   }
 
+  const nav = [
+    { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, show: true },
+    { href: '/dashboard/team', label: 'Team', icon: Users, show: plan === 'growth' && !isManager },
+    { href: '/settings', label: 'Settings', icon: Settings, show: !isManager },
+  ].filter(n => n.show)
+
   return (
     <aside className="fixed left-0 top-0 h-screen w-[220px] bg-surface border-r border-border flex flex-col z-40">
       {/* Logo */}
@@ -44,7 +48,7 @@ export function Sidebar({ userEmail }: SidebarProps) {
       {/* Navigation */}
       <nav className="flex-1 px-3 py-4 space-y-1">
         {nav.map(({ href, label, icon: Icon }) => {
-          const active = pathname.startsWith(href)
+          const active = pathname === href || (href !== '/dashboard' && pathname.startsWith(href))
           return (
             <Link
               key={href}
@@ -72,6 +76,26 @@ export function Sidebar({ userEmail }: SidebarProps) {
           Help
         </a>
       </nav>
+
+      {/* Plan badge */}
+      <div className="px-3 pb-2">
+        {isManager ? (
+          <div className="px-3 py-1.5 rounded-lg text-xs font-medium text-secondary border border-border bg-surface text-center">
+            Manager access
+          </div>
+        ) : (
+          <Link
+            href={plan === 'growth' ? '/settings' : 'mailto:hello@reviewr.app?subject=Upgrade to Growth'}
+            className={`block px-3 py-1.5 rounded-lg text-xs font-semibold text-center transition-colors ${
+              plan === 'growth'
+                ? 'bg-[#16a34a]/10 text-[#16a34a] border border-[#16a34a]/20 hover:bg-[#16a34a]/15'
+                : 'bg-surface text-muted border border-border hover:text-secondary'
+            }`}
+          >
+            {plan === 'growth' ? 'Growth plan' : 'Solo plan — Upgrade'}
+          </Link>
+        )}
+      </div>
 
       {/* User */}
       <div className="px-3 py-4 border-t border-border">

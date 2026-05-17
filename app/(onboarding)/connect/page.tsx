@@ -49,6 +49,7 @@ function ConnectFlow() {
   const [notificationMethod, setNotificationMethod] = useState<'whatsapp' | 'email'>('email')
   const [description, setDescription] = useState('')
   const [loading, setLoading] = useState(false)
+  const [planBlock, setPlanBlock] = useState<'solo' | 'growth' | null>(null)
 
   useEffect(() => {
     if (errorParam) {
@@ -76,6 +77,32 @@ function ConnectFlow() {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) { router.push('/login'); return }
 
+    // Check plan and location limit
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('plan')
+      .eq('id', user.id)
+      .maybeSingle()
+    const plan = (profile?.plan ?? 'solo') as 'solo' | 'growth'
+    const limit = plan === 'growth' ? 5 : 1
+
+    const { count } = await supabase
+      .from('businesses')
+      .select('*', { count: 'exact', head: true })
+      .eq('user_id', user.id)
+      .eq('active', true)
+
+    if ((count ?? 0) >= limit) {
+      if (plan === 'solo') {
+        toast('Solo plan supports 1 location. Upgrade to Growth to add up to 5.', 'error')
+      } else {
+        toast("You've reached the 5-location limit on the Growth plan.", 'error')
+      }
+      setLoading(false)
+      setPlanBlock(plan === 'solo' ? 'solo' : 'growth')
+      return
+    }
+
     const { error } = await supabase.from('businesses').upsert({
       user_id: user.id,
       business_name: selectedLocation.title,
@@ -87,7 +114,7 @@ function ConnectFlow() {
       owner_email: user.email,
       notification_method: notificationMethod,
       active: true,
-    }, { onConflict: 'user_id' })
+    }, { onConflict: 'user_id,gbp_location_id' })
 
     if (error) {
       toast(error.message, 'error')
@@ -130,8 +157,30 @@ function ConnectFlow() {
           ))}
         </div>
 
-        {step === 1 && <StepConnect />}
-        {step === 2 && (
+        {planBlock && (
+          <div className="card p-8 text-center">
+            <div className="w-14 h-14 rounded-xl bg-danger/10 border border-danger/20 flex items-center justify-center mx-auto mb-5">
+              <Building2 size={24} className="text-danger" />
+            </div>
+            <h2 className="font-serif text-2xl text-primary mb-3">Location limit reached</h2>
+            <p className="text-secondary text-sm leading-relaxed mb-6 max-w-sm mx-auto">
+              {planBlock === 'solo'
+                ? 'Solo plan supports 1 location. Upgrade to Growth to manage up to 5 locations.'
+                : "You've reached the 5-location limit on the Growth plan."}
+            </p>
+            {planBlock === 'solo' && (
+              <a
+                href="mailto:hello@reviewr.app?subject=Upgrade to Growth"
+                className="btn btn-primary px-6 py-2.5 inline-flex"
+              >
+                Contact us to upgrade
+              </a>
+            )}
+          </div>
+        )}
+
+        {!planBlock && step === 1 && <StepConnect />}
+        {!planBlock && step === 2 && (
           <StepSelectLocation
             locations={locations}
             selected={selectedLocation}
@@ -139,7 +188,7 @@ function ConnectFlow() {
             onContinue={() => setStep(3)}
           />
         )}
-        {step === 3 && (
+        {!planBlock && step === 3 && (
           <StepDetails
             businessType={businessType}
             setBusinessType={setBusinessType}

@@ -10,6 +10,7 @@ import type { Review } from '@/lib/types'
 interface ReviewCardProps {
   review: Review
   onAction: (id: string, status: 'posted' | 'discarded') => void
+  isManager?: boolean
   style?: React.CSSProperties
 }
 
@@ -24,7 +25,7 @@ const flagColors = {
   legal_risk: 'text-warning bg-warning/10 border-warning/20',
 }
 
-export function ReviewCard({ review, onAction, style }: ReviewCardProps) {
+export function ReviewCard({ review, onAction, isManager = false, style }: ReviewCardProps) {
   const [expanded, setExpanded] = useState(false)
   const [editing, setEditing] = useState(false)
   const [draft, setDraft] = useState(review.draft_reply ?? '')
@@ -189,15 +190,17 @@ export function ReviewCard({ review, onAction, style }: ReviewCardProps) {
             <Edit3 size={14} />
             Edit &amp; Post
           </button>
-          <button
-            onClick={() => callAction('discard')}
-            disabled={!!loading}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-[9px] text-sm font-medium text-white transition-opacity disabled:opacity-60"
-            style={{ background: '#ef4444' }}
-          >
-            {loading === 'discard' ? <Spinner size={14} /> : <Trash2 size={14} />}
-            Discard
-          </button>
+          {!isManager && (
+            <button
+              onClick={() => callAction('discard')}
+              disabled={!!loading}
+              className="flex items-center gap-2 px-5 py-2.5 rounded-[9px] text-sm font-medium text-white transition-opacity disabled:opacity-60"
+              style={{ background: '#ef4444' }}
+            >
+              {loading === 'discard' ? <Spinner size={14} /> : <Trash2 size={14} />}
+              Discard
+            </button>
+          )}
         </div>
       )}
     </div>

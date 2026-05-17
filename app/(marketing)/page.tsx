@@ -30,18 +30,18 @@ function Hero() {
       <div className="absolute -top-32 -right-32 w-[480px] h-[480px] bg-[#dcfce7] rounded-full blur-3xl opacity-50 pointer-events-none" />
       <div className="absolute -bottom-20 -left-24 w-80 h-80 bg-[#ede9fe] rounded-full blur-3xl opacity-35 pointer-events-none" />
 
-      <div className="max-w-5xl mx-auto px-6 pt-16 pb-14 relative">
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 bg-[#16a34a]/10 border border-[#16a34a]/20 text-[#16a34a] text-xs font-semibold px-3.5 py-1.5 rounded-full mb-7">
+      <div className="max-w-5xl mx-auto px-6 pt-10 pb-8 relative">
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center gap-2 bg-[#16a34a]/10 border border-[#16a34a]/20 text-[#16a34a] text-xs font-semibold px-3.5 py-1.5 rounded-full mb-5">
             <span className="w-1.5 h-1.5 rounded-full bg-[#16a34a] animate-pulse" />
             Meet Reviewr
           </div>
 
-          <h1 className="font-serif text-6xl sm:text-7xl lg:text-[5.5rem] leading-[1.0] tracking-tight text-[#0a0f1e] mb-6">
+          <h1 className="font-serif text-6xl sm:text-7xl lg:text-[5.5rem] leading-[1.0] tracking-tight text-[#0a0f1e] mb-4">
             Reply to every review<br />
             <span className="text-[#16a34a]">in one tap.</span>
           </h1>
-          <p className="text-lg text-[#6b7280] max-w-xl mx-auto leading-relaxed mb-10">
+          <p className="text-lg text-[#6b7280] max-w-xl mx-auto leading-relaxed mb-7">
             Reviewr watches your Google Business Profile 24/7, writes a perfect reply the
             moment a review lands, and waits for your approval. Nothing ever posts without you.
           </p>
@@ -62,6 +62,15 @@ function Hero() {
             </Link>
           </div>
           <p className="text-xs text-[#b0b0a8] mt-4">Free to start. No card needed. Cancel anytime.</p>
+          <div className="flex flex-wrap items-center justify-center gap-2 mt-5">
+            <div className="flex gap-0.5">
+              {[1,2,3,4,5].map(i => <Star key={i} size={10} fill="#16a34a" className="text-[#16a34a]" />)}
+            </div>
+            <p className="text-xs text-[#6b7280]">
+              <span className="italic">&ldquo;Our rating went from 4.1 to 4.6 in three months.&rdquo;</span>
+              <span className="text-[#9ca3af]"> — Ana K., Restaurant owner</span>
+            </p>
+          </div>
         </div>
 
         <div className="max-w-sm mx-auto relative">
@@ -140,7 +149,7 @@ function WhatIsIncluded() {
     {
       icon: Globe2,
       title: "Replies in the customer’s language",
-      body: 'Detects 30+ languages automatically. Slovenian, English, Spanish — responds in kind, every time.',
+      body: 'Automatically detects 30+ languages so you connect with every customer — no setup, no switching. Slovenian, English, Spanish — replied to in kind, every time.',
       outcome: '✓ No setup. Detects automatically.',
       bg: 'bg-[#e6f0f7]', iconBg: 'bg-white/60', iconColor: 'text-blue-500',
       cols: 'lg:col-span-1',
@@ -165,7 +174,7 @@ function WhatIsIncluded() {
       icon: Brain,
       title: 'Sounds exactly like you',
       body: 'Learns from every reply you approve. The drafts match your tone, not a generic template.',
-      outcome: '✓ Learns from 3 approvals.',
+      outcome: '✓ Starts matching your tone in as few as 3 approvals.',
       bg: 'bg-[#eeebfa]', iconBg: 'bg-white/60', iconColor: 'text-violet-500',
       cols: 'lg:col-span-1',
     },
@@ -489,7 +498,12 @@ function RatingStats() {
 
 function FinalCTA() {
   const solo   = ['1 location', 'Unlimited replies', 'Email alerts for every draft', 'Cancel anytime']
-  const growth = ['Up to 5 locations', 'Everything in Solo', 'Brand voice learning', 'Priority support']
+  const growth = [
+    'Everything in Solo',
+    'Up to 5 locations — one dashboard',
+    '3 team seats with manager permissions',
+    'Priority support',
+  ]
 
   return (
     <section id="cta" className="border-b border-[#e8e8e3] bg-[#0a0f1e]">
@@ -539,7 +553,7 @@ function FinalCTA() {
             </ul>
             <p className="text-xs text-[#4b5563] mb-3">14-day free trial. No card needed.</p>
             <Link href="/signup" className="block text-center text-sm font-semibold border border-[#4b5563] text-white px-4 py-3 rounded-2xl hover:border-white transition-colors">
-              Start free
+              Start replying free
             </Link>
           </div>
 

@@ -38,14 +38,14 @@ export function Nav() {
             Log in
           </Link>
           <Link href="/signup" className="text-sm bg-[#16a34a] text-white px-4 py-2 rounded-md hover:bg-[#15803d] transition-colors font-medium">
-            Start free
+            Start replying free
           </Link>
         </div>
 
         {/* Mobile right side */}
         <div className="flex md:hidden items-center gap-3">
           <Link href="/signup" className="text-sm bg-[#16a34a] text-white px-4 py-2 rounded-md hover:bg-[#15803d] transition-colors font-medium">
-            Start free
+            Start replying free
           </Link>
           <button
             onClick={() => setOpen(!open)}

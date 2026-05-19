@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { LayoutDashboard, Settings, HelpCircle, LogOut, Users } from 'lucide-react'
-import { LogoMark } from '@/components/logo'
+import { LogoWithText } from '@/components/logo'
 import { createClient } from '@/lib/supabase/client'
 import { useToast } from '@/components/ui/toast'
 
@@ -40,8 +40,7 @@ export function Sidebar({ userEmail, plan, isManager }: SidebarProps) {
       {/* Logo */}
       <div className="px-5 py-5 border-b border-border">
         <Link href="/dashboard" className="flex items-center gap-3 group transition-all duration-200 hover:-translate-y-px hover:brightness-105">
-          <LogoMark size={32} noShadow />
-          <span className="font-serif text-lg text-primary">Reviewr</span>
+          <LogoWithText height={30} />
         </Link>
       </div>
 

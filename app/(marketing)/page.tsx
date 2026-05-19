@@ -3,7 +3,7 @@ import {
   Globe2, Zap, Heart, Mail, ThumbsUp, Brain,
   Check, ArrowRight, Star, CheckCircle2, Pencil, X, Clock
 } from 'lucide-react'
-import { LogoMark } from '@/components/logo'
+import { LogoMark, LogoWithText } from '@/components/logo'
 import { Nav } from './nav'
 
 export default function LandingPage() {
@@ -605,8 +605,7 @@ function Footer() {
       <div className="border-t border-[#e8e8e3]">
         <div className="max-w-5xl mx-auto px-6 py-5 flex flex-col md:flex-row items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-2 transition-all duration-200 hover:-translate-y-px hover:brightness-105">
-            <LogoMark size={24} noShadow />
-            <span className="font-serif text-base text-[#0a0f1e]">Reviewr</span>
+            <LogoWithText height={28} />
           </Link>
           <div className="flex items-center gap-6">
             {['Privacy Policy', 'Terms of Use', 'Contact'].map(l => (

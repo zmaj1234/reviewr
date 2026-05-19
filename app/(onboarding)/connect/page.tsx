@@ -4,7 +4,7 @@ import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Building2, Phone, Mail, ChevronRight, CheckCircle2 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
-import { LogoMark } from '@/components/logo'
+import { LogoWithText } from '@/components/logo'
 import { Spinner } from '@/components/ui/spinner'
 import { useToast } from '@/components/ui/toast'
 import type { GBPLocation } from '@/lib/types'
@@ -135,8 +135,7 @@ function ConnectFlow() {
 
       <div className="relative z-10 w-full max-w-lg">
         <div className="flex items-center gap-3 justify-center mb-10">
-          <LogoMark size={32} noShadow />
-          <span className="font-serif text-xl">Reviewr</span>
+          <LogoWithText height={32} />
         </div>
 
         {/* Steps indicator */}

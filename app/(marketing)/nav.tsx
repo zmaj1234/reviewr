@@ -19,7 +19,7 @@ export function Nav() {
       <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 transition-all duration-200 hover:-translate-y-px hover:brightness-105">
-          <LogoMark size={28} />
+          <LogoMark size={36} />
           <span className="font-serif text-lg text-[#0a0f1e]">Reviewr</span>
         </Link>
 

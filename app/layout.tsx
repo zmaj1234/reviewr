@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Reviewr — AI-powered Google review replies',
+  title: 'Reviewr — Reply to every Google review in one tap',
   description: 'Connect your Google Business Profile, get AI-drafted replies to every review, approve in one tap. Never post without your OK.',
   openGraph: {
     title: 'Reviewr',

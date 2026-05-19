@@ -18,9 +18,9 @@ export function Nav() {
     <header className="border-b border-[#e8e8e3] bg-[#fafaf7]/95 backdrop-blur-sm sticky top-0 z-50">
       <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5 transition-all duration-200 hover:-translate-y-px hover:brightness-105">
-          <LogoMark size={30} />
-          <span className="font-serif text-xl font-semibold text-[#0a0f1e]">Reviewr</span>
+        <Link href="/" className="flex items-center gap-3 transition-all duration-200 hover:-translate-y-px hover:brightness-105">
+          <LogoMark size={38} />
+          <span className="font-serif text-2xl font-semibold text-[#0a0f1e]">Reviewr</span>
         </Link>
 
         {/* Desktop nav */}

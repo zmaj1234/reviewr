@@ -31,6 +31,8 @@
 html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
 }
 
 body {
@@ -204,6 +206,33 @@ h1, h2, h3, h4, h5, h6 {
     animation: skeleton-loading 1.4s ease-in-out infinite;
     border-radius: var(--radius);
   }
+}
+
+/* ── Scroll-reveal animations ──────────────────────────────────── */
+.will-animate {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.will-animate.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Hero mockup float ─────────────────────────────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+.float-anim {
+  animation: float 5s ease-in-out infinite;
+}
+
+/* ── Shimmer on hero badge ─────────────────────────────────────── */
+@keyframes shimmer {
+  from { background-position: -200% center; }
+  to   { background-position:  200% center; }
 }
 
 @keyframes skeleton-loading {

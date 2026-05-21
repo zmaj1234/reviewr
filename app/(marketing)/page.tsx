@@ -6,12 +6,14 @@ import {
 import { LogoMark, LogoWithText } from '@/components/logo'
 import { Nav } from './nav'
 import { AnimateIn } from '@/components/animate-in'
+import { DemoPlayer } from '@/components/demo-player'
 
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-white text-[#0a0a0a] font-sans">
       <Nav />
       <Hero />
+      <HowItWorks />
       <WhyChoose />
       <WhatIsIncluded />
       <FeatureSpotlight />
@@ -167,6 +169,31 @@ function ReviewMockup() {
         Your actual email. Nothing posts until you approve.
       </p>
     </div>
+  )
+}
+
+// ─── HOW IT WORKS ────────────────────────────────────────────────────────────
+
+function HowItWorks() {
+  return (
+    <section id="how-it-works" className="bg-[#f7f7f5]">
+      <div className="max-w-6xl mx-auto px-6 py-28 lg:py-36">
+        <AnimateIn>
+          <p className="text-[11px] uppercase tracking-[0.18em] text-[#9ca3af] mb-4 font-semibold text-center">
+            How it works
+          </p>
+          <h2 className="font-serif text-4xl lg:text-5xl tracking-tight text-[#0a0a0a] text-center mb-4">
+            From review to reply<br />in four steps.
+          </h2>
+          <p className="text-base text-[#6b7280] text-center max-w-md mx-auto mb-14">
+            Click through each step to see exactly what happens — and what you&apos;ll see in your inbox.
+          </p>
+        </AnimateIn>
+        <AnimateIn delay={80}>
+          <DemoPlayer />
+        </AnimateIn>
+      </div>
+    </section>
   )
 }
 

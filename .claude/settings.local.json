@@ -24,7 +24,11 @@
       "Bash(npm install *)",
       "Skill(vercel:deploy)",
       "Bash(vercel --version)",
-      "PowerShell(npx vercel --version; Get-Content .vercel/project.json; git status --porcelain)"
+      "PowerShell(npx vercel --version; Get-Content .vercel/project.json; git status --porcelain)",
+      "Bash(vercel deploy *)",
+      "PowerShell(Copy-Item *)",
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "Bash(Sort-Object)"
     ]
   }
 }

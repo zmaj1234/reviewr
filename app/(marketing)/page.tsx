@@ -11,8 +11,8 @@ export default function LandingPage() {
     <div className="min-h-screen bg-[#fafaf7] text-[#0a0f1e] font-sans">
       <Nav />
       <Hero />
-      <WhatIsIncluded />
       <WhyChoose />
+      <WhatIsIncluded />
       <FeatureSpotlight />
       <UserReviews />
       <RatingStats />
@@ -507,7 +507,7 @@ function FinalCTA() {
 
   return (
     <section id="cta" className="border-b border-[#e8e8e3] bg-[#0a0f1e]">
-      <div className="max-w-5xl mx-auto px-6 py-20 text-center">
+      <div className="max-w-5xl mx-auto px-6 pt-12 pb-20 text-center">
         <p className="text-[11px] uppercase tracking-[0.15em] text-[#6b7280] mb-4 font-medium">Pricing</p>
         <h2 className="font-serif text-4xl lg:text-6xl tracking-tight text-white leading-tight mb-8">
           Start your<br />free trial.

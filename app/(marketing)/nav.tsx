@@ -6,7 +6,7 @@ import { Menu, X } from 'lucide-react'
 import { LogoMark } from '@/components/logo'
 
 const links = [
-  { label: 'How it works', href: '#why' },
+  { label: 'Why Reviewr', href: '#why' },
   { label: 'Features',     href: '#includes' },
   { label: 'Pricing',      href: '#cta' },
 ]

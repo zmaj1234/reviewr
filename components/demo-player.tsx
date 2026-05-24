@@ -35,9 +35,10 @@ function useTypewriter(text: string, active: boolean, speed = 18) {
 
 /* ─── main component ─────────────────────────────────────────────────────── */
 export function DemoPlayer() {
-  const [step, setStep]         = useState(0)
-  const [visible, setVisible]   = useState(true)
-  const [approved, setApproved] = useState(false)
+  const [step, setStep]               = useState(0)
+  const [visible, setVisible]         = useState(true)
+  const [approved, setApproved]       = useState(false)
+  const [hasInteracted, setInteracted] = useState(false)
 
   const goTo = (i: number) => {
     setVisible(false)
@@ -45,7 +46,10 @@ export function DemoPlayer() {
     setTimeout(() => { setStep(i); setVisible(true) }, 220)
   }
 
-  const next = () => goTo((step + 1) % 4)
+  const next = () => {
+    setInteracted(true)
+    goTo((step + 1) % 4)
+  }
 
   /* approve pulse on step 4 */
   const approveTimer = useRef<ReturnType<typeof setTimeout>>()
@@ -120,16 +124,31 @@ export function DemoPlayer() {
           <p className="text-sm text-[#6b7280] leading-snug max-w-sm">
             {STEPS[step].short}
           </p>
-          <button
-            onClick={next}
-            className="flex items-center gap-2 bg-[#0a0a0a] text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-[#222] transition-all duration-200 shrink-0 group"
-          >
-            {step === 3 ? (
-              <><RotateCcw size={14} className="group-hover:-rotate-45 transition-transform duration-300" /> Start over</>
-            ) : (
-              <>Next <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform duration-200" /></>
+
+          <div className="flex items-center gap-2 shrink-0">
+            {/* nudge arrow — fades out after first click */}
+            {!hasInteracted && step < 3 && (
+              <span className="flex items-center gap-1 text-[11px] font-semibold text-[#16a34a] animate-bounce">
+                tap
+                <ArrowRight size={12} />
+              </span>
             )}
-          </button>
+
+            <button
+              onClick={next}
+              className={`flex items-center gap-2 bg-[#0a0a0a] text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-all duration-300 group ${
+                !hasInteracted && step < 3
+                  ? 'shadow-[0_0_0_3px_rgba(22,163,74,0.25),0_0_0_6px_rgba(22,163,74,0.08)] hover:bg-[#222]'
+                  : 'hover:bg-[#222]'
+              }`}
+            >
+              {step === 3 ? (
+                <><RotateCcw size={14} className="group-hover:-rotate-45 transition-transform duration-300" /> Start over</>
+              ) : (
+                <>Next <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform duration-200" /></>
+              )}
+            </button>
+          </div>
         </div>
       </div>
 

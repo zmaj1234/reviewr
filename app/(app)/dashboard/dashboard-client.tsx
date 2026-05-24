@@ -6,7 +6,7 @@ import { useToast } from '@/components/ui/toast'
 import { ReviewCard } from './review-card'
 import { StatCard } from './stat-card'
 import type { Business, Review } from '@/lib/types'
-import { ChevronDown, ChevronUp, CheckCircle2, Calendar, Clock, Check, Star, Users } from 'lucide-react'
+import { CheckCircle2, Users, ChevronDown, ChevronUp } from 'lucide-react'
 
 interface Props {
   businesses: Business[]
@@ -22,10 +22,17 @@ interface Props {
   }
 }
 
-export function DashboardClient({ businesses, pendingReviews: initial, recentPostedReviews: initialPosted, isManager, ownerName, stats }: Props) {
-  const [pending, setPending] = useState<Review[]>(initial)
+export function DashboardClient({
+  businesses,
+  pendingReviews: initial,
+  recentPostedReviews: initialPosted,
+  isManager,
+  ownerName,
+  stats,
+}: Props) {
+  const [pending,      setPending]      = useState<Review[]>(initial)
   const [recentPosted, setRecentPosted] = useState<Review[]>(initialPosted)
-  const [showPosted, setShowPosted] = useState(false)
+  const [showPosted,   setShowPosted]   = useState(false)
   const { toast } = useToast()
 
   const businessIds = businesses.map(b => b.id)
@@ -40,9 +47,7 @@ export function DashboardClient({ businesses, pendingReviews: initial, recentPos
       })
     } else {
       setPending(prev => prev.filter(r => r.id !== review.id))
-      if (review.status === 'posted') {
-        setRecentPosted(prev => [review, ...prev])
-      }
+      if (review.status === 'posted') setRecentPosted(prev => [review, ...prev])
     }
   }, [toast])
 
@@ -52,13 +57,9 @@ export function DashboardClient({ businesses, pendingReviews: initial, recentPos
     const channel = supabase
       .channel('reviews-realtime')
       .on('postgres_changes', {
-        event: '*',
-        schema: 'public',
-        table: 'reviews',
+        event: '*', schema: 'public', table: 'reviews',
         filter: `business_id=in.(${businessIds.join(',')})`,
-      }, payload => {
-        handleReviewUpdate(payload.new as Review)
-      })
+      }, payload => handleReviewUpdate(payload.new as Review))
       .subscribe()
     return () => { supabase.removeChannel(channel) }
   }, [businessIds, handleReviewUpdate])
@@ -66,128 +67,137 @@ export function DashboardClient({ businesses, pendingReviews: initial, recentPos
   function onAction(reviewId: string, newStatus: 'posted' | 'discarded') {
     const review = pending.find(r => r.id === reviewId)
     setPending(prev => prev.filter(r => r.id !== reviewId))
-    if (newStatus === 'posted' && review) {
+    if (newStatus === 'posted' && review)
       setRecentPosted(prev => [{ ...review, status: 'posted' }, ...prev])
-    }
   }
 
   const businessLabel = businesses.length === 1
     ? businesses[0]?.business_name
     : `${businesses.length} locations`
 
+  const pendingCount = stats.pendingCount + pending.length - initial.length
+
   return (
-    <div className="p-8 animate-fade-in">
-      {/* Manager banner */}
+    <div className="px-8 py-10 max-w-3xl animate-fade-in">
+
+      {/* ── Manager banner ───────────────────────────────── */}
       {isManager && (
-        <div className="flex items-center gap-2.5 bg-[#ede9fe] border border-violet-200 text-violet-700 rounded-xl px-4 py-2.5 mb-6 text-sm font-medium">
-          <Users size={15} />
-          You&apos;re viewing <strong>{ownerName}&apos;s</strong> workspace as a manager
+        <div className="flex items-center gap-2.5 bg-violet-50 border border-violet-200/60 text-violet-600 rounded-2xl px-4 py-3 mb-8 text-sm font-medium">
+          <Users size={14} />
+          Viewing <strong className="font-semibold">{ownerName}&apos;s</strong> workspace
         </div>
       )}
 
-      {/* Header */}
+      {/* ── Header ──────────────────────────────────────── */}
       <div className="mb-8">
-        <h1 className="font-serif text-3xl text-primary">Dashboard</h1>
-        <p className="text-secondary text-sm mt-1">
-          {businessLabel} · Review management
+        <h1 className="font-serif text-[2rem] text-[#1c1c1e] leading-tight">
+          {businessLabel}
+        </h1>
+        <p className="text-sm text-[#aeaeb2] mt-1 font-medium">
+          Review management
         </p>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+      {/* ── Stats ───────────────────────────────────────── */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-10">
         <StatCard
-          label="Reviews this month"
+          label="This month"
           value={stats.totalThisMonth}
-          icon={Calendar}
-          iconBg="rgba(99,102,241,0.1)"
-          iconColor="#6366f1"
         />
         <StatCard
-          label="Pending approval"
-          value={stats.pendingCount + pending.length - initial.length}
-          highlight={pending.length > 0}
-          icon={Clock}
-          iconBg="rgba(99,102,241,0.1)"
-          iconColor="#6366f1"
+          label="Waiting"
+          value={pendingCount}
+          highlight={pendingCount > 0}
         />
         <StatCard
-          label="Posted this month"
+          label="Posted"
           value={stats.postedThisMonth}
-          icon={Check}
-          iconBg="rgba(16,185,129,0.1)"
-          iconColor="#10b981"
         />
         <StatCard
           label="Avg rating"
           value={stats.avgRating}
           suffix="★"
-          icon={Star}
-          iconBg="rgba(245,158,11,0.1)"
-          iconColor="#f59e0b"
         />
       </div>
 
-      {/* Pending reviews */}
+      {/* ── Pending reviews ─────────────────────────────── */}
       <section className="mb-10">
         <div className="flex items-center gap-3 mb-5">
-          <h2 className="font-serif text-xl text-primary">Pending approval</h2>
+          <h2 className="font-serif text-xl text-[#1c1c1e]">
+            {pending.length === 0 ? 'All caught up' : 'Waiting for you'}
+          </h2>
+
           {pending.length > 0 && (
-            <span className="text-sm font-medium text-accent bg-accent/10 px-2.5 py-0.5 rounded-full">
+            <span className="text-xs font-bold text-[#16a34a] bg-[#16a34a]/10 px-2.5 py-0.5 rounded-full">
               {pending.length}
             </span>
           )}
-          <div className="flex items-center gap-1.5">
+
+          {/* Live dot */}
+          <span className="flex items-center gap-1.5 ml-auto">
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#16a34a] opacity-60" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-[#16a34a]" />
             </span>
-            <span className="text-xs text-emerald-600 font-medium">Live</span>
-          </div>
+            <span className="text-[11px] text-[#16a34a] font-semibold">Live</span>
+          </span>
         </div>
 
         {pending.length === 0 ? (
           <EmptyPending />
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-3">
             {pending.map((review, i) => (
               <ReviewCard
                 key={review.id}
                 review={review}
                 onAction={onAction}
                 isManager={isManager}
-                style={{ animationDelay: `${i * 50}ms` }}
+                style={{ animationDelay: `${i * 60}ms` }}
               />
             ))}
           </div>
         )}
       </section>
 
-      {/* Recently posted */}
+      {/* ── Recently posted ─────────────────────────────── */}
       {recentPosted.length > 0 && (
         <section>
           <button
             onClick={() => setShowPosted(!showPosted)}
-            className="flex items-center gap-2 text-secondary hover:text-primary transition-colors mb-4"
+            className="flex items-center gap-2 mb-4 group"
           >
-            <h2 className="font-serif text-xl">Recently posted</h2>
-            <span className="text-sm text-muted">({recentPosted.length} this week)</span>
-            {showPosted ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+            <h2 className="font-serif text-xl text-[#1c1c1e]">Recently posted</h2>
+            <span className="text-xs text-[#aeaeb2] font-medium">
+              ({recentPosted.length})
+            </span>
+            {showPosted
+              ? <ChevronUp size={14} className="text-[#aeaeb2] group-hover:text-[#6c6c70] transition-colors" />
+              : <ChevronDown size={14} className="text-[#aeaeb2] group-hover:text-[#6c6c70] transition-colors" />
+            }
           </button>
 
           {showPosted && (
-            <div className="space-y-3">
-              {recentPosted.map(review => (
-                <div key={review.id} className="card p-4 opacity-70">
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className="text-sm font-medium text-primary">{review.reviewer_name}</span>
-                    <span className="ml-auto text-xs text-muted flex items-center gap-1">
-                      <CheckCircle2 size={12} className="text-accent" />
-                      Posted
-                    </span>
+            <div className="bg-white rounded-2xl shadow-[0_1px_3px_rgba(0,0,0,0.07),0_4px_16px_rgba(0,0,0,0.04)] overflow-hidden">
+              {recentPosted.map((review, i) => (
+                <div
+                  key={review.id}
+                  className={`flex items-center gap-4 px-5 py-3.5 ${
+                    i < recentPosted.length - 1 ? 'border-b border-black/[0.05]' : ''
+                  }`}
+                >
+                  <CheckCircle2 size={15} className="text-[#16a34a] shrink-0" />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-medium text-[#1c1c1e] truncate">
+                      {review.reviewer_name ?? 'Anonymous'}
+                    </p>
+                    {review.final_reply && (
+                      <p className="text-xs text-[#aeaeb2] truncate mt-0.5">
+                        {review.final_reply}
+                      </p>
+                    )}
                   </div>
-                  {review.final_reply && (
-                    <p className="text-xs text-muted line-clamp-2">{review.final_reply}</p>
-                  )}
+                  <span className="text-[11px] text-[#aeaeb2] shrink-0">Posted</span>
                 </div>
               ))}
             </div>
@@ -200,13 +210,13 @@ export function DashboardClient({ businesses, pendingReviews: initial, recentPos
 
 function EmptyPending() {
   return (
-    <div className="card p-16 flex flex-col items-center justify-center text-center">
-      <div className="w-12 h-12 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center mb-4">
-        <CheckCircle2 size={20} className="text-accent" />
+    <div className="bg-white rounded-2xl shadow-[0_1px_3px_rgba(0,0,0,0.07),0_4px_16px_rgba(0,0,0,0.04)] px-8 py-16 flex flex-col items-center text-center">
+      <div className="w-14 h-14 rounded-full bg-[#f0fdf4] border border-[#bbf7d0] flex items-center justify-center mb-5 shadow-[0_2px_12px_rgba(22,163,74,0.12)]">
+        <CheckCircle2 size={24} className="text-[#16a34a]" strokeWidth={1.5} />
       </div>
-      <h3 className="font-serif text-xl text-primary mb-2">You&apos;re all caught up</h3>
-      <p className="text-secondary text-sm max-w-xs">
-        We&apos;ll notify you the moment a new review comes in with a draft reply ready to go.
+      <h3 className="font-serif text-xl text-[#1c1c1e] mb-2">You&apos;re all caught up</h3>
+      <p className="text-sm text-[#aeaeb2] max-w-xs leading-relaxed">
+        New reviews come in automatically. We&apos;ll have a draft ready before you even see it.
       </p>
     </div>
   )

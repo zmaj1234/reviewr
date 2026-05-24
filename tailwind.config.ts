@@ -13,43 +13,37 @@ const config: Config = {
         sans: ['DM Sans', 'system-ui', 'sans-serif'],
       },
       colors: {
-        bg: '#0a0a0a',
-        surface: '#111111',
-        card: '#161616',
-        border: '#262626',
-        'border-strong': '#333333',
-        primary: '#fafafa',
-        secondary: '#a1a1aa',
-        muted: '#52525b',
-        accent: '#22c55e',
-        'accent-hover': '#16a34a',
-        'accent-subtle': 'rgba(34, 197, 94, 0.1)',
-        danger: '#ef4444',
-        warning: '#f59e0b',
+        // ── iOS Light Theme ───────────────────────────────────
+        bg:              '#f2f2f7',          // iOS systemGroupedBackground
+        surface:         '#ffffff',          // iOS systemBackground
+        card:            '#ffffff',          // iOS card surface
+        border:          'rgba(60,60,67,0.12)',   // iOS separator
+        'border-strong': 'rgba(60,60,67,0.24)',
+        primary:         '#1c1c1e',          // iOS label
+        secondary:       '#6c6c70',          // iOS secondaryLabel
+        muted:           '#aeaeb2',          // iOS tertiaryLabel
+        accent:          '#16a34a',          // Reviewr brand green
+        'accent-hover':  '#15803d',
+        'accent-subtle': 'rgba(22,163,74,0.1)',
+        danger:          '#ff3b30',          // iOS systemRed
+        warning:         '#ff9500',          // iOS systemOrange
       },
       borderRadius: {
-        DEFAULT: '10px',
+        DEFAULT: '12px',
         lg: '16px',
       },
       animation: {
-        'float-slow': 'float 8s ease-in-out infinite',
-        'float-slower': 'float 12s ease-in-out infinite reverse',
-        'fade-in': 'fadeIn 0.4s ease-out',
-        'slide-up': 'slideUp 0.4s ease-out',
-        'count-up': 'countUp 1s ease-out forwards',
+        'fade-in':  'fadeIn 0.3s ease-out',
+        'slide-up': 'slideUp 0.35s ease-out',
       },
       keyframes: {
-        float: {
-          '0%, 100%': { transform: 'translateY(0px) scale(1)' },
-          '50%': { transform: 'translateY(-20px) scale(1.02)' },
-        },
         fadeIn: {
-          from: { opacity: '0' },
-          to: { opacity: '1' },
+          from: { opacity: '0', transform: 'translateY(6px)' },
+          to:   { opacity: '1', transform: 'translateY(0)' },
         },
         slideUp: {
           from: { opacity: '0', transform: 'translateY(12px)' },
-          to: { opacity: '1', transform: 'translateY(0)' },
+          to:   { opacity: '1', transform: 'translateY(0)' },
         },
       },
     },

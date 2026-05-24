@@ -1,9 +1,8 @@
 import Link from 'next/link'
 import {
-  Globe2, Zap, Heart, Mail, ThumbsUp, Brain,
-  Check, ArrowRight, Star, CheckCircle2, Pencil, X, Clock,
+  Globe2, Heart, ThumbsUp, Brain,
+  Check, ArrowRight, ArrowDown, Star,
 } from 'lucide-react'
-import { LogoMark, LogoWithText } from '@/components/logo'
 import { Nav } from './nav'
 import { AnimateIn } from '@/components/animate-in'
 import { DemoPlayer } from '@/components/demo-player'
@@ -13,12 +12,8 @@ export default function LandingPage() {
     <div className="min-h-screen bg-white text-[#0a0a0a] font-sans">
       <Nav />
       <Hero />
-      <HowItWorks />
-      <WhyChoose />
-      <WhatIsIncluded />
-      <FeatureSpotlight />
+      <CombinedFeatures />
       <UserReviews />
-      <RatingStats />
       <FinalCTA />
       <Footer />
     </div>
@@ -34,7 +29,7 @@ function Hero() {
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#dcfce7] rounded-full blur-[120px] opacity-40 pointer-events-none -translate-y-1/4 translate-x-1/4" />
       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#ede9fe] rounded-full blur-[100px] opacity-25 pointer-events-none translate-y-1/4 -translate-x-1/4" />
 
-      <div className="max-w-6xl mx-auto px-6 pt-20 pb-12 relative z-10">
+      <div className="max-w-6xl mx-auto px-6 pt-20 pb-0 relative z-10">
         {/* Above-fold text — no scroll animation, already visible */}
         <div className="text-center mb-14">
 
@@ -74,7 +69,7 @@ function Hero() {
           </div>
 
           <p className="text-xs text-[#b0b0a8] mb-6">
-            Free to start. No card needed. Cancel anytime.
+            Free to start. 7-day trial. Cancel anytime.
           </p>
 
           {/* Social proof strip */}
@@ -91,357 +86,325 @@ function Hero() {
           </div>
         </div>
 
-        {/* Floating mockup */}
-        <div className="max-w-[400px] mx-auto">
-          <div className="float-anim">
-            <div className="relative">
-              <div className="absolute -inset-6 bg-gradient-to-b from-[#16a34a]/10 via-[#6366f1]/8 to-transparent rounded-[3rem] blur-3xl" />
-              <ReviewMockup />
+        {/* ── Interactive demo — the main event ──────────── */}
+        <div id="how-it-works" className="mt-4 pb-10">
+
+          {/* Attention strip */}
+          <div className="flex flex-col items-center gap-3 mb-8">
+            <div className="inline-flex items-center gap-2.5 bg-[#0a0f1e] text-white text-sm font-semibold px-5 py-3 rounded-full shadow-[0_4px_24px_rgba(0,0,0,0.25)]">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#16a34a] opacity-75" />
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#16a34a]" />
+              </span>
+              Interactive demo — click each step to advance
             </div>
+            <p className="text-xs text-[#9ca3af] tracking-wide">
+              30 seconds. See exactly what lands in your inbox and what you tap to approve.
+            </p>
+            <ArrowDown size={18} className="text-[#16a34a] animate-bounce mt-1" />
           </div>
-        </div>
-      </div>
-    </section>
-  )
-}
 
-function ReviewMockup() {
-  return (
-    <div className="w-full">
-      <div className="rounded-3xl overflow-hidden shadow-[0_32px_80px_rgba(0,0,0,0.18),0_8px_24px_rgba(0,0,0,0.08)] ring-1 ring-black/[0.06]">
-        <div className="bg-[#6366f1] px-5 py-4 flex items-start justify-between">
-          <div>
-            <div className="text-white font-semibold text-sm flex items-center gap-1.5">
-              <LogoMark size={18} noShadow /> Reviewr
-            </div>
-            <div className="text-white/70 text-xs mt-0.5">A new review is waiting for your reply</div>
-          </div>
-          <div className="bg-[#facc15] rounded-2xl px-3 py-1.5 text-center shrink-0">
-            <div className="flex gap-0.5">
-              {[1,2,3,4,5].map(i => (
-                <Star key={i} size={10} fill="#92400e" className="text-yellow-900" />
-              ))}
-            </div>
-            <div className="text-yellow-900 text-[10px] font-bold mt-0.5">5 / 5</div>
-          </div>
-        </div>
-
-        <div className="bg-white px-5 py-4">
-          <div className="inline-block bg-[#ede9fe] text-[#6366f1] text-[10px] font-semibold px-3 py-1 rounded-full uppercase tracking-wide mb-3">
-            La Bella Vista
-          </div>
-          <div className="bg-[#f8f8fd] border-l-4 border-[#6366f1] rounded-r-2xl px-4 py-3 mb-3">
-            <div className="text-sm font-semibold text-[#0a0a0a]">Christian K.</div>
-            <div className="text-xs text-[#9ca3af] mb-2">Friday, May 16, 2026</div>
-            <div className="text-sm text-[#374151] italic leading-relaxed">
-              &ldquo;Best meal we&apos;ve had all year. The pasta was out of this world and the
-              atmosphere made it even better.&rdquo;
-            </div>
-          </div>
-          <div className="text-[10px] text-[#6366f1] uppercase tracking-widest font-semibold flex items-center gap-1 mb-2">
-            ✨ System draft reply
-          </div>
-          <div className="bg-[#fafafa] border border-dashed border-[#c7d2fe] rounded-2xl px-4 py-3 text-sm text-[#374151] leading-relaxed mb-4">
-            Christian, thank you so much — this truly made our team&apos;s day! We&apos;re so glad
-            the pasta hit the spot. We can&apos;t wait to welcome you back!
-          </div>
-          <div className="grid grid-cols-3 gap-2">
-            <button type="button" className="bg-[#10b981] text-white text-xs font-semibold py-2.5 rounded-xl flex items-center justify-center gap-1">
-              <CheckCircle2 size={12} /> Approve
-            </button>
-            <button type="button" className="bg-[#6366f1] text-white text-xs font-semibold py-2.5 rounded-xl flex items-center justify-center gap-1">
-              <Pencil size={12} /> Edit
-            </button>
-            <button type="button" className="bg-[#ef4444] text-white text-xs font-semibold py-2.5 rounded-xl flex items-center justify-center gap-1">
-              <X size={12} /> Discard
-            </button>
-          </div>
-        </div>
-
-        <div className="bg-[#f9fafb] px-5 py-2.5 border-t border-black/[0.06] flex items-center justify-between">
-          <div className="text-xs text-[#9ca3af]">
-            Sent by <span className="text-[#6366f1] font-medium">Reviewr</span>
-          </div>
-          <div className="text-xs text-[#6366f1] font-medium">Open dashboard →</div>
-        </div>
-      </div>
-      <p className="text-[11px] text-[#b0b0a8] text-center mt-3">
-        Your actual email. Nothing posts until you approve.
-      </p>
-    </div>
-  )
-}
-
-// ─── HOW IT WORKS ────────────────────────────────────────────────────────────
-
-function HowItWorks() {
-  return (
-    <section id="how-it-works" className="bg-[#f7f7f5]">
-      <div className="max-w-6xl mx-auto px-6 py-28 lg:py-36">
-        <AnimateIn>
-          <p className="text-[11px] uppercase tracking-[0.18em] text-[#9ca3af] mb-4 font-semibold text-center">
-            How it works
-          </p>
-          <h2 className="font-serif text-4xl lg:text-5xl tracking-tight text-[#0a0a0a] text-center mb-4">
-            From review to reply<br />in four steps.
-          </h2>
-          <p className="text-base text-[#6b7280] text-center max-w-md mx-auto mb-14">
-            Click through each step to see exactly what happens — and what you&apos;ll see in your inbox.
-          </p>
-        </AnimateIn>
-        <AnimateIn delay={80}>
           <DemoPlayer />
-        </AnimateIn>
+        </div>
       </div>
     </section>
   )
 }
 
-// ─── WHY CHOOSE ─────────────────────────────────────────────────────────────
+// ─── COMBINED FEATURES ──────────────────────────────────────────────────────
 
-function WhyChoose() {
+function CombinedFeatures() {
   return (
-    <section id="why" className="bg-white">
-      <div className="max-w-6xl mx-auto px-6 py-28 lg:py-36">
+    <section id="features" className="bg-white">
+      <div className="max-w-6xl mx-auto px-6 pt-20 pb-28 lg:pt-24 lg:pb-36">
         <AnimateIn>
           <p className="text-[11px] uppercase tracking-[0.18em] text-[#9ca3af] mb-4 font-semibold text-center">
             Why Reviewr
           </p>
           <h2 className="font-serif text-4xl lg:text-5xl tracking-tight text-[#0a0a0a] text-center mb-4">
-            Set it. Approve it. Done.
+            Everything you need.<br />Nothing you don&apos;t.
           </h2>
           <p className="text-base text-[#6b7280] text-center max-w-md mx-auto mb-16">
-            Reviewr is the most complete review reply system for Google Business Profile owners.
+            Built for busy owners who want perfect replies without spending time on them.
           </p>
         </AnimateIn>
 
-        <div className="grid md:grid-cols-3 gap-4">
-          {/* Card 01 */}
-          <AnimateIn delay={0} className="h-full">
-            <div className="relative bg-white border border-black/[0.07] rounded-3xl p-8 overflow-hidden shadow-[0_1px_4px_rgba(0,0,0,0.04),0_8px_24px_rgba(0,0,0,0.05)] hover:shadow-[0_2px_8px_rgba(0,0,0,0.06),0_20px_48px_rgba(0,0,0,0.09)] hover:-translate-y-1 transition-all duration-300 h-full">
-              <div className="absolute top-5 right-6 font-serif text-7xl leading-none select-none pointer-events-none text-[#f3f3f1]">01</div>
-              <div className="w-11 h-11 rounded-2xl bg-[#f0fdf4] flex items-center justify-center mb-6 shadow-sm">
-                <Clock size={20} className="text-[#16a34a]" strokeWidth={1.5} />
-              </div>
-              <h3 className="font-serif text-xl font-bold mb-3 text-[#0a0a0a]">Free up your time</h3>
-              <p className="text-sm leading-relaxed text-[#6b7280]">
-                Stop spending 20 minutes crafting the perfect reply to a 2-star review. The system
-                does it for you — better than you&apos;d write it yourself, in under 30 seconds.
-              </p>
-            </div>
-          </AnimateIn>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-3">
 
-          {/* Card 02 */}
-          <AnimateIn delay={80} className="h-full">
-            <div className="relative bg-[#f5f3ff] border border-[#ede9fe] rounded-3xl p-8 overflow-hidden shadow-[0_1px_4px_rgba(0,0,0,0.04),0_8px_24px_rgba(0,0,0,0.05)] hover:shadow-[0_2px_8px_rgba(0,0,0,0.06),0_20px_48px_rgba(0,0,0,0.09)] hover:-translate-y-1 transition-all duration-300 h-full">
-              <div className="absolute top-5 right-6 font-serif text-7xl leading-none select-none pointer-events-none text-[#ddd8f7]">02</div>
-              <div className="w-11 h-11 rounded-2xl bg-white/70 flex items-center justify-center mb-6 shadow-sm">
-                <Brain size={20} className="text-violet-500" strokeWidth={1.5} />
-              </div>
-              <h3 className="font-serif text-xl font-bold mb-3 text-[#0a0a0a]">Protect your reputation on autopilot</h3>
-              <p className="text-sm leading-relaxed text-[#4a4460]">
-                Every unanswered review is a public signal that you don&apos;t care. Reviewr makes sure
-                every single review gets a reply — even when you&apos;re slammed.
-              </p>
-            </div>
-          </AnimateIn>
-
-          {/* Card 03 — dark */}
-          <AnimateIn delay={160} className="h-full">
-            <div className="relative bg-[#0a0f1e] rounded-3xl p-8 overflow-hidden shadow-[0_1px_4px_rgba(0,0,0,0.1),0_8px_32px_rgba(0,0,0,0.2)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.15),0_24px_56px_rgba(0,0,0,0.3)] hover:-translate-y-1 transition-all duration-300 h-full">
-              <div className="absolute top-5 right-6 font-serif text-7xl leading-none select-none pointer-events-none text-white/[0.05]">03</div>
-              <div className="w-11 h-11 rounded-2xl bg-[#16a34a]/15 flex items-center justify-center mb-6">
-                <ThumbsUp size={20} className="text-[#16a34a]" strokeWidth={1.5} />
-              </div>
-              <h3 className="font-serif text-xl font-bold mb-3 text-white">You&apos;re still the boss</h3>
-              <p className="text-sm leading-relaxed text-[#9ca3af]">
-                Stay in complete control. Nothing ever posts without you. You approve, edit, or
-                discard every reply. Full control, zero effort.
-              </p>
-            </div>
-          </AnimateIn>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-// ─── WHAT IS INCLUDED ───────────────────────────────────────────────────────
-
-function WhatIsIncluded() {
-  const features = [
-    {
-      icon: Globe2,
-      title: "Replies in the customer's language",
-      body: 'Automatically detects 30+ languages so you connect with every customer — no setup, no switching. Slovenian, English, Spanish — replied to in kind, every time.',
-      outcome: 'No setup. Detects automatically.',
-      bg: 'bg-white', iconBg: 'bg-[#e6f0f7]', iconColor: 'text-blue-500',
-      cols: 'lg:col-span-1',
-    },
-    {
-      icon: Mail,
-      title: 'Email alert for every draft',
-      body: 'Notified the moment a draft is ready. Approve from your inbox in seconds.',
-      outcome: 'Average approval time: 12 seconds.',
-      bg: 'bg-[#f0fdf4]', iconBg: 'bg-white/80', iconColor: 'text-[#16a34a]',
-      cols: 'lg:col-span-2',
-    },
-    {
-      icon: ThumbsUp,
-      title: 'One tap to approve and go live',
-      body: 'Review and post without opening a laptop. Done from anywhere.',
-      outcome: 'No dashboard login needed.',
-      bg: 'bg-white', iconBg: 'bg-[#f0fdf4]', iconColor: 'text-[#16a34a]',
-      cols: 'lg:col-span-2',
-    },
-    {
-      icon: Brain,
-      title: 'Sounds exactly like you',
-      body: 'Learns from every reply you approve. The drafts match your tone, not a generic template.',
-      outcome: 'Starts matching your tone in as few as 3 approvals.',
-      bg: 'bg-[#f5f3ff]', iconBg: 'bg-white/70', iconColor: 'text-violet-500',
-      cols: 'lg:col-span-1',
-    },
-    {
-      icon: Heart,
-      title: '1-star reviews handled with care',
-      body: 'Empathetic and professional. No defensive replies. No reputation damage.',
-      outcome: 'Turns critics into return customers.',
-      bg: 'bg-white', iconBg: 'bg-[#fef3f0]', iconColor: 'text-rose-500',
-      cols: 'lg:col-span-1',
-    },
-    {
-      icon: Zap,
-      title: 'Gets sharper with every approval',
-      body: 'Every tap teaches the system more about your voice. Drafts improve over time.',
-      outcome: 'Better every week.',
-      bg: 'bg-[#f9fafb]', iconBg: 'bg-[#e8f5ee]', iconColor: 'text-emerald-600',
-      cols: 'lg:col-span-2',
-    },
-  ]
-
-  return (
-    <section id="includes" className="bg-[#f7f7f5]">
-      <div className="max-w-6xl mx-auto px-6 py-28 lg:py-36">
-        <AnimateIn>
-          <p className="text-[11px] uppercase tracking-[0.18em] text-[#9ca3af] mb-4 font-semibold text-center">
-            What&apos;s included
-          </p>
-          <h2 className="font-serif text-4xl lg:text-5xl tracking-tight text-[#0a0a0a] text-center mb-4">
-            Everything included.<br />Nothing to configure.
-          </h2>
-          <p className="text-base text-[#6b7280] text-center max-w-lg mx-auto mb-16">
-            Everything you need to turn your Google reviews from a stress into a strength —
-            fully automatic, always in your control.
-          </p>
-        </AnimateIn>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
-          {features.map((f, i) => (
-            <AnimateIn key={f.title} delay={i * 60} className={`${f.cols} h-full`}>
-              <div
-                className={`${f.bg} border border-black/[0.06] rounded-3xl p-7 shadow-[0_1px_4px_rgba(0,0,0,0.04),0_8px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_2px_8px_rgba(0,0,0,0.06),0_20px_48px_rgba(0,0,0,0.09)] hover:-translate-y-1 transition-all duration-300 cursor-default h-full flex flex-col`}
-              >
-                <div className={`w-12 h-12 rounded-2xl ${f.iconBg} flex items-center justify-center mb-5 shrink-0`}>
-                  <f.icon size={22} className={f.iconColor} strokeWidth={1.5} />
+          {/* ── Time card — dark navy, large ─────────────────── */}
+          <AnimateIn delay={0} className="lg:col-span-8">
+            <div className="relative bg-[#0a0f1e] rounded-3xl p-10 overflow-hidden flex flex-col justify-between min-h-[300px] shadow-[0_8px_48px_rgba(0,0,0,0.28)] hover:-translate-y-1 transition-transform duration-300">
+              <div className="absolute -right-6 -bottom-8 font-serif text-[16rem] leading-none select-none pointer-events-none text-white/[0.03]">30</div>
+              <div>
+                <p className="text-[11px] uppercase tracking-[0.18em] text-[#4b5563] mb-5 font-semibold">Draft time</p>
+                <div className="flex items-end gap-3 mb-1">
+                  <span className="font-serif text-[7rem] lg:text-[8.5rem] leading-none text-white tracking-tight">&lt;30</span>
+                  <span className="font-serif text-[3.5rem] text-[#16a34a] leading-none mb-3">s</span>
                 </div>
-                <h3 className="text-base font-semibold text-[#0a0a0a] mb-2 leading-snug">{f.title}</h3>
-                <p className="text-sm text-[#6b7280] leading-relaxed mb-3 flex-1">{f.body}</p>
-                <p className="text-xs text-[#16a34a] font-medium">✓ {f.outcome}</p>
               </div>
-            </AnimateIn>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
+              <div>
+                <p className="text-lg font-semibold text-white mb-2">Free up your time — completely.</p>
+                <p className="text-sm text-[#6b7280] leading-relaxed max-w-sm">
+                  Stop spending 20 minutes on the perfect reply. Reviewr writes it before you even notice the review arrived.
+                </p>
+              </div>
+            </div>
+          </AnimateIn>
 
-// ─── FEATURE SPOTLIGHT ──────────────────────────────────────────────────────
+          {/* ── Boss card — soft green ───────────────────────── */}
+          <AnimateIn delay={60} className="lg:col-span-4">
+            <div className="relative bg-[#f0fdf4] border border-[#bbf7d0] rounded-3xl p-8 overflow-hidden flex flex-col justify-between min-h-[300px] shadow-[0_1px_4px_rgba(0,0,0,0.04),0_8px_24px_rgba(22,163,74,0.1)] hover:-translate-y-1 transition-transform duration-300">
+              <div className="absolute -top-12 -right-12 w-48 h-48 bg-[#16a34a]/15 rounded-full blur-3xl pointer-events-none" />
+              <div className="w-12 h-12 rounded-2xl bg-[#16a34a] flex items-center justify-center mb-6 shadow-[0_4px_16px_rgba(22,163,74,0.45)]">
+                <ThumbsUp size={22} className="text-white" strokeWidth={1.5} />
+              </div>
+              <div>
+                <h3 className="font-serif text-3xl font-bold text-[#0a0a0a] leading-tight mb-3">
+                  You&apos;re still<br />the boss.
+                </h3>
+                <p className="text-sm text-[#3d6b4f] leading-relaxed mb-5">
+                  Nothing ever posts without your approval. Approve, edit, or discard — every single reply, every time.
+                </p>
+                <span className="inline-flex items-center gap-2 bg-[#16a34a] text-white text-xs font-semibold px-4 py-2 rounded-full shadow-[0_2px_10px_rgba(22,163,74,0.35)]">
+                  <Check size={12} /> Always your final say
+                </span>
+              </div>
+            </div>
+          </AnimateIn>
 
-function FeatureSpotlight() {
-  return (
-    <section className="bg-white">
-      <div className="max-w-6xl mx-auto px-6 py-28 lg:py-36 grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
-        <AnimateIn>
-          <span className="inline-block text-xs font-semibold text-[#16a34a] bg-[#f0fdf4] border border-[#bbf7d0] px-3.5 py-1.5 rounded-full mb-6">
-            Key feature
-          </span>
-          <h2 className="font-serif text-4xl lg:text-5xl tracking-tight text-[#0a0a0a] leading-tight mb-6">
-            Get notified by email the moment a draft is ready.
-          </h2>
-
-          {/* Steps */}
-          <div className="flex items-start gap-3 mb-8">
-            {[
-              { icon: Star,         label: 'Review lands' },
-              { icon: Mail,         label: 'Draft to inbox' },
-              { icon: CheckCircle2, label: 'Posted to Google' },
-            ].map((step, i) => (
-              <div key={step.label} className="flex items-center gap-3">
-                <div className="flex flex-col items-center gap-2">
-                  <div className="w-11 h-11 rounded-2xl bg-[#f0fdf4] border border-[#bbf7d0] flex items-center justify-center">
-                    <step.icon size={16} className="text-[#16a34a]" />
-                  </div>
-                  <span className="text-[10px] text-[#6b7280] font-medium text-center leading-tight w-16">{step.label}</span>
+          {/* ── Psychology card — full width dark ───────────── */}
+          <AnimateIn delay={100} className="lg:col-span-12">
+            <div className="relative bg-[#0a0f1e] rounded-3xl px-10 py-12 overflow-hidden shadow-[0_8px_48px_rgba(0,0,0,0.28)] hover:-translate-y-1 transition-transform duration-300">
+              <div className="absolute -right-24 top-1/2 -translate-y-1/2 font-serif text-[22rem] leading-none select-none pointer-events-none text-white/[0.025]">89</div>
+              <div className="absolute top-0 left-0 w-80 h-80 bg-[#16a34a]/6 rounded-full blur-[100px] pointer-events-none" />
+              <p className="text-[11px] uppercase tracking-[0.18em] text-[#4b5563] mb-6 font-semibold">The psychology of reviews</p>
+              <div className="flex flex-col lg:flex-row items-start gap-8 max-w-4xl">
+                <span className="font-serif text-[6rem] leading-none text-[#16a34a] shrink-0">89%</span>
+                <div className="pt-1">
+                  <p className="font-serif text-2xl lg:text-3xl text-white leading-snug mb-4">
+                    of customers read the owner&apos;s reply before deciding whether to visit.
+                  </p>
+                  <p className="text-sm text-[#6b7280] leading-relaxed max-w-xl">
+                    Your reply isn&apos;t just for the reviewer. It&apos;s for every future customer scrolling through next.
+                    Reviewr makes sure every reply builds trust — even when the original review is a 1-star.
+                  </p>
                 </div>
-                {i < 2 && (
-                  <ArrowRight size={14} className="text-[#d1d5db] shrink-0 -mt-5" />
-                )}
               </div>
-            ))}
-          </div>
+            </div>
+          </AnimateIn>
 
-          <p className="text-base text-[#6b7280] leading-relaxed mb-5">
-            No need to log in and check. The moment a new review comes in, Reviewr writes the
-            reply and sends it straight to your inbox. Open it. Click approve. Done.
-          </p>
-          <p className="text-sm font-semibold text-[#374151]">
-            From new review to posted reply — without opening a laptop.
-          </p>
-        </AnimateIn>
-
-        <AnimateIn delay={120}>
-          <div className="flex justify-center lg:justify-end">
-            <div className="w-72 rounded-3xl overflow-hidden shadow-[0_24px_64px_rgba(0,0,0,0.14),0_4px_16px_rgba(0,0,0,0.06)] ring-1 ring-black/[0.06]">
-              <div className="bg-[#6366f1] px-4 py-3 flex items-center justify-between">
+          {/* ── Bad reviews card — white with 1-star example ─ */}
+          <AnimateIn delay={80} className="lg:col-span-8">
+            <div className="bg-white border border-black/[0.07] rounded-3xl p-8 overflow-hidden flex flex-col min-h-[340px] shadow-[0_1px_4px_rgba(0,0,0,0.04),0_8px_24px_rgba(0,0,0,0.06)] hover:-translate-y-1 transition-transform duration-300">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-11 h-11 rounded-2xl bg-[#fff1f2] flex items-center justify-center shrink-0">
+                  <Heart size={20} className="text-rose-500" strokeWidth={1.5} />
+                </div>
                 <div>
-                  <div className="text-white font-semibold text-sm flex items-center gap-1.5">
-                    <LogoMark size={16} noShadow /> Reviewr
-                  </div>
-                  <div className="text-white/70 text-[10px] mt-0.5">A new review is waiting for your reply</div>
-                </div>
-                <div className="bg-[#facc15] rounded-xl px-2.5 py-1.5 text-center shrink-0">
-                  <div className="text-sm leading-none">⭐⭐⭐⭐⭐</div>
-                  <div className="text-yellow-900 text-[9px] font-bold mt-0.5">5 / 5</div>
+                  <h3 className="text-base font-semibold text-[#0a0a0a]">1-star reviews, handled with care.</h3>
+                  <p className="text-xs text-[#9ca3af]">Empathetic. Professional. Never defensive.</p>
                 </div>
               </div>
-              <div className="bg-white px-4 py-3">
-                <div className="inline-block bg-[#ede9fe] text-[#6366f1] text-[9px] font-semibold px-2.5 py-0.5 rounded-full uppercase tracking-wide mb-2">
-                  Ana&apos;s Bakery
+              <div className="flex-1 bg-[#fafafa] rounded-2xl p-5 border border-black/[0.05]">
+                <div className="flex items-center gap-1.5 mb-2.5">
+                  <Star size={10} fill="#f87171" className="text-rose-400" />
+                  <span className="text-[10px] text-[#9ca3af] font-medium">1 star — Max B., 3 days ago</span>
                 </div>
-                <div className="bg-[#f8f8fd] border-l-4 border-[#6366f1] rounded-r-xl px-3 py-2 mb-2">
-                  <div className="text-[11px] font-semibold text-[#0a0a0a]">Ana K.</div>
-                  <div className="text-[9px] text-[#9ca3af] mb-1">Friday, May 16, 2026</div>
-                  <div className="text-[10px] text-[#374151] italic leading-relaxed">&ldquo;Amazing! Best pastries I&apos;ve had in years.&rdquo;</div>
-                </div>
-                <div className="text-[8px] text-[#6366f1] uppercase tracking-widest font-semibold mb-1">✨ System draft reply</div>
-                <div className="bg-[#fafafa] border border-dashed border-[#c7d2fe] rounded-xl px-3 py-2 text-[10px] text-[#374151] leading-relaxed mb-3">
-                  Thank you so much, Ana! We&apos;re thrilled you loved the pastries — made fresh every morning just for moments like this!
-                </div>
-                <div className="grid grid-cols-3 gap-1.5">
-                  <div className="bg-[#10b981] text-white text-[9px] font-semibold text-center py-2 rounded-xl">✓ Approve</div>
-                  <div className="bg-[#6366f1] text-white text-[9px] font-semibold text-center py-2 rounded-xl">✎ Edit</div>
-                  <div className="bg-[#ef4444] text-white text-[9px] font-semibold text-center py-2 rounded-xl">✕ Discard</div>
+                <p className="text-sm text-[#374151] italic mb-4 leading-relaxed">
+                  &ldquo;Waited 40 minutes for a table despite having a reservation. Very disappointing.&rdquo;
+                </p>
+                <div className="bg-[#f0fdf4] border border-[#bbf7d0] rounded-xl px-4 py-3">
+                  <p className="text-[10px] text-[#16a34a] uppercase tracking-widest font-semibold mb-2">✨ Reviewr draft</p>
+                  <p className="text-sm text-[#374151] leading-relaxed">
+                    Max, we sincerely apologise for the wait — that&apos;s not the experience we promise and it falls short of our standard.
+                    We&apos;d love to make it right. Please reach out directly so we can take care of you personally.
+                  </p>
                 </div>
               </div>
-              <div className="bg-[#f9fafb] px-4 py-2 border-t border-black/[0.06] flex items-center justify-between">
-                <div className="text-[9px] text-[#9ca3af]">Sent by <span className="text-[#6366f1] font-medium">Reviewr</span></div>
-                <div className="text-[9px] text-[#6366f1] font-medium">Open dashboard →</div>
+              <p className="text-xs text-[#16a34a] font-medium mt-4">✓ Turns critics into return customers</p>
+            </div>
+          </AnimateIn>
+
+          {/* ── Simplicity card — lavender ───────────────────── */}
+          <AnimateIn delay={120} className="lg:col-span-4">
+            <div className="relative bg-[#f5f3ff] border border-[#ede9fe] rounded-3xl p-8 overflow-hidden flex flex-col justify-between min-h-[340px] shadow-[0_1px_4px_rgba(0,0,0,0.04),0_8px_24px_rgba(99,102,241,0.08)] hover:-translate-y-1 transition-transform duration-300">
+              <div className="absolute -bottom-12 -right-12 w-52 h-52 bg-[#6366f1]/8 rounded-full blur-3xl pointer-events-none" />
+              <div>
+                <p className="text-[11px] uppercase tracking-[0.18em] text-[#a78bfa] mb-5 font-semibold">Simplicity</p>
+                <h3 className="font-serif text-[2.6rem] leading-tight font-bold text-[#0a0a0a] mb-3">
+                  One tap.<br />No apps.<br />No logins.
+                </h3>
+                <p className="text-sm text-[#4a4460] leading-relaxed">
+                  An email arrives. You tap approve. Done. No dashboard visit. No password. No app to download.
+                </p>
+              </div>
+              <div className="mt-6 bg-white/80 rounded-2xl px-5 py-4 border border-[#ede9fe] backdrop-blur-sm">
+                <p className="text-[10px] text-[#9ca3af] uppercase tracking-wider mb-1.5 font-medium">Avg. approval time</p>
+                <p className="font-serif text-4xl text-violet-600">12 sec</p>
               </div>
             </div>
-          </div>
-        </AnimateIn>
+          </AnimateIn>
+
+          {/* ── Tone card ────────────────────────────────────── */}
+          <AnimateIn delay={80} className="lg:col-span-4">
+            <div className="relative bg-[#f9fafb] border border-black/[0.06] rounded-3xl p-8 overflow-hidden flex flex-col justify-between min-h-[260px] shadow-[0_1px_4px_rgba(0,0,0,0.04),0_8px_24px_rgba(0,0,0,0.05)] hover:-translate-y-1 transition-transform duration-300">
+              <div>
+                <div className="w-11 h-11 rounded-2xl bg-[#f0fdf4] flex items-center justify-center mb-5">
+                  <Brain size={20} className="text-[#16a34a]" strokeWidth={1.5} />
+                </div>
+                <h3 className="text-base font-semibold text-[#0a0a0a] mb-2">Sounds exactly like you.</h3>
+                <p className="text-sm text-[#6b7280] leading-relaxed mb-5">
+                  Learns from every approval. In as few as 3 taps, drafts start matching your voice — not a template.
+                </p>
+              </div>
+              <div>
+                <div className="flex items-end gap-1 mb-2">
+                  {[20, 50, 100].map((h, i) => (
+                    <div key={i} className="flex-1 flex flex-col items-center gap-1">
+                      <div
+                        className="w-full rounded-t-lg"
+                        style={{
+                          height: `${h * 0.4}px`,
+                          background: i === 0 ? '#d1fae5' : i === 1 ? '#6ee7b7' : '#16a34a',
+                        }}
+                      />
+                      <span className="text-[9px] text-[#9ca3af] font-medium">#{i + 1}</span>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-xs text-[#16a34a] font-medium">✓ Better every week</p>
+              </div>
+            </div>
+          </AnimateIn>
+
+          {/* ── Language card — dark blue ─────────────────────── */}
+          <AnimateIn delay={140} className="lg:col-span-8">
+            <div className="relative bg-[#0f172a] rounded-3xl p-8 overflow-hidden flex flex-col justify-between min-h-[260px] shadow-[0_8px_48px_rgba(0,0,0,0.28)] hover:-translate-y-1 transition-transform duration-300">
+              <div className="absolute top-0 right-0 w-80 h-80 bg-[#3b82f6]/10 rounded-full blur-[100px] pointer-events-none" />
+              <div className="flex items-start gap-4 mb-6">
+                <div className="w-11 h-11 rounded-2xl bg-[#1e3a5f] flex items-center justify-center shrink-0">
+                  <Globe2 size={20} className="text-[#60a5fa]" strokeWidth={1.5} />
+                </div>
+                <div>
+                  <h3 className="text-base font-semibold text-white mb-1">Replies in the customer&apos;s language.</h3>
+                  <p className="text-sm text-[#6b7280] leading-relaxed">
+                    Detects 30+ languages automatically. No setup, no switching — Slovenian, Spanish, Japanese, all handled.
+                  </p>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {['🇬🇧 English','🇩🇪 German','🇫🇷 French','🇪🇸 Spanish','🇮🇹 Italian','🇸🇮 Slovenian','🇳🇱 Dutch','🇵🇱 Polish','+ 22 more'].map(lang => (
+                  <span key={lang} className="bg-[#1e293b] text-[#94a3b8] text-[11px] font-medium px-3 py-1.5 rounded-full border border-white/[0.06]">
+                    {lang}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </AnimateIn>
+
+          {/* ── Analytics card — Growth feature ───────────────── */}
+          <AnimateIn delay={100} className="lg:col-span-12">
+            <div className="bg-white border border-black/[0.07] rounded-3xl p-8 lg:p-10 overflow-hidden shadow-[0_1px_4px_rgba(0,0,0,0.04),0_8px_24px_rgba(0,0,0,0.06)] hover:-translate-y-1 transition-transform duration-300">
+
+              <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-8">
+                <div>
+                  <span className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.12em] text-[#16a34a] bg-[#f0fdf4] border border-[#bbf7d0] px-2.5 py-1 rounded-full mb-4">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#16a34a]" />
+                    Growth plan
+                  </span>
+                  <h3 className="font-serif text-[2rem] lg:text-[2.5rem] text-[#0a0a0a] leading-tight mb-3">
+                    Know your numbers.
+                  </h3>
+                  <p className="text-sm text-[#6b7280] leading-relaxed max-w-md">
+                    Rating trends, weekly review volume, sentiment breakdown, and response time — in one clean iOS-style view. Built to tell you what&apos;s working, at a glance.
+                  </p>
+                </div>
+
+                {/* Key metrics */}
+                <div className="flex items-center gap-6 lg:gap-8 shrink-0">
+                  <div className="text-right">
+                    <p className="text-[10px] uppercase tracking-wider text-[#9ca3af] font-semibold mb-1">Avg rating</p>
+                    <p className="font-serif text-[2.5rem] leading-none text-[#16a34a]">
+                      4.7<span className="text-xl ml-0.5 opacity-50">★</span>
+                    </p>
+                  </div>
+                  <div className="w-px h-10 bg-black/[0.07]" />
+                  <div className="text-right">
+                    <p className="text-[10px] uppercase tracking-wider text-[#9ca3af] font-semibold mb-1">Avg response</p>
+                    <p className="font-serif text-[2.5rem] leading-none text-[#0a0a0a]">
+                      2.3<span className="text-xl ml-0.5 opacity-40">h</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Mini chart previews */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                {/* Rating trend preview */}
+                <div className="bg-[#f9f9f9] rounded-2xl p-5">
+                  <p className="text-[10px] uppercase tracking-[0.12em] text-[#9ca3af] font-semibold mb-3">Rating trend</p>
+                  <svg viewBox="0 0 280 60" className="w-full h-12" preserveAspectRatio="none">
+                    <defs>
+                      <linearGradient id="mktRatingFill" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#16a34a" stopOpacity="0.12" />
+                        <stop offset="100%" stopColor="#16a34a" stopOpacity="0" />
+                      </linearGradient>
+                    </defs>
+                    {/* Area fill */}
+                    <path
+                      d="M8,21 L45.7,19 L83.4,20 L121.1,17 L158.9,14.5 L196.6,15.7 L234.3,13.5 L272,11 L272,52 L8,52 Z"
+                      fill="url(#mktRatingFill)"
+                    />
+                    {/* Line */}
+                    <polyline
+                      points="8,21 45.7,19 83.4,20 121.1,17 158.9,14.5 196.6,15.7 234.3,13.5 272,11"
+                      fill="none"
+                      stroke="#16a34a"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    {/* Dots */}
+                    {[[8,21],[45.7,19],[83.4,20],[121.1,17],[158.9,14.5],[196.6,15.7],[234.3,13.5],[272,11]].map(([x,y], i) => (
+                      <circle key={i} cx={x} cy={y} r="3" fill="white" stroke="#16a34a" strokeWidth="1.5" />
+                    ))}
+                  </svg>
+                  <div className="flex justify-between mt-2">
+                    <span className="text-[9px] text-[#c7c7cc]">8 weeks ago</span>
+                    <span className="text-[9px] text-[#c7c7cc]">Now</span>
+                  </div>
+                </div>
+
+                {/* Weekly volume preview */}
+                <div className="bg-[#f9f9f9] rounded-2xl p-5">
+                  <p className="text-[10px] uppercase tracking-[0.12em] text-[#9ca3af] font-semibold mb-3">Weekly volume</p>
+                  <svg viewBox="0 0 280 48" className="w-full h-12">
+                    {/* Bars: counts [2,5,3,7,8,6,10,12], max=12, slot=35, barW=20 */}
+                    {[
+                      [7.5,  39.3, 8.7],
+                      [42.5, 28.3, 19.7],
+                      [77.5, 34,   14],
+                      [112.5,21.3, 26.7],
+                      [147.5,17.3, 30.7],
+                      [182.5,24,   24],
+                      [217.5,10.7, 37.3],
+                      [252.5,4,    44],
+                    ].map(([x, y, h], i) => (
+                      <rect key={i} x={x} y={y} width="20" height={h} rx="3" ry="3" fill="#16a34a" opacity="0.75" />
+                    ))}
+                  </svg>
+                  <div className="flex justify-between mt-2">
+                    <span className="text-[9px] text-[#c7c7cc]">8 weeks ago</span>
+                    <span className="text-[9px] text-[#c7c7cc]">Now</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </AnimateIn>
+
+        </div>
       </div>
     </section>
   )
@@ -554,55 +517,15 @@ function UserReviews() {
   )
 }
 
-// ─── RATING STATS ───────────────────────────────────────────────────────────
-
-function RatingStats() {
-  return (
-    <section className="bg-white">
-      <div className="max-w-6xl mx-auto px-6 py-28 lg:py-36 text-center">
-        <AnimateIn>
-          <div className="flex justify-center gap-1 mb-6">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <Star key={i} size={26} fill="#16a34a" className="text-[#16a34a]" />
-            ))}
-          </div>
-          <h2 className="font-serif text-4xl lg:text-6xl tracking-tight text-[#0a0a0a] mb-5">
-            Elevate your business.<br />One less thing to worry about.
-          </h2>
-          <p className="text-base text-[#6b7280] max-w-md mx-auto mb-14">
-            Business owners use Reviewr to protect their Google reputation — without spending
-            an hour a week writing replies.
-          </p>
-        </AnimateIn>
-
-        <div className="flex flex-col sm:flex-row items-stretch justify-center gap-4 max-w-2xl mx-auto">
-          {[
-            { value: '< 30s', label: 'Average draft time',  bg: 'bg-[#f5f3ff]', border: 'border-[#ede9fe]', val: 'text-violet-700' },
-            { value: '4.9★',  label: 'Owner satisfaction',  bg: 'bg-[#f0fdf4]', border: 'border-[#bbf7d0]', val: 'text-[#16a34a]'  },
-            { value: '100%',  label: 'Reviews get a reply', bg: 'bg-[#fff7ed]', border: 'border-[#fed7aa]', val: 'text-orange-500' },
-          ].map((s, i) => (
-            <AnimateIn key={s.label} delay={i * 80} className="flex-1">
-              <div className={`${s.bg} border ${s.border} rounded-3xl px-8 py-8 shadow-[0_1px_4px_rgba(0,0,0,0.04),0_8px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_2px_8px_rgba(0,0,0,0.06),0_20px_48px_rgba(0,0,0,0.09)] hover:-translate-y-1 transition-all duration-300 h-full`}>
-                <div className={`font-serif text-5xl ${s.val} mb-2`}>{s.value}</div>
-                <div className="text-[11px] text-[#9ca3af] uppercase tracking-widest font-medium">{s.label}</div>
-              </div>
-            </AnimateIn>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
 // ─── FINAL CTA ──────────────────────────────────────────────────────────────
 
 function FinalCTA() {
-  const solo   = ['1 location', 'Unlimited replies', 'Email alerts for every draft', 'Cancel anytime']
+  const solo   = ['1 location', 'Unlimited replies', 'Email alerts for every draft', 'Basic analytics', 'Cancel anytime']
   const growth = [
     'Everything in Solo',
     'Up to 5 locations — one dashboard',
     '3 team seats with manager permissions',
-    'Priority support',
+    'Advanced analytics — trends, charts & sentiment',
   ]
 
   return (
@@ -618,40 +541,54 @@ function FinalCTA() {
         </AnimateIn>
 
         <AnimateIn delay={60}>
-          <p className="text-base text-[#6b7280] max-w-lg mx-auto mb-5 leading-relaxed">
-            The average business loses 9 customers per month to unanswered reviews. At €50 per
-            customer, that&apos;s
+          <p className="text-base text-[#6b7280] max-w-md mx-auto mb-8 leading-relaxed">
+            Unanswered reviews cost the average business 9 customers a month.
+            At €50 per customer, that adds up fast.
           </p>
 
-          <div className="flex items-end justify-center gap-6 mb-5">
-            <div className="text-center">
-              <span className="font-serif text-5xl text-[#f87171] line-through opacity-70">€450</span>
-              <p className="text-[11px] text-[#4b5563] mt-1.5 uppercase tracking-wider">avg. monthly loss</p>
+          {/* ── ROI comparison ───────────────────────────── */}
+          <div className="flex flex-col sm:flex-row items-stretch justify-center gap-3 max-w-md mx-auto mb-6">
+            <div className="flex-1 bg-white/[0.04] border border-white/[0.07] rounded-2xl px-7 py-5 text-center">
+              <p className="text-[10px] text-[#6b7280] uppercase tracking-widest font-semibold mb-3">Without Reviewr</p>
+              <p className="font-serif text-5xl text-[#f87171] mb-1">~€450</p>
+              <p className="text-[11px] text-[#4b5563] leading-snug">lost every month<br />from ignored reviews</p>
             </div>
-            <div className="mb-7 text-[#4b5563]">
-              <ArrowRight size={20} />
-            </div>
-            <div className="text-center">
-              <div className="flex items-end justify-center gap-1.5">
-                <span className="font-serif text-2xl text-[#6b7280] line-through opacity-50">€29</span>
-                <span className="font-serif text-5xl text-[#16a34a]">€19</span>
-              </div>
-              <p className="text-[11px] text-[#4b5563] mt-1.5 uppercase tracking-wider">Reviewr / month</p>
+            <div className="flex items-center justify-center text-[#374151] font-semibold text-sm shrink-0 py-2">vs</div>
+            <div className="flex-1 bg-[#16a34a]/10 border border-[#16a34a]/25 rounded-2xl px-7 py-5 text-center">
+              <p className="text-[10px] text-[#16a34a] uppercase tracking-widest font-semibold mb-3">Reviewr</p>
+              <p className="font-serif text-5xl text-[#16a34a] mb-1">€19</p>
+              <p className="text-[11px] text-[#4b5563] leading-snug">per month<br />all features included</p>
             </div>
           </div>
 
-          <p className="text-lg text-[#16a34a] font-semibold mb-14">
-            Reviewr costs less than one lost customer.
+          <p className="text-base text-[#16a34a] font-semibold mb-10">
+            Fix a €450 problem for €19 a month.
           </p>
+
+          {/* ── Stats strip ──────────────────────────────── */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-14">
+            {[
+              { value: '< 30s', label: 'Draft time',          color: 'text-violet-400' },
+              { value: '4.9★',  label: 'Owner satisfaction',  color: 'text-[#16a34a]'  },
+              { value: '100%',  label: 'Reviews replied',     color: 'text-orange-400' },
+            ].map((s) => (
+              <div key={s.label} className="flex-1 text-center px-8 py-5 rounded-2xl border border-white/[0.06] bg-white/[0.03] backdrop-blur-sm">
+                <div className={`font-serif text-4xl ${s.color} mb-1`}>{s.value}</div>
+                <div className="text-[10px] text-[#4b5563] uppercase tracking-widest font-semibold">{s.label}</div>
+              </div>
+            ))}
+          </div>
         </AnimateIn>
 
         <div className="grid md:grid-cols-2 gap-4 max-w-2xl mx-auto mb-10 items-start">
           {/* Solo */}
           <AnimateIn delay={80}>
             <div className="bg-[#111827] border border-[#1f2937] rounded-3xl p-8 text-left shadow-[0_4px_24px_rgba(0,0,0,0.3)]">
-              <div className="text-xs uppercase tracking-widest text-[#6b7280] mb-4 font-semibold">Solo</div>
-              <div className="flex items-end gap-2 mb-7">
-                <span className="font-serif text-2xl text-[#4b5563] line-through">€29</span>
+              <div className="flex items-center justify-between mb-4">
+                <div className="text-xs uppercase tracking-widest text-[#6b7280] font-semibold">Solo</div>
+                <span className="text-[10px] font-semibold text-[#16a34a] bg-[#16a34a]/15 px-2.5 py-1 rounded-full">Launch price</span>
+              </div>
+              <div className="flex items-end gap-1.5 mb-7">
                 <span className="font-serif text-5xl text-white">€19</span>
                 <span className="text-sm text-[#6b7280] mb-1.5">/month</span>
               </div>
@@ -662,7 +599,7 @@ function FinalCTA() {
                   </li>
                 ))}
               </ul>
-              <p className="text-xs text-[#4b5563] mb-4">14-day free trial. No card needed.</p>
+              <p className="text-xs text-[#4b5563] mb-4">7-day free trial. No card needed.</p>
               <Link
                 href="/signup"
                 className="block text-center text-sm font-semibold border border-[#374151] text-white px-4 py-3.5 rounded-2xl hover:border-white/40 hover:bg-white/5 transition-all duration-200"
@@ -693,7 +630,7 @@ function FinalCTA() {
                     </li>
                   ))}
                 </ul>
-                <p className="text-xs text-[#bbf7d0]/70 mb-4">14-day free trial. No card needed.</p>
+                <p className="text-xs text-[#bbf7d0]/70 mb-4">7-day free trial. Card required — billed after 7 days.</p>
                 <Link
                   href="/signup"
                   className="block text-center text-sm font-semibold bg-white text-[#16a34a] px-4 py-3.5 rounded-2xl hover:bg-[#f0fdf4] transition-all duration-200 shadow-[0_2px_12px_rgba(0,0,0,0.12)]"
@@ -724,9 +661,15 @@ function Footer() {
         </p>
       </div>
       <div className="max-w-6xl mx-auto px-6 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
-        <Link href="/" className="flex items-center gap-2 transition-all duration-200 hover:opacity-80">
-          <LogoWithText height={26} />
-        </Link>
+        <div className="flex items-center gap-2.5 bg-[#f9fafb] border border-black/[0.07] rounded-full px-4 py-2 shadow-sm">
+          <div className="flex gap-0.5">
+            {[1,2,3,4,5].map(i => (
+              <Star key={i} size={11} fill="#16a34a" className="text-[#16a34a]" />
+            ))}
+          </div>
+          <span className="text-xs font-semibold text-[#374151]">4.9</span>
+          <span className="text-xs text-[#9ca3af]">Owner satisfaction</span>
+        </div>
         <div className="flex items-center gap-6">
           {['Privacy Policy', 'Terms of Use', 'Contact'].map(l => (
             <a

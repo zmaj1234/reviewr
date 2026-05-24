@@ -7,8 +7,7 @@ import { LogoMark } from '@/components/logo'
 
 const links = [
   { label: 'How it works', href: '#how-it-works' },
-  { label: 'Why Reviewr',  href: '#why' },
-  { label: 'Features',     href: '#includes' },
+  { label: 'Features',     href: '#features' },
   { label: 'Pricing',      href: '#cta' },
 ]
 
@@ -74,6 +73,12 @@ export function Nav() {
 
         {/* Mobile */}
         <div className="flex md:hidden items-center gap-2">
+          <a
+            href="#cta"
+            className="text-sm font-medium text-[#6b7280] hover:text-[#0a0a0a] px-2 py-1.5 transition-colors duration-200"
+          >
+            Pricing
+          </a>
           <Link
             href="/signup"
             className="text-sm font-semibold bg-[#16a34a] text-white px-4 py-2 rounded-full hover:bg-[#15803d] transition-colors"

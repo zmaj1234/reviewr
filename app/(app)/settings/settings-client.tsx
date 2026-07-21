@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { User, Building2, Phone, Mail, AlertTriangle, X } from 'lucide-react'
+import { User, Building2, Phone, Mail, AlertTriangle, X, CreditCard, ArrowUpRight } from 'lucide-react'
 import { Spinner } from '@/components/ui/spinner'
 import { useToast } from '@/components/ui/toast'
 import type { Business } from '@/lib/types'
@@ -15,9 +15,11 @@ const BUSINESS_TYPES = [
 interface Props {
   user: { id: string; email: string; name: string }
   business: Business | null
+  plan: 'solo' | 'growth'
+  hasSubscription: boolean
 }
 
-export function SettingsClient({ user, business }: Props) {
+export function SettingsClient({ user, business, plan, hasSubscription }: Props) {
   const { toast } = useToast()
   const router = useRouter()
 
@@ -25,35 +27,55 @@ export function SettingsClient({ user, business }: Props) {
   const [businessType, setBusinessType] = useState(business?.business_type ?? '')
   const [businessDesc, setBusinessDesc] = useState(business?.business_description ?? '')
   const [phone, setPhone] = useState(business?.owner_phone ?? '')
-  const [notifMethod, setNotifMethod] = useState<'whatsapp' | 'email'>(business?.notification_method ?? 'email')
+  const notifMethod = 'email' as const
   const [tone, setTone] = useState(business?.tone_preferences ?? 'warm, professional, concise')
+  const [fullName, setFullName] = useState(user.name)
   const [saving, setSaving] = useState(false)
   const [showDisconnectModal, setShowDisconnectModal] = useState(false)
   const [disconnecting, setDisconnecting] = useState(false)
 
   async function saveBusinessSettings() {
-    if (!business) return
     setSaving(true)
-    const res = await fetch('/api/business', {
+
+    // Always try to save full name
+    const nameRes = await fetch('/api/user', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        business_name: businessName,
-        business_type: businessType,
-        business_description: businessDesc,
-        owner_phone: phone,
-        notification_method: notifMethod,
-        tone_preferences: tone,
-      }),
+      body: JSON.stringify({ full_name: fullName }),
     })
 
-    if (!res.ok) {
-      const { error } = await res.json()
-      toast(error ?? 'Failed to save', 'error')
-    } else {
-      toast('Settings saved', 'success')
-      router.refresh()
+    if (!nameRes.ok) {
+      const { error } = await nameRes.json()
+      toast(error ?? 'Failed to save name', 'error')
+      setSaving(false)
+      return
     }
+
+    // Save business settings if business exists
+    if (business) {
+      const res = await fetch('/api/business', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          business_name: businessName,
+          business_type: businessType,
+          business_description: businessDesc,
+          owner_phone: phone,
+          notification_method: notifMethod,
+          tone_preferences: tone,
+        }),
+      })
+
+      if (!res.ok) {
+        const { error } = await res.json()
+        toast(error ?? 'Failed to save', 'error')
+        setSaving(false)
+        return
+      }
+    }
+
+    toast('Settings saved', 'success')
+    router.refresh()
     setSaving(false)
   }
 
@@ -105,14 +127,25 @@ export function SettingsClient({ user, business }: Props) {
             <input
               type="text"
               className="input"
-              defaultValue={user.name}
+              value={fullName}
+              onChange={e => setFullName(e.target.value)}
               placeholder="Your name"
             />
           </div>
 
-          <button className="btn btn-ghost text-sm px-4 py-2">
-            Change password
-          </button>
+          {/* Show save button here only if no business section below */}
+          {!business && (
+            <div className="pt-2">
+              <button
+                onClick={saveBusinessSettings}
+                disabled={saving}
+                className="btn btn-primary px-5 py-2.5"
+              >
+                {saving ? <Spinner size={14} /> : null}
+                Save changes
+              </button>
+            </div>
+          )}
         </div>
       </section>
 
@@ -206,6 +239,58 @@ export function SettingsClient({ user, business }: Props) {
           </div>
         </section>
       )}
+
+      {/* Billing section */}
+      <section className="card p-6 mb-6">
+        <div className="flex items-center gap-2 mb-5 pb-4 border-b border-border">
+          <CreditCard size={16} className="text-secondary" />
+          <h2 className="font-medium text-primary">Billing</h2>
+        </div>
+
+        <div className="flex items-center justify-between">
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-sm font-medium text-primary capitalize">{plan} plan</span>
+              <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${
+                plan === 'growth'
+                  ? 'bg-[#16a34a]/10 text-[#16a34a]'
+                  : 'bg-black/[0.04] text-[#aeaeb2]'
+              }`}>
+                {plan === 'growth' ? 'Growth' : 'Solo'}
+              </span>
+            </div>
+            <p className="text-xs text-muted">
+              {plan === 'growth' ? '€49/month — up to 5 locations, team seats, advanced analytics' : '€19/month — 1 location, basic analytics'}
+            </p>
+          </div>
+
+          <div className="flex gap-2 shrink-0">
+            {hasSubscription ? (
+              <a
+                href="/api/stripe/portal"
+                className="btn btn-ghost text-sm px-4 py-2 flex items-center gap-1.5"
+              >
+                Manage <ArrowUpRight size={13} />
+              </a>
+            ) : (
+              <a
+                href={`/api/stripe/checkout?plan=${plan === 'growth' ? 'growth' : 'solo'}`}
+                className="btn btn-ghost text-sm px-4 py-2"
+              >
+                Subscribe
+              </a>
+            )}
+            {plan === 'solo' && (
+              <a
+                href="/api/stripe/checkout?plan=growth"
+                className="btn btn-primary text-sm px-4 py-2"
+              >
+                Upgrade to Growth
+              </a>
+            )}
+          </div>
+        </div>
+      </section>
 
       {/* Danger zone */}
       {business && (

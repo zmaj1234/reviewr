@@ -1,6 +1,6 @@
 import crypto from 'crypto'
 
-const SECRET = () => process.env.N8N_WEBHOOK_SECRET!
+const SECRET = () => process.env.EMAIL_HMAC_SECRET ?? process.env.N8N_WEBHOOK_SECRET!
 
 // Token expires in 7 days
 const EXPIRY_MS = 7 * 24 * 60 * 60 * 1000

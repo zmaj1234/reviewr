@@ -1,5 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { NextResponse } from 'next/server'
+import { sendTeamInviteEmail } from '@/lib/email'
 
 export async function POST(req: Request) {
   try {
@@ -47,6 +49,32 @@ export async function POST(req: Request) {
     if (error) {
       if (error.code === '23505') return NextResponse.json({ error: 'This person is already on your team' }, { status: 400 })
       return NextResponse.json({ error: error.message }, { status: 500 })
+    }
+
+    // Send invite email (non-fatal)
+    try {
+      const { data: business } = await supabase
+        .from('businesses')
+        .select('business_name')
+        .eq('user_id', user.id)
+        .eq('active', true)
+        .maybeSingle()
+
+      const admin = createAdminClient()
+      const { data: ownerData } = await admin.auth.admin.getUserById(user.id)
+      const ownerName =
+        ownerData.user?.user_metadata?.full_name ??
+        ownerData.user?.email?.split('@')[0] ??
+        'Your teammate'
+
+      await sendTeamInviteEmail({
+        toEmail: email.toLowerCase(),
+        ownerName,
+        ownerEmail: user.email ?? '',
+        businessName: business?.business_name ?? 'their business',
+      })
+    } catch {
+      // Non-fatal — invite is created in DB regardless
     }
 
     return NextResponse.json({ member })

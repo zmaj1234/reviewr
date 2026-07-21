@@ -39,6 +39,7 @@ export async function GET(request: NextRequest) {
       { headers: { Authorization: `Bearer ${access_token}` } }
     )
     const accountsData = await accountsRes.json()
+    console.log('[GBP] accounts response:', JSON.stringify(accountsData))
     const accounts = accountsData.accounts ?? []
 
     for (const account of accounts) {
@@ -48,30 +49,30 @@ export async function GET(request: NextRequest) {
         { headers: { Authorization: `Bearer ${access_token}` } }
       )
       const locData = await locRes.json()
+      console.log('[GBP] locations response for', account.name, ':', JSON.stringify(locData))
       const locs = locData.locations ?? []
       for (const loc of locs) {
         const locationId = loc.name.split('/').pop()
         locations.push({ name: loc.name, title: loc.title ?? 'Unnamed', accountId, locationId })
       }
     }
-  } catch {
-    // Continue even if location fetch fails — user can reconnect
+  } catch (err) {
+    console.error('[GBP] fetch error:', err)
   }
 
-  // Store tokens temporarily in Supabase for the authenticated user
+  // Store tokens temporarily in user auth metadata (safe for multi-location Growth users)
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
   if (user) {
     const expiresAt = new Date(Date.now() + expires_in * 1000).toISOString()
-    // Update or insert a temporary business record with tokens
-    await supabase.from('businesses').upsert({
-      user_id: user.id,
-      business_name: locations[0]?.title ?? 'My Business',
-      gbp_access_token: access_token,
-      gbp_refresh_token: refresh_token,
-      gbp_token_expires_at: expiresAt,
-    }, { onConflict: 'user_id' })
+    await supabase.auth.updateUser({
+      data: {
+        temp_gbp_access_token:  access_token,
+        temp_gbp_refresh_token: refresh_token,
+        temp_gbp_expires_at:    expiresAt,
+      }
+    })
   }
 
   const encodedLocations = encodeURIComponent(JSON.stringify(locations))

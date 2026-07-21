@@ -37,8 +37,21 @@ export async function POST(
     return NextResponse.json({ error: 'Review not found' }, { status: 404 })
   }
 
-  if (review.businesses.user_id !== user.id) {
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  const isOwner = review.businesses.user_id === user.id
+
+  // Allow managers (team members) to act on behalf of the owner
+  if (!isOwner) {
+    const { data: membership } = await supabase
+      .from('team_members')
+      .select('id')
+      .eq('member_user_id', user.id)
+      .eq('owner_id', review.businesses.user_id)
+      .not('accepted_at', 'is', null)
+      .maybeSingle()
+
+    if (!membership) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+    }
   }
 
   const now = new Date().toISOString()

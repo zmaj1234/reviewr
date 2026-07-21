@@ -20,10 +20,18 @@ export default async function SettingsPage() {
     .eq('user_id', user.id)
     .single()
 
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('plan, stripe_customer_id')
+    .eq('id', user.id)
+    .maybeSingle()
+
   return (
     <SettingsClient
       user={{ id: user.id, email: user.email ?? '', name: user.user_metadata?.full_name ?? '' }}
       business={business as Business | null}
+      plan={(profile?.plan as 'solo' | 'growth') ?? 'solo'}
+      hasSubscription={!!profile?.stripe_customer_id}
     />
   )
 }

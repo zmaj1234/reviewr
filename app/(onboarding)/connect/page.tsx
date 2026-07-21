@@ -46,7 +46,7 @@ function ConnectFlow() {
   const [selectedLocation, setSelectedLocation] = useState<GBPLocation | null>(null)
   const [businessType, setBusinessType] = useState('')
   const [phone, setPhone] = useState('')
-  const [notificationMethod, setNotificationMethod] = useState<'whatsapp' | 'email'>('email')
+  const notificationMethod = 'email' as const
   const [description, setDescription] = useState('')
   const [loading, setLoading] = useState(false)
   const [planBlock, setPlanBlock] = useState<'solo' | 'growth' | null>(null)
@@ -103,6 +103,9 @@ function ConnectFlow() {
       return
     }
 
+    // Read tokens stored temporarily in user metadata during OAuth callback
+    const meta = user.user_metadata ?? {}
+
     const { error } = await supabase.from('businesses').upsert({
       user_id: user.id,
       business_name: selectedLocation.title,
@@ -110,6 +113,9 @@ function ConnectFlow() {
       business_description: description || null,
       gbp_account_id: selectedLocation.accountId,
       gbp_location_id: selectedLocation.locationId,
+      gbp_access_token: meta.temp_gbp_access_token ?? null,
+      gbp_refresh_token: meta.temp_gbp_refresh_token ?? null,
+      gbp_token_expires_at: meta.temp_gbp_expires_at ?? null,
       owner_phone: phone || null,
       owner_email: user.email,
       notification_method: notificationMethod,
@@ -121,6 +127,11 @@ function ConnectFlow() {
       setLoading(false)
       return
     }
+
+    // Clean up temp tokens from metadata
+    await supabase.auth.updateUser({
+      data: { temp_gbp_access_token: null, temp_gbp_refresh_token: null, temp_gbp_expires_at: null }
+    })
 
     toast('Setup complete! Welcome to Reviewr.', 'success')
     router.push('/dashboard')
@@ -169,10 +180,10 @@ function ConnectFlow() {
             </p>
             {planBlock === 'solo' && (
               <a
-                href="mailto:hello@reviewr.app?subject=Upgrade to Growth"
+                href="/api/stripe/checkout?plan=growth"
                 className="btn btn-primary px-6 py-2.5 inline-flex"
               >
-                Contact us to upgrade
+                Upgrade to Growth
               </a>
             )}
           </div>
@@ -193,8 +204,6 @@ function ConnectFlow() {
             setBusinessType={setBusinessType}
             phone={phone}
             setPhone={setPhone}
-            notificationMethod={notificationMethod}
-            setNotificationMethod={setNotificationMethod}
             description={description}
             setDescription={setDescription}
             onFinish={handleFinish}
@@ -310,7 +319,6 @@ function StepSelectLocation({
 function StepDetails({
   businessType, setBusinessType,
   phone, setPhone,
-  notificationMethod, setNotificationMethod,
   description, setDescription,
   onFinish, loading,
 }: {
@@ -318,8 +326,6 @@ function StepDetails({
   setBusinessType: (v: string) => void
   phone: string
   setPhone: (v: string) => void
-  notificationMethod: 'whatsapp' | 'email'
-  setNotificationMethod: (v: 'whatsapp' | 'email') => void
   description: string
   setDescription: (v: string) => void
   onFinish: () => void

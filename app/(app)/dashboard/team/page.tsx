@@ -58,7 +58,7 @@ function TeamUpgradePrompt() {
           Upgrade to Growth to invite up to 3 team members who can approve and edit replies across all your locations.
         </p>
         <a
-          href="mailto:hello@reviewr.app?subject=Upgrade to Growth"
+          href="/api/stripe/checkout?plan=growth"
           className="btn btn-primary px-6 py-2.5 inline-flex"
         >
           Contact us to upgrade →

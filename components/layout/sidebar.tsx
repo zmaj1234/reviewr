@@ -70,7 +70,7 @@ export function Sidebar({ userEmail, plan, isManager }: SidebarProps) {
         })}
 
         <a
-          href="mailto:support@reviewr.app"
+          href="mailto:reviewr.info@gmail.com"
           className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-[#6c6c70] hover:text-[#1c1c1e] hover:bg-black/[0.04] transition-all duration-150"
         >
           <HelpCircle size={16} strokeWidth={1.75} />
@@ -86,7 +86,7 @@ export function Sidebar({ userEmail, plan, isManager }: SidebarProps) {
           </div>
         ) : (
           <Link
-            href={plan === 'growth' ? '/settings' : 'mailto:hello@reviewr.app?subject=Upgrade'}
+            href={plan === 'growth' ? '/settings' : '/api/stripe/checkout?plan=growth'}
             className={`block text-center text-[11px] font-semibold px-3 py-1.5 rounded-xl transition-colors ${
               plan === 'growth'
                 ? 'bg-[#16a34a]/10 text-[#16a34a]'

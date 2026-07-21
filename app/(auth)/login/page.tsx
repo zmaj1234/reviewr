@@ -25,8 +25,7 @@ export default function LoginPage() {
       const supabase = createClient()
       const { error } = await supabase.auth.signInWithPassword({ email, password })
       if (error) { toast(error.message, 'error'); setLoading(false); return }
-      router.push('/dashboard')
-      router.refresh()
+      window.location.href = '/dashboard'
     } catch {
       toast('Could not connect. Check your configuration.', 'error')
       setLoading(false)
@@ -107,7 +106,7 @@ export default function LoginPage() {
           <div>
             <div className="flex items-center justify-between mb-1.5">
               <label className="block text-xs font-medium text-[#374151]">Password</label>
-              <a href="#" className="text-xs text-[#9ca3af] hover:text-[#6b7280] transition-colors">Forgot password?</a>
+              <Link href="/forgot-password" className="text-xs text-[#9ca3af] hover:text-[#6b7280] transition-colors">Forgot password?</Link>
             </div>
             <div className="relative">
               <input

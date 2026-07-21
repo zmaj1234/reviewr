@@ -182,7 +182,7 @@ function UpgradePrompt({ businessName }: { businessName: string }) {
           Rating trends, weekly volume, response time, sentiment — all in one clean view.
         </p>
         <a
-          href="mailto:hello@reviewr.app?subject=Upgrade to Growth"
+          href="/api/stripe/checkout?plan=growth"
           className="inline-flex items-center gap-2 bg-[#16a34a] text-white text-sm font-semibold px-6 py-3 rounded-xl hover:bg-[#15803d] transition-colors shadow-[0_2px_8px_rgba(22,163,74,0.3)]"
         >
           Upgrade to Growth

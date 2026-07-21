@@ -24,16 +24,23 @@ export default function SignupPage() {
     setLoading(true)
     try {
       const supabase = createClient()
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
       })
       if (error) { toast(error.message, 'error'); setLoading(false); return }
-      router.push('/connect')
-      router.refresh()
+
+      if (data.session) {
+        // Signed in immediately — go to connect
+        window.location.href = '/connect'
+      } else {
+        // Email confirmation required
+        toast('Check your email and click the confirmation link to continue.', 'success')
+        setLoading(false)
+      }
     } catch {
-      toast('Could not connect. Check your configuration.', 'error')
+      toast('Could not connect. Please try again.', 'error')
       setLoading(false)
     }
   }
@@ -142,10 +149,9 @@ export default function SignupPage() {
 
         <p className="text-center text-xs text-[#9ca3af] mt-6 leading-relaxed">
           By signing up, you agree to our{' '}
-          <a href="#" className="text-[#6b7280] hover:text-[#0a0f1e] transition-colors">Terms</a>,{' '}
-          <a href="#" className="text-[#6b7280] hover:text-[#0a0f1e] transition-colors">Acceptable Use</a>,{' '}
-          and{' '}
-          <a href="#" className="text-[#6b7280] hover:text-[#0a0f1e] transition-colors">Privacy Policy</a>.
+          <Link href="/terms" className="text-[#6b7280] hover:text-[#0a0f1e] transition-colors">Terms</Link>
+          {' '}and{' '}
+          <Link href="/privacy" className="text-[#6b7280] hover:text-[#0a0f1e] transition-colors">Privacy Policy</Link>.
         </p>
       </div>
     </div>

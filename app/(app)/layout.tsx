@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { Sidebar } from '@/components/layout/sidebar'
 import { ToastProvider } from '@/components/ui/toast'
+import { TrialGate } from '@/components/trial-gate'
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   try {
@@ -20,10 +21,16 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     // Get user's plan (default solo if no profile row yet)
     const { data: profile } = await supabase
       .from('profiles')
-      .select('plan')
+      .select('plan, stripe_customer_id')
       .eq('id', user.id)
       .maybeSingle()
     const plan: 'solo' | 'growth' = (profile?.plan as 'solo' | 'growth') ?? 'solo'
+
+    // Trial expiry check: if no active Stripe subscription and account > 7 days old, redirect to pricing
+    const hasSubscription = !!profile?.stripe_customer_id
+    const createdAt = new Date(user.created_at)
+    const daysSinceCreation = (Date.now() - createdAt.getTime()) / (1000 * 60 * 60 * 24)
+    const trialExpired = !hasSubscription && daysSinceCreation > 7
 
     // Check if this user is an accepted team member for someone else's account
     const { data: teamMembership } = await supabase
@@ -56,6 +63,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           <main className="ml-[220px] min-h-screen">
             {children}
           </main>
+          <TrialGate trialExpired={trialExpired} />
         </div>
       </ToastProvider>
     )

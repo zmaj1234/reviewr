@@ -27,6 +27,15 @@ const config: Config = {
         'accent-subtle': 'rgba(22,163,74,0.1)',
         danger:          '#ff3b30',          // iOS systemRed
         warning:         '#ff9500',          // iOS systemOrange
+        // ── v3 landing (Apple design) — scoped to app/(marketing)/page.tsx ──
+        ink:             '#1d1d1f',
+        fog:             '#f5f5f7',
+        mist:            '#86868b',
+        live:            '#1d7a3e',
+        livedim:         '#e8f3ec',
+      },
+      letterSpacing: {
+        tightest: '-0.035em',
       },
       borderRadius: {
         DEFAULT: '12px',

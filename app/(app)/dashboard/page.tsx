@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { redirect } from 'next/navigation'
+import { Suspense } from 'react'
 import { DashboardClient } from './dashboard-client'
 import type { Business, Review } from '@/lib/types'
 
@@ -76,18 +77,20 @@ export default async function DashboardPage() {
   const recentPosted = posted.filter((r: Review) => new Date(r.posted_at ?? r.created_at) > cutoff)
 
   return (
-    <DashboardClient
-      businesses={businesses}
-      pendingReviews={pending}
-      recentPostedReviews={recentPosted}
-      isManager={isManager}
-      ownerName={ownerName}
-      stats={{
-        totalThisMonth: thisMonthAll.length,
-        pendingCount: pending.length,
-        postedThisMonth: thisMonthPosted.length,
-        avgRating,
-      }}
-    />
+    <Suspense>
+      <DashboardClient
+        businesses={businesses}
+        pendingReviews={pending}
+        recentPostedReviews={recentPosted}
+        isManager={isManager}
+        ownerName={ownerName}
+        stats={{
+          totalThisMonth: thisMonthAll.length,
+          pendingCount: pending.length,
+          postedThisMonth: thisMonthPosted.length,
+          avgRating,
+        }}
+      />
+    </Suspense>
   )
 }

@@ -55,7 +55,7 @@ export async function PATCH(request: NextRequest) {
     return NextResponse.json({ error: 'No valid fields provided' }, { status: 400 })
   }
 
-  if (update.notification_method !== undefined && !['whatsapp', 'email'].includes(update.notification_method as string)) {
+  if (update.notification_method !== undefined && !['email'].includes(update.notification_method as string)) {
     return NextResponse.json({ error: 'Invalid notification_method' }, { status: 400 })
   }
 

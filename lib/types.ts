@@ -51,6 +51,8 @@ export interface GBPLocation {
 export interface UserProfile {
   id: string
   plan: 'solo' | 'growth'
+  stripe_customer_id:     string | null
+  stripe_subscription_id: string | null
 }
 
 export interface TeamMember {

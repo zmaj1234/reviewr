@@ -1,12 +1,13 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { useToast } from '@/components/ui/toast'
 import { ReviewCard } from './review-card'
 import { StatCard } from './stat-card'
 import type { Business, Review } from '@/lib/types'
-import { CheckCircle2, Users, ChevronDown, ChevronUp } from 'lucide-react'
+import { CheckCircle2, Users, ChevronDown, ChevronUp, Sparkles } from 'lucide-react'
 
 interface Props {
   businesses: Business[]
@@ -35,7 +36,18 @@ export function DashboardClient({
   const [showPosted,   setShowPosted]   = useState(false)
   const { toast } = useToast()
 
-  const businessIds = businesses.map(b => b.id)
+  const businessIds = useMemo(() => businesses.map(b => b.id), [businesses])
+
+  const searchParams = useSearchParams()
+  const [showSubscribedBanner, setShowSubscribedBanner] = useState(false)
+
+  useEffect(() => {
+    if (searchParams.get('subscribed') === '1') {
+      setShowSubscribedBanner(true)
+      // Clean URL without reloading
+      window.history.replaceState({}, '', '/dashboard')
+    }
+  }, [searchParams])
 
   const handleReviewUpdate = useCallback((review: Review) => {
     if (review.status === 'pending_approval') {
@@ -75,10 +87,31 @@ export function DashboardClient({
     ? businesses[0]?.business_name
     : `${businesses.length} locations`
 
-  const pendingCount = stats.pendingCount + pending.length - initial.length
+  const pendingCount = Math.max(0, stats.pendingCount + pending.length - initial.length)
 
   return (
     <div className="px-8 py-10 max-w-3xl animate-fade-in">
+
+      {/* ── Subscribed banner ───────────────────────────────── */}
+      {showSubscribedBanner && (
+        <div className="flex items-center justify-between gap-3 bg-[#f0fdf4] border border-[#bbf7d0] rounded-2xl px-5 py-4 mb-8">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-full bg-[#16a34a]/15 flex items-center justify-center shrink-0">
+              <Sparkles size={16} className="text-[#16a34a]" />
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-[#15803d]">You&apos;re subscribed — welcome aboard 🎉</p>
+              <p className="text-xs text-[#16a34a]/70 mt-0.5">Reviews will be drafted and sent to you automatically. You&apos;re all set.</p>
+            </div>
+          </div>
+          <button
+            onClick={() => setShowSubscribedBanner(false)}
+            className="text-[#16a34a]/40 hover:text-[#16a34a] transition-colors text-lg leading-none shrink-0"
+          >
+            ×
+          </button>
+        </div>
+      )}
 
       {/* ── Manager banner ───────────────────────────────── */}
       {isManager && (

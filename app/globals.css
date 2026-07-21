@@ -237,3 +237,63 @@ h1, h2, h3, h4, h5, h6 {
   opacity: 0;
   animation: stagger-in 0.4s ease-out forwards;
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   v3 LANDING (Apple design) — scoped to app/(marketing)/page.tsx only.
+   Overrides the site's global Instrument-Serif headings + #f2f2f7 bg
+   inside .v3-landing so the rest of the app keeps its current identity.
+   ═══════════════════════════════════════════════════════════════════ */
+.v3-landing {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+    "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: #ffffff;
+  color: #1d1d1f;
+}
+.v3-landing h1,
+.v3-landing h2,
+.v3-landing h3,
+.v3-landing h4,
+.v3-landing h5,
+.v3-landing h6 {
+  font-family: inherit;
+}
+
+/* phone demo choreography */
+.v3-landing .scene { opacity: 0; transform: translateY(10px); transition: opacity .5s ease, transform .5s ease; pointer-events: none; }
+.v3-landing .scene.on { opacity: 1; transform: translateY(0); }
+
+.v3-landing .typing::after {
+  content: ""; display: inline-block; width: 2px; height: 1em;
+  background: #1d1d1f; margin-left: 2px; vertical-align: text-bottom;
+  animation: v3-blink 1s steps(1) infinite;
+}
+@keyframes v3-blink { 50% { opacity: 0; } }
+
+.v3-landing .tap { animation: v3-tap .6s ease both; }
+@keyframes v3-tap {
+  0% { transform: scale(1); }
+  40% { transform: scale(.94); }
+  100% { transform: scale(1); }
+}
+
+.v3-landing .pulse-dot { animation: v3-pulse 2s ease-in-out infinite; }
+@keyframes v3-pulse { 0%,100% { opacity: 1 } 50% { opacity: .35 } }
+
+/* scroll reveal */
+.v3-landing .rise { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+.v3-landing .rise.in { opacity: 1; transform: translateY(0); }
+
+/* language marquee */
+.v3-landing .marquee-mask {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.v3-landing .marquee { animation: v3-scroll 36s linear infinite; }
+@keyframes v3-scroll { to { transform: translateX(-50%); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .v3-landing .scene, .v3-landing .rise { transition: none; transform: none; opacity: 1; }
+  .v3-landing .typing::after, .v3-landing .tap, .v3-landing .pulse-dot { animation: none; }
+  .v3-landing .marquee { animation: none; flex-wrap: wrap; justify-content: center; width: auto; }
+}
